@@ -28,7 +28,15 @@ export const getTitle = (fromPage: PageResponse | DatabasePage) => {
   );
   if (title?.type !== "title")
     throw new Error("Could not get title from passed notion page");
-  return title.title[0]?.plain_text.trim() ?? "";
+  return title.title.at(0)?.plain_text.trim();
+};
+
+export const getBoolean = (name: string, fromPage: DatabasePage) => {
+  const property = fromPage.properties[name];
+  if (property?.type === "checkbox") {
+    return property.checkbox;
+  }
+  return undefined;
 };
 
 export const getFileUrl = (name: string, fromPage: DatabasePage) => {
@@ -108,9 +116,10 @@ export const getSelectAndColor = (name: string, fromPage: DatabasePage) => {
     property.select.color
   ) {
     return {
+      id: property.select.id,
       title: property.select.name,
       color: property.select.color,
-    } as const;
+    };
   }
   return undefined;
 };
@@ -125,6 +134,7 @@ export const getMultiSelectAndColor = (
   const property = fromPage.properties[name];
   if (property?.type === "multi_select") {
     return property.multi_select.map((x) => ({
+      id: x.id,
       title: x.name,
       color: x.color,
     }));
@@ -156,7 +166,7 @@ export const getDatabasePropertySelectOptions = (
 
 export const findPageBySlugPredicate =
   (slug: string) => (page: PageResponse | DatabasePage) =>
-    slugify(getTitle(page)) === slug;
+    slugify(getTitle(page) ?? "") === slug;
 
 // Some typescript magic to extract the correct type
 type MaybeBlockResponse = ListBlockChildrenResponse["results"][number];

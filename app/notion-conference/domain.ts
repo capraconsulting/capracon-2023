@@ -2,9 +2,9 @@ import type { PageObjectResponse } from "@notionhq/client/build/src/api-endpoint
 import { z } from "zod";
 
 import {
+  getBoolean,
   getDatabasePropertySelectOptions,
   getDate,
-  getDateRange,
   getEmail,
   getRelation,
   getSelectAndColor,
@@ -15,6 +15,7 @@ import type { DatabaseResponse } from "~/notion/notion";
 import { groupBy, typedBoolean } from "~/utils/misc";
 
 const selectSchema = z.object({
+  id: z.string(),
   title: z.string(),
   color: z.string(),
 });
@@ -30,73 +31,139 @@ export type Conference = z.infer<typeof conferenceSchema>;
 const personSchema = z.object({
   id: z.string(),
   name: z.string(),
-  email: z.string(),
-  company: z.string(),
-  role: z.string(),
-});
-type Person = z.infer<typeof personSchema>;
+  email: z.string().email().optional(),
+  bio: z.string().optional(),
 
-export type TalkWithContent = Talk & {
-  content: string;
-};
+  // TODO: If use company select instead, we just use "Capra" to mark internals
+  internalSpeaker: z.boolean(),
+
+  // TODO: Not currently in notion database, but maybe they should be??
+  // company: z.string(),
+  // role: z.string(),
+});
+export type Person = z.infer<typeof personSchema>;
+
+const timeslotSchema = selectSchema
+  .extend({
+    title: z
+      .string()
+      .regex(
+        /^\d{2}:\d{2}-\d{2}:\d{2}$/,
+        "must be a timerange, e.g. 10:45-11:15",
+      ),
+  })
+  .transform((val) => {
+    const s = val.title.split("-");
+    return { ...val, startTime: s[0], endTime: s[1] };
+  });
+
+export type Timeslot = z.infer<typeof timeslotSchema>;
 
 const talkSchema = z.object({
   id: z.string(),
   title: z.string(),
-  timeslot: selectSchema,
-  startDateTime: z.string(),
-  endDateTime: z.string(),
+  description: z.string(),
   track: selectSchema,
   speakers: z.array(personSchema),
+  timeslot: timeslotSchema,
+  duration: selectSchema,
 });
-type Talk = z.infer<typeof talkSchema>;
+export type Talk = z.infer<typeof talkSchema>;
 
 export type Track = z.infer<typeof selectSchema>;
-export type Timeslot = z.infer<typeof selectSchema>;
-
-const scheduleSchema = z.array(talkSchema);
-export type Schedule = z.infer<typeof scheduleSchema>;
 
 // Mappers
-export const parseConference = (fromPage: PageObjectResponse): Conference => {
+// The `!` operator is used here, usually that it bad idea, but here it's fine
+// zod will catch those type errors runtime
+// and we can then handle them properly
+//
+// We Typescript `satisfies` to make sure we remember to fill the exactly expected fields
+export const parseConference = (fromPage: PageObjectResponse) => {
   return conferenceSchema.parse({
-    title: getTitle(fromPage),
-    description: getText("Beskrivelse", fromPage) ?? "",
-    date: getDate("Dato", fromPage) ?? "",
-  });
+    title: getTitle(fromPage)!,
+    description: getText("Beskrivelse", fromPage)!,
+    date: getDate("Dato", fromPage)!,
+  } satisfies Conference);
 };
 
-export const parsePerson = (fromPage: PageObjectResponse): Person => {
-  return personSchema.parse({
+const mapPerson = (fromPage: PageObjectResponse) => {
+  return {
     id: fromPage.id,
-    name: getTitle(fromPage),
-    email: getEmail("E-post", fromPage) ?? "",
-    company: getText("Selskap", fromPage) ?? "",
-    role: getText("Stilling", fromPage) ?? "",
-  });
+    name: getTitle(fromPage)!,
+    email: getEmail("Epost", fromPage)!,
+    bio: getText("Bio", fromPage),
+    internalSpeaker: getBoolean("Capra?", fromPage)!,
+  } satisfies Person;
 };
 
-export const parseTalk = (
-  fromPage: PageObjectResponse,
-  persons: Person[],
-): Talk => {
-  return talkSchema.parse({
+interface FailedParsed<T> {
+  unparsed: Partial<T>;
+  errors: z.ZodIssue[];
+}
+
+export const safeParsePersons = (fromPages: PageObjectResponse[]) => {
+  const success: Person[] = [];
+  const failed: FailedParsed<Person>[] = [];
+
+  fromPages
+    .map(mapPerson)
+    .map((unparsed) => ({
+      unparsed,
+      parsed: personSchema.safeParse(unparsed),
+    }))
+    .forEach(({ unparsed, parsed }) => {
+      if (parsed.success) {
+        success.push(parsed.data);
+      } else {
+        failed.push({
+          unparsed,
+          errors: parsed.error.errors,
+        });
+      }
+    });
+
+  return [success, failed] as const;
+};
+
+const mapTalk = (fromPage: PageObjectResponse, persons: Person[]) => {
+  return {
     id: fromPage.id,
-    title: getTitle(fromPage),
+    title: getTitle(fromPage)!,
     speakers: getRelation("Personer", fromPage)
       .map((id) => persons.find((x) => x.id === id))
       .filter(typedBoolean),
-    timeslot: getSelectAndColor("Timeslot", fromPage) ?? {
-      color: "red",
-      title: "unknown",
-    },
-    startDateTime: getDateRange("Datetime Range", fromPage)?.start ?? "",
-    endDateTime: getDateRange("Datetime Range", fromPage)?.end ?? "",
-    track: getSelectAndColor("Track", fromPage) ?? {
-      color: "red",
-      title: "unknown",
-    },
-  });
+    timeslot: getSelectAndColor("Tidspunkt", fromPage) as any,
+    track: getSelectAndColor("Track", fromPage)!,
+    description: getText("Beskrivelse", fromPage)!,
+    duration: getSelectAndColor("Lengde", fromPage)!,
+  } satisfies Talk;
+};
+
+export const safeParseTalks = (
+  fromPages: PageObjectResponse[],
+  persons: Person[],
+) => {
+  const success: Talk[] = [];
+  const failed: FailedParsed<Talk>[] = [];
+
+  fromPages
+    .map((page) => mapTalk(page, persons))
+    .map((unparsed) => ({
+      unparsed,
+      parsed: talkSchema.safeParse(unparsed),
+    }))
+    .forEach(({ unparsed, parsed }) => {
+      if (parsed.success) {
+        success.push(parsed.data);
+      } else {
+        failed.push({
+          unparsed,
+          errors: parsed.error.errors,
+        });
+      }
+    });
+
+  return [success, failed] as const;
 };
 
 export const parseTracks = (fromDatabase: DatabaseResponse) =>
@@ -106,33 +173,11 @@ export const parseTracks = (fromDatabase: DatabaseResponse) =>
 
 export const parseTimeslots = (fromDatabase: DatabaseResponse) =>
   z
-    .array(selectSchema)
-    .parse(getDatabasePropertySelectOptions("Timeslot", fromDatabase));
+    .array(timeslotSchema)
+    .parse(getDatabasePropertySelectOptions("Tidspunkt", fromDatabase));
 
 export const talksByTimeslot = (talks: Talk[]) =>
   groupBy(talks, ({ timeslot }) => timeslot.title);
 
 export const talksByTrack = (talks: Talk[]) =>
   groupBy(talks, ({ track }) => track.title);
-
-/**
- * Sort timeslots strings
- *
- * NOTE: Unsure if the is needed, we get the sorting from notion
- * If someone have made a mistake there,
- * it should be fixed in notion as it will look wrong there as well
- *
- * 8:00
- * 14:00
- * 17:45
- * 20:30
- */
-const sortTimeslot = (a: string, b: string) => {
-  const _a = a.padStart(5, "0");
-  const _b = b.padStart(5, "0");
-  if (_a < _b) return -1;
-  if (_a > _b) return 1;
-  return 0;
-};
-export const talksByTimeslotSorted = (talks: Talk[]) =>
-  Object.entries(talksByTimeslot(talks)).sort(([a], [b]) => sortTimeslot(a, b));
