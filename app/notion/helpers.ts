@@ -81,7 +81,7 @@ export const getRelation = (name: string, fromPage: DatabasePage) => {
   if (property?.type === "relation") {
     return property.relation.map((x) => x.id);
   }
-  return [];
+  return undefined;
 };
 
 export const getDate = (name: string, fromPage: DatabasePage) => {

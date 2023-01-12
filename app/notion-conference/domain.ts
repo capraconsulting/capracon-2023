@@ -129,9 +129,9 @@ const mapTalk = (fromPage: PageObjectResponse, persons: Person[]) => {
   return {
     id: fromPage.id,
     title: getTitle(fromPage)!,
-    speakers: getRelation("Personer", fromPage)
-      .map((id) => persons.find((x) => x.id === id))
-      .filter(typedBoolean),
+    speakers: getRelation("Foredragsholder", fromPage)
+      ?.map((id) => persons.find((x) => x.id === id))
+      .filter(typedBoolean)!,
     timeslot: getSelectAndColor("Tidspunkt", fromPage) as any,
     track: getSelectAndColor("Track", fromPage)!,
     description: getText("Beskrivelse", fromPage)!,
