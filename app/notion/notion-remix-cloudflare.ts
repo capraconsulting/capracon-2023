@@ -1,20 +1,18 @@
 import { getEnvVariableOrThrow } from "~/utils/env";
 import {
-  getNotionClient,
-  getDatabasePages,
-  getPage,
-  getDatabase,
   getBlocks,
   getBlocksWithChildren,
+  getDatabase,
+  getDatabasePages,
+  getNotionClient,
+  getPage,
 } from "./notion";
 
 /**
- * Small helper for Qwik and Cloudflare Pages
+ * Small helper for Remix and Cloudflare Pages
  */
-export const getClient = (platform: { env: Record<string, any> }) => {
-  const notionClient = getNotionClient(
-    getEnvVariableOrThrow("VITE_NOTION_TOKEN", platform.env),
-  );
+export const getClient = (token: string) => {
+  const notionClient = getNotionClient(token);
 
   return {
     getDatabasePages: getDatabasePages(notionClient),
