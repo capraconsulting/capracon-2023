@@ -1,5 +1,7 @@
-import { DatabaseResponse } from "./notion";
+import type { ListBlockChildrenResponse } from "@notionhq/client/build/src/api-endpoints";
+
 import type { DatabasePage, PageResponse } from "./notion";
+import type { DatabaseResponse } from "./notion";
 
 export function slugify(text: string) {
   return (
@@ -155,8 +157,6 @@ export const getDatabasePropertySelectOptions = (
 export const findPageBySlugPredicate =
   (slug: string) => (page: PageResponse | DatabasePage) =>
     slugify(getTitle(page)) === slug;
-
-import type { ListBlockChildrenResponse } from "@notionhq/client/build/src/api-endpoints";
 
 // Some typescript magic to extract the correct type
 type MaybeBlockResponse = ListBlockChildrenResponse["results"][number];

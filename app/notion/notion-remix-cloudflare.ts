@@ -1,4 +1,3 @@
-import { getEnvVariableOrThrow } from "~/utils/env";
 import {
   getBlocks,
   getBlocksWithChildren,
