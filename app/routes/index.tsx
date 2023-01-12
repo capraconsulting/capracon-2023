@@ -40,7 +40,7 @@ export default function Component() {
   const data = useLoaderData<typeof loader>();
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
-      <h1>Julian er kul</h1>
+      <h1 className="text-4xl text-red-400">Julian er kul</h1>
       <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
   );
