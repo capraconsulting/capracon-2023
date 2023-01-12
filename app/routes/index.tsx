@@ -2,51 +2,11 @@ import type { LoaderArgs } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
 
-import { config } from "~/config";
-import { getClient } from "~/notion/notion-remix-cloudflare";
-import {
-  parseConference,
-  parseTimeslots,
-  parseTracks,
-  safeParsePersons,
-  safeParseTalks,
-} from "~/notion-conference/domain";
+import { getData } from "~/notion-conference/client";
 import { getEnvVariableOrThrow } from "~/utils/env";
 
 export const loader = async ({ context }: LoaderArgs) => {
-  const token = getEnvVariableOrThrow("NOTION_TOKEN", context);
-
-  // Fetch
-  const [
-    notionConference,
-    notionMasterProgramDatabase,
-    notionMasterProgramPages,
-    notionPersons,
-  ] = await Promise.all([
-    getClient(token).getPage(config.conferenceId),
-    getClient(token).getDatabase(config.masterProgramDatabaseId),
-    getClient(token).getDatabasePages(config.masterProgramDatabaseId),
-    getClient(token).getDatabasePages(config.personsDatabaseId),
-  ]);
-
-  // Parse
-  const [persons, invalidPersons] = safeParsePersons(notionPersons);
-  const [talks, invalidTalks] = safeParseTalks(
-    notionMasterProgramPages,
-    persons,
-  );
-
-  const data = {
-    conference: parseConference(notionConference),
-    persons,
-    invalidPersons,
-    talks,
-    invalidTalks,
-    tracks: parseTracks(notionMasterProgramDatabase),
-    timeslots: parseTimeslots(notionMasterProgramDatabase),
-  };
-
-  // Retrn
+  const data = await getData(getEnvVariableOrThrow("NOTION_TOKEN", context));
   return json(data);
 };
 
