@@ -8,6 +8,7 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
+import { Header } from "~/components/Header";
 import styles from "./tailwind.css";
 
 export const meta: MetaFunction = () => ({
@@ -25,6 +26,7 @@ export default function App() {
         <Links />
       </head>
       <body>
+        <Header />
         <Outlet />
         <ScrollRestoration />
         <Scripts />
