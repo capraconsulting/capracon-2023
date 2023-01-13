@@ -2,11 +2,11 @@ import type { LoaderArgs } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
 
-import { getData } from "~/notion-conference/client";
-import { getEnvVariableOrThrow } from "~/utils/env";
+import { getDataCached } from "~/utils/notion-conference-cached";
 
 export const loader = async ({ context }: LoaderArgs) => {
-  const data = await getData(getEnvVariableOrThrow("NOTION_TOKEN", context));
+  const data = await getDataCached(context);
+
   return json(data);
 };
 

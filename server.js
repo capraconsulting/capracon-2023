@@ -4,7 +4,10 @@ import * as build from "@remix-run/dev/server-build";
 const handleRequest = createPagesFunctionHandler({
   build,
   mode: process.env.NODE_ENV,
-  getLoadContext: (context) => context.env,
+  getLoadContext: (context) => ({
+    ...context.env,
+    waitUntil: context.waitUntil,
+  }),
 });
 
 export function onRequest(context) {

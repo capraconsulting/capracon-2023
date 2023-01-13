@@ -2,6 +2,8 @@ import type { AppLoadContext } from "@remix-run/server-runtime";
 
 interface Env {
   NOTION_TOKEN?: string;
+  KV?: KVNamespace;
+  waitUntil?: (promise: Promise<any>) => void;
 }
 
 export const getEnv = (context: AppLoadContext) => {
