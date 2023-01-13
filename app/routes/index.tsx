@@ -73,23 +73,48 @@ export default function Component() {
               const talksByTrack = getTalksByTrack(
                 talksByTimeslot[timeslot.id],
               );
+
               return (
                 <tr key={timeslot.id}>
                   <td>{timeslot.title}</td>
-                  {data.tracks.map((track) => (
-                    <td key={track.id}>
-                      {talksByTrack[track.id]?.map((talk) => (
-                        <div key={talk.id} title={talk.title}>
-                          <p>{talk.title}</p>
-                          <p className="text-sm">
-                            {new Intl.ListFormat("no-nb").format(
-                              talk.speakers.map((speaker) => speaker.name),
-                            )}
-                          </p>
-                        </div>
-                      ))}
-                    </td>
-                  ))}
+                  {data.tracks.map((track) => {
+                    let d = new Date(data.conference.date);
+                    d.setHours(
+                      timeslot.startTime.hours,
+                      timeslot.startTime.minutes,
+                    );
+                    return (
+                      <td key={track.id}>
+                        {talksByTrack[track.id]?.map((talk) => {
+                          const start = new Date(d);
+                          const end = new Date(start);
+                          end.setMinutes(
+                            start.getMinutes() + talk.duration.minutes,
+                          );
+                          d = end;
+                          return (
+                            <div key={talk.id} title={talk.title}>
+                              <span className="inline-block bg-black p-1 text-sm font-bold leading-3 text-white">
+                                {String(start.getHours()).padStart(2, "0")}
+                                {String(start.getMinutes()).padStart(2, "0")}-
+                                {String(end.getHours()).padStart(2, "0")}
+                                {String(end.getMinutes()).padStart(2, "0")}
+                              </span>
+                              <p>{talk.title}</p>
+                              <p className="text-sm">
+                                {new Intl.ListFormat("no-nb").format(
+                                  talk.speakers.map((speaker) => speaker.name),
+                                )}
+                              </p>
+                              <span className="border py-0.5 px-1 text-xs">
+                                {talk.duration.title}
+                              </span>
+                            </div>
+                          );
+                        })}
+                      </td>
+                    );
+                  })}
                 </tr>
               );
             })}

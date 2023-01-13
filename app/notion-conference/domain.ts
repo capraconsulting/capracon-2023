@@ -54,8 +54,20 @@ const timeslotSchema = selectSchema
       ),
   })
   .transform((val) => {
-    const s = val.title.split("-");
-    return { ...val, startTime: s[0], endTime: s[1] };
+    const [start, end] = val.title.split("-");
+    const parse = (s: string) => {
+      const [hours, minutes] = s.split(":").map(Number);
+      return { hours, minutes };
+    };
+    return { ...val, startTime: parse(start), endTime: parse(end) };
+  });
+
+const durartionSchema = selectSchema
+  .extend({
+    title: z.string().regex(/^\d+$/, "must be a valid number"),
+  })
+  .transform((val) => {
+    return { ...val, minutes: Number(val.title) };
   });
 
 export type Timeslot = z.infer<typeof timeslotSchema>;
@@ -67,11 +79,11 @@ const talkSchema = z.object({
   track: selectSchema,
   speakers: z.array(personSchema),
   timeslot: timeslotSchema,
-  duration: selectSchema,
+  duration: durartionSchema,
 });
 export type Talk = z.infer<typeof talkSchema>;
 
-export type Track = z.infer<typeof selectSchema>;
+export type Track = Talk["track"];
 
 // Mappers
 // The `!` operator is used here, usually that it bad idea, but here it's fine
@@ -137,7 +149,7 @@ const mapTalk = (fromPage: PageObjectResponse, persons: Person[]) => {
     timeslot: getSelectAndColor("Tidspunkt", fromPage) as any,
     track: getSelectAndColor("Track", fromPage)!,
     description: getText("Beskrivelse", fromPage)!,
-    duration: getSelectAndColor("Lengde", fromPage)!,
+    duration: getSelectAndColor("Lengde", fromPage) as any,
   } satisfies Talk;
 };
 
