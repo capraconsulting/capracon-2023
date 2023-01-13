@@ -1,41 +1,72 @@
 import type { AppLoadContext } from "@remix-run/cloudflare";
 
-import type { Cache as CachifiedCache } from "cachified";
-import cachified, { totalTtl } from "cachified";
-
 import { getData } from "~/notion-conference/client";
 import { getEnvVariableOrThrow } from "./env";
 
-function cloudflareKVAdapter(
-  kv: KVNamespace,
-  waitUntil: (promise: Promise<any>) => void,
-): CachifiedCache {
-  return {
-    name: "KV",
-    set(key, value) {
-      const ttl = totalTtl(value?.metadata);
+type Metadata = {
+  createdTime: number;
+  swr: number;
+  ttl: number;
+};
+const totalTtl = ({ ttl, swr }: Metadata) => ttl + swr;
+const shouldRevalidate = (metadata: Metadata) =>
+  metadata.createdTime + metadata.ttl < Date.now() && !isExpired(metadata);
+const isExpired = (metadata: Metadata) =>
+  metadata.createdTime + totalTtl(metadata) < Date.now();
 
-      // Cloudflare needs to be told not to stop execution after the response has returned
-      // it should wait for the cache to be updated in the background as well
-      // when we are using `stale-while-revalidate`
-      //
-      // For this, it provides the `waitUntil` function
-      return waitUntil(
-        kv.put(key, JSON.stringify(value), {
-          expirationTtl: ttl === Infinity ? undefined : ttl,
-        }),
-      );
-    },
-    get(key) {
-      return kv.get(key, "json");
-    },
-    delete(key) {
-      return kv.delete(key);
-    },
-  };
+interface Options<T> {
+  kv: KVNamespace;
+  waitUntil: (promise: Promise<any>) => void;
+  key: string;
+  // in milliseconds
+  ttl: number;
+  swr: number;
+
+  getFreshValue: () => Promise<T>;
 }
 
-export const getDataCached = (context: AppLoadContext) => {
+const kvCachified = async <T>({
+  kv,
+  waitUntil,
+  key,
+  ttl,
+  swr,
+  getFreshValue,
+}: Options<T>): Promise<T> => {
+  const getAndSet = async () => {
+    const value = await getFreshValue();
+    const metadata: Metadata = {
+      createdTime: Date.now(),
+      swr,
+      ttl,
+    };
+    waitUntil(
+      kv.put(key, JSON.stringify(value), {
+        expirationTtl: totalTtl(metadata),
+        metadata,
+      }),
+    );
+    return value;
+  };
+
+  // try to get cached value
+  let { value, metadata } = await kv.getWithMetadata<T, Metadata>(key, "json");
+
+  // if it's empty or expired, wait for fresh value
+  if (!(value && metadata) || isExpired(metadata)) {
+    value = await getAndSet();
+  }
+
+  // if it's stale, revalidate it in the background
+  // stale-while-revalidate
+  if (metadata && shouldRevalidate(metadata)) {
+    waitUntil(getAndSet());
+  }
+
+  return value;
+};
+
+export const getDataCached = async (context: AppLoadContext) => {
   const kv = getEnvVariableOrThrow("KV", context) as KVNamespace;
   const waitUntil = getEnvVariableOrThrow("waitUntil", context) as (
     promise: Promise<any>,
@@ -43,11 +74,12 @@ export const getDataCached = (context: AppLoadContext) => {
 
   const notionToken = getEnvVariableOrThrow("NOTION_TOKEN", context) as string;
 
-  return cachified({
-    key: "notion-data",
-    cache: cloudflareKVAdapter(kv, waitUntil),
+  return kvCachified({
+    kv,
+    waitUntil,
+    key: "all-data",
     getFreshValue: () => getData(notionToken),
-    ttl: 5000,
-    staleWhileRevalidate: 1000 * 60 * 60 * 24,
+    ttl: 1000 * 5,
+    swr: 1000 * 60 * 60 * 24,
   });
 };
