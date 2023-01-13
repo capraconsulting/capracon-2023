@@ -1,7 +1,7 @@
 import type { AppLoadContext } from "@remix-run/cloudflare";
 
 import { getData } from "~/notion-conference/client";
-import { getEnvVariableOrThrow } from "./env";
+import { getEnvVariableOrThrow } from "../utils/env";
 
 type Metadata = {
   createdTime: number;

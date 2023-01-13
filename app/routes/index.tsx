@@ -6,7 +6,7 @@ import {
   getTalksByTimeslot,
   getTalksByTrack,
 } from "~/notion-conference/domain";
-import { getDataCached } from "~/utils/notion-conference-cached";
+import { getDataCached } from "~/notion-conference/notion-conference-cached";
 
 export const loader = async ({ context }: LoaderArgs) => {
   const data = await getDataCached(context);
