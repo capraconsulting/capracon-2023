@@ -24,6 +24,7 @@ const selectSchema = z.object({
 const conferenceSchema = z.object({
   title: z.string(),
   date: z.string(),
+  venue: z.string(),
   description: z.string(),
 });
 export type Conference = z.infer<typeof conferenceSchema>;
@@ -83,6 +84,7 @@ export const parseConference = (fromPage: PageObjectResponse) => {
     title: getTitle(fromPage)!,
     description: getText("Beskrivelse", fromPage)!,
     date: getDate("Dato", fromPage)!,
+    venue: getText("Lokasjon", fromPage)!,
   } satisfies Conference);
 };
 
@@ -176,8 +178,8 @@ export const parseTimeslots = (fromDatabase: DatabaseResponse) =>
     .array(timeslotSchema)
     .parse(getDatabasePropertySelectOptions("Tidspunkt", fromDatabase));
 
-export const talksByTimeslot = (talks: Talk[]) =>
-  groupBy(talks, ({ timeslot }) => timeslot.title);
+export const getTalksByTimeslot = (talks: Talk[]) =>
+  groupBy(talks, ({ timeslot }) => timeslot.id);
 
-export const talksByTrack = (talks: Talk[]) =>
-  groupBy(talks, ({ track }) => track.title);
+export const getTalksByTrack = (talks: Talk[]) =>
+  groupBy(talks, ({ track }) => track.id);

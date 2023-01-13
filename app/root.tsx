@@ -19,7 +19,7 @@ export const meta: MetaFunction = () => ({
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 export default function App() {
   return (
-    <html lang="en">
+    <html lang="no">
       <head>
         <Meta />
         <Links />
