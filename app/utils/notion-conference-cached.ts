@@ -60,6 +60,11 @@ const kvCachified = async <T>({
   // if it's stale, revalidate it in the background
   // stale-while-revalidate
   if (metadata && shouldRevalidate(metadata)) {
+    // Cloudflare needs to be told not to stop execution after the response has returned
+    // it should wait for the cache to be updated in the background as well
+    // when we are using `stale-while-revalidate`
+    //
+    // For this, it provides the `waitUntil` function
     waitUntil(getAndSet());
   }
 
