@@ -12,7 +12,7 @@ import {
   getTitle,
 } from "~/notion/helpers";
 import type { DatabaseResponse } from "~/notion/notion";
-import { groupBy, typedBoolean } from "~/utils/misc";
+import { typedBoolean } from "~/utils/misc";
 
 const selectSchema = z.object({
   id: z.string(),
@@ -189,9 +189,3 @@ export const parseTimeslots = (fromDatabase: DatabaseResponse) =>
   z
     .array(timeslotSchema)
     .parse(getDatabasePropertySelectOptions("Tidspunkt", fromDatabase));
-
-export const getTalksByTimeslot = (talks: Talk[]) =>
-  groupBy(talks, ({ timeslot }) => timeslot.id);
-
-export const getTalksByTrack = (talks: Talk[]) =>
-  groupBy(talks, ({ track }) => track.id);

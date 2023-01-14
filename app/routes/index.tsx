@@ -5,7 +5,7 @@ import { useLoaderData } from "@remix-run/react";
 import {
   getTalksByTimeslot,
   getTalksByTrack,
-} from "~/notion-conference/domain";
+} from "~/notion-conference/helpers";
 import { getDataCached } from "~/notion-conference/notion-conference-cached";
 
 export const loader = async ({ context }: LoaderArgs) => {
