@@ -7,6 +7,7 @@ import {
   getDate,
   getEmail,
   getRelation,
+  getSelect,
   getSelectAndColor,
   getText,
   getTitle,
@@ -80,6 +81,7 @@ const talkSchema = z.object({
   speakers: z.array(personSchema),
   timeslot: timeslotSchema,
   duration: durartionSchema,
+  isPublished: z.boolean(),
 });
 export type Talk = z.infer<typeof talkSchema>;
 
@@ -150,6 +152,9 @@ const mapTalk = (fromPage: PageObjectResponse, persons: Person[]) => {
     track: getSelectAndColor("Track", fromPage)!,
     description: getText("Beskrivelse", fromPage)!,
     duration: getSelectAndColor("Lengde", fromPage) as any,
+    isPublished:
+      getSelect("Status", fromPage) ===
+      "8. Tildelt slot i program (tid og rom)",
   } satisfies Talk;
 };
 
