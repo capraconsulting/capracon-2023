@@ -9,7 +9,7 @@ export function typedBoolean<T>(
 export function groupBy<T>(
   list: T[],
   selector: (t: T) => string,
-): Record<string, T[]> {
+): Record<string, T[] | undefined> {
   return list.reduce<Record<string, T[]>>((acc, curr) => {
     const key = selector(curr);
     if (!(key in acc)) {

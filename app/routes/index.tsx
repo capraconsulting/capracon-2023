@@ -71,7 +71,7 @@ export default function Component() {
           <tbody>
             {data.timeslots.map((timeslot) => {
               const talksByTrack = getTalksByTrack(
-                talksByTimeslot[timeslot.id],
+                talksByTimeslot[timeslot.id] ?? [],
               );
 
               return (
