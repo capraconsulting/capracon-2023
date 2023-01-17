@@ -94,7 +94,7 @@ export const parseConference = (fromPage: PageObjectResponse) => {
     title: getTitle(fromPage)!,
     description: getText("description", fromPage)!,
     date: getDate("date", fromPage)!,
-    locationName: getText("location.name", fromPage)!,
+    locationName: getText("locationName", fromPage)!,
   } satisfies Conference);
 };
 
