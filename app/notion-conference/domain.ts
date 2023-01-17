@@ -60,6 +60,14 @@ const speakerSchema = z.object({
 });
 export type Speaker = z.infer<typeof speakerSchema>;
 
+const contactPersonSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  email: z.string().email(),
+  role: z.string(),
+});
+export type ContactPerson = z.infer<typeof contactPersonSchema>;
+
 const timeslotSchema = selectSchema
   .extend({
     title: z
@@ -107,14 +115,9 @@ type Relaxed<T extends object> = {
   [K in keyof T]: T[K] | undefined;
 };
 
-// Mappers
-// The `!` operator is used here, usually that it bad idea, but here it's fine
-// zod will catch those type errors runtime
-// and we can then handle them properly
-//
-// We Typescript `satisfies` to make sure we remember to fill the exactly expected fields
+// Mapper and parsers
 export const parseConference = (fromPage: PageObjectResponse) => {
-  return conferenceSchema.passthrough().parse({
+  return conferenceSchema.parse({
     title: getTitle(fromPage),
     description: getText("description", fromPage),
     date: getDate("date", fromPage),
@@ -133,6 +136,67 @@ export const parseConference = (fromPage: PageObjectResponse) => {
   } satisfies Relaxed<Conference>);
 };
 
+interface FailedParsed<T> {
+  unparsed: Partial<T>;
+  errors: z.ZodIssue[];
+}
+
+const mapContactPerson = (fromPage: PageObjectResponse) => {
+  return {
+    id: fromPage.id,
+    name: getTitle(fromPage),
+    email: getEmail("Epost", fromPage),
+    role: getText("Stilling", fromPage),
+  } satisfies Relaxed<ContactPerson>;
+};
+export const safeParseContacts = (fromPages: PageObjectResponse[]) => {
+  const success: ContactPerson[] = [];
+  const failed: FailedParsed<ContactPerson>[] = [];
+
+  fromPages
+    .map(mapContactPerson)
+    .map((unparsed) => ({
+      unparsed,
+      parsed: contactPersonSchema.safeParse(unparsed),
+    }))
+    .forEach(({ unparsed, parsed }) => {
+      if (parsed.success) {
+        success.push(parsed.data);
+      } else {
+        failed.push({
+          unparsed,
+          errors: parsed.error.errors,
+        });
+      }
+    });
+
+  return [success, failed] as const;
+};
+
+export const safeParse = (fromPages: PageObjectResponse[]) => {
+  const success: Speaker[] = [];
+  const failed: FailedParsed<Speaker>[] = [];
+
+  fromPages
+    .map(mapSpeaker)
+    .map((unparsed) => ({
+      unparsed,
+      parsed: speakerSchema.safeParse(unparsed),
+    }))
+    .forEach(({ unparsed, parsed }) => {
+      if (parsed.success) {
+        success.push(parsed.data);
+      } else {
+        failed.push({
+          unparsed,
+          errors: parsed.error.errors,
+        });
+      }
+    });
+
+  return [success, failed] as const;
+};
+
 const mapSpeaker = (fromPage: PageObjectResponse) => {
   return {
     id: fromPage.id,
@@ -141,11 +205,6 @@ const mapSpeaker = (fromPage: PageObjectResponse) => {
     bio: getText("Bio", fromPage),
   } satisfies Relaxed<Speaker>;
 };
-
-interface FailedParsed<T> {
-  unparsed: Partial<T>;
-  errors: z.ZodIssue[];
-}
 
 export const safeParseSpeakers = (fromPages: PageObjectResponse[]) => {
   const success: Speaker[] = [];

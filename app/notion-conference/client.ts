@@ -4,6 +4,7 @@ import {
   parseConference,
   parseTimeslots,
   parseTracks,
+  safeParseContacts,
   safeParseSpeakers,
   safeParseTalks,
 } from "./domain";
@@ -25,6 +26,7 @@ export const getData = async (notionToken: string) => {
   ]);
 
   // Parse
+  const [contacts, invalidContacts] = safeParseContacts(notionContacts);
   const [speakers, invalidSpeakers] = safeParseSpeakers(notionSpeakers);
   const [talks, invalidTalks] = safeParseTalks(
     notionMasterProgramPages,
@@ -35,6 +37,8 @@ export const getData = async (notionToken: string) => {
 
   const data = {
     conference: parseConference(notionConference),
+    contacts,
+    invalidContacts,
     speakers,
     invalidSpeakers,
     talks: publishedTalks,

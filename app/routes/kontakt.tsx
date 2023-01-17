@@ -21,6 +21,22 @@ export default function Kontakt() {
         {data.conference.kontaktTitle}
       </Title>
       <p className="mb-12 text-3xl">{data.conference.kontaktDescription}</p>
+
+      {data.contacts.map((contactPerson) => (
+        <div key={contactPerson.id} className="">
+          <div className="text-xl font-bold">{contactPerson.name}</div>
+          <dl className="[&_dt]:font-bold">
+            <dt>Stilling</dt>
+            <dd>{contactPerson.role}</dd>
+            <dt>E-post</dt>
+            <dd>
+              <a href={`mailto:${contactPerson.email}`}>
+                {contactPerson.email}
+              </a>
+            </dd>
+          </dl>
+        </div>
+      ))}
     </ContentBox>
   );
 }
