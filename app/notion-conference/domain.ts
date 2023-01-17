@@ -2,7 +2,6 @@ import type { PageObjectResponse } from "@notionhq/client/build/src/api-endpoint
 import { z } from "zod";
 
 import {
-  getBoolean,
   getDatabasePropertySelectOptions,
   getDate,
   getEmail,
@@ -26,7 +25,7 @@ const conferenceSchema = z.object({
   title: z.string(),
   date: z.string(),
   venue: z.string(),
-  description: z.string(),
+  abstract: z.string(),
 });
 export type Conference = z.infer<typeof conferenceSchema>;
 
@@ -35,9 +34,6 @@ const personSchema = z.object({
   name: z.string(),
   email: z.string().email().optional(),
   bio: z.string().optional(),
-
-  // TODO: If use company select instead, we just use "Capra" to mark internals
-  internalSpeaker: z.boolean(),
 
   // TODO: Not currently in notion database, but maybe they should be??
   // company: z.string(),
@@ -76,7 +72,7 @@ export type Timeslot = z.infer<typeof timeslotSchema>;
 const talkSchema = z.object({
   id: z.string(),
   title: z.string(),
-  description: z.string(),
+  abstract: z.string(),
   track: selectSchema,
   speakers: z.array(personSchema),
   timeslot: timeslotSchema,
@@ -96,7 +92,7 @@ export type Track = Talk["track"];
 export const parseConference = (fromPage: PageObjectResponse) => {
   return conferenceSchema.parse({
     title: getTitle(fromPage)!,
-    description: getText("Beskrivelse", fromPage)!,
+    abstract: getText("Beskrivelse", fromPage)!,
     date: getDate("Dato", fromPage)!,
     venue: getText("Lokasjon", fromPage)!,
   } satisfies Conference);
@@ -108,7 +104,6 @@ const mapPerson = (fromPage: PageObjectResponse) => {
     name: getTitle(fromPage)!,
     email: getEmail("Epost", fromPage)!,
     bio: getText("Bio", fromPage),
-    internalSpeaker: getBoolean("Capra?", fromPage)!,
   } satisfies Person;
 };
 
@@ -150,7 +145,7 @@ const mapTalk = (fromPage: PageObjectResponse, persons: Person[]) => {
       .filter(typedBoolean)!,
     timeslot: getSelectAndColor("Tidspunkt", fromPage) as any,
     track: getSelectAndColor("Track", fromPage)!,
-    description: getText("Beskrivelse", fromPage)!,
+    abstract: getText("Abstract", fromPage)!,
     duration: getSelectAndColor("Lengde", fromPage) as any,
     isPublished:
       getSelect("Status", fromPage) ===
