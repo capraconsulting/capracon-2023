@@ -7,25 +7,18 @@ import {
   getTalksByTimeslot,
   getTalksByTrack,
 } from "~/notion-conference/helpers";
-import { getDataCachedAndFiltered } from "~/notion-conference/notion-conference-cached";
+import type { RootLoader } from "~/root";
+import { useRootData } from "~/root";
 
-export const loader = async ({ request, context }: LoaderArgs) => {
-  const data = await getDataCachedAndFiltered(request, context);
-
-  const formattedConferenceDate = new Intl.DateTimeFormat("no-nb", {
-    dateStyle: "medium",
-  }).format(new Date(data.conference.date));
-
-  return json({ ...data, date: formattedConferenceDate });
-};
-
-export const meta: MetaFunction<typeof loader> = ({ data }) => ({
-  title: data.conference.title,
-  description: data.conference.description,
+export const meta: MetaFunction<never, { root: RootLoader }> = ({
+  parentsData,
+}) => ({
+  title: parentsData["root"].conference.title,
+  description: parentsData["root"].conference.description,
 });
 
 export default function Component() {
-  const data = useLoaderData<typeof loader>();
+  const data = useRootData();
   const talksByTimeslot = getTalksByTimeslot(data.talks);
   return (
     <main className="container mx-auto">

@@ -1,4 +1,10 @@
-import type { LinksFunction, MetaFunction } from "@remix-run/cloudflare";
+import type {
+  LinksFunction,
+  LoaderArgs,
+  MetaFunction,
+  SerializeFrom,
+} from "@remix-run/cloudflare";
+import { json } from "@remix-run/cloudflare";
 import {
   Links,
   LiveReload,
@@ -6,9 +12,11 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useRouteLoaderData,
 } from "@remix-run/react";
 
 import { Header } from "~/components/header";
+import { getDataCachedAndFiltered } from "./notion-conference/notion-conference-cached";
 import styles from "./tailwind.css";
 
 export const meta: MetaFunction = () => ({
@@ -39,6 +47,20 @@ export const links: LinksFunction = () => [
   },
   { rel: "stylesheet", href: styles },
 ];
+
+export const loader = async ({ request, context }: LoaderArgs) => {
+  const data = await getDataCachedAndFiltered(request, context);
+
+  const formattedConferenceDate = new Intl.DateTimeFormat("no-nb", {
+    dateStyle: "medium",
+  }).format(new Date(data.conference.date));
+
+  return json({ ...data, date: formattedConferenceDate });
+};
+
+export type RootLoader = typeof loader;
+export const useRootData = () =>
+  useRouteLoaderData("root") as SerializeFrom<typeof loader>;
 
 export default function App() {
   return (
