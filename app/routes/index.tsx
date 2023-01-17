@@ -2,7 +2,7 @@ import type { LoaderArgs, MetaFunction } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
 
-import { Title } from "~/components/Title";
+import { Title } from "~/components/title";
 import {
   getTalksByTimeslot,
   getTalksByTrack,
@@ -50,9 +50,9 @@ export default function Component() {
       </section>
 
       <section>
-        <h2 className="inline-block bg-black py-2 px-4 text-6xl font-bold text-white">
+        <Title as="h2" withBackground size="text-6xl">
           Program
-        </h2>
+        </Title>
         <table className="mt-6 w-full">
           <thead>
             <tr>

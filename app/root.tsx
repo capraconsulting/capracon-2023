@@ -8,7 +8,7 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
-import { Header } from "~/components/Header";
+import { Header } from "~/components/header";
 import styles from "./tailwind.css";
 
 export const meta: MetaFunction = () => ({
