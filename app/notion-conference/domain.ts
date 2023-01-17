@@ -10,6 +10,7 @@ import {
   getSelectAndColor,
   getText,
   getTitle,
+  getUrl,
 } from "~/notion/helpers";
 import type { DatabaseResponse } from "~/notion/notion";
 import { typedBoolean } from "~/utils/misc";
@@ -24,8 +25,19 @@ const selectSchema = z.object({
 const conferenceSchema = z.object({
   title: z.string(),
   date: z.string(),
-  locationName: z.string(),
   description: z.string(),
+
+  locationTitle: z.string(),
+  locationName: z.string(),
+  locationAddress: z.string(),
+  locationHomepage: z.string().url(),
+
+  praktiskTitle: z.string(),
+  praktiskSubheading: z.string(),
+  praktiskDescription: z.string(),
+
+  kontaktTitle: z.string(),
+  kontaktDescription: z.string(),
 });
 export type Conference = z.infer<typeof conferenceSchema>;
 
@@ -99,7 +111,18 @@ export const parseConference = (fromPage: PageObjectResponse) => {
     title: getTitle(fromPage),
     description: getText("description", fromPage),
     date: getDate("date", fromPage),
+
+    locationTitle: getText("locationTitle", fromPage),
     locationName: getText("locationName", fromPage),
+    locationAddress: getText("locationAddress", fromPage),
+    locationHomepage: getUrl("locationHomepage", fromPage),
+
+    praktiskTitle: getText("praktiskTitle", fromPage),
+    praktiskSubheading: getText("praktiskSubheading", fromPage),
+    praktiskDescription: getText("praktiskDescription", fromPage),
+
+    kontaktTitle: getText("kontaktTitle", fromPage),
+    kontaktDescription: getText("kontaktDescription", fromPage),
   } satisfies Relaxed<Conference>);
 };
 

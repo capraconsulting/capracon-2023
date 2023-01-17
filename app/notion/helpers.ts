@@ -39,6 +39,14 @@ export const getBoolean = (name: string, fromPage: DatabasePage) => {
   return undefined;
 };
 
+export const getUrl = (name: string, fromPage: DatabasePage) => {
+  const property = fromPage.properties[name];
+  if (property?.type === "url") {
+    return property.url ?? undefined;
+  }
+  return undefined;
+};
+
 export const getFileUrl = (name: string, fromPage: DatabasePage) => {
   const property = fromPage.properties[name];
   if (property?.type === "files") {
