@@ -2,6 +2,7 @@ import type { LoaderArgs, MetaFunction } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
 
+import { Title } from "~/components/Title";
 import {
   getTalksByTimeslot,
   getTalksByTrack,
@@ -33,9 +34,9 @@ export default function Component() {
         <p>{data.conference.venue}</p>
       </div>
 
-      <h1 className="text-7xl font-bold text-red-400">
+      <Title as="h1" color="text-red-400">
         {data.conference.title}
-      </h1>
+      </Title>
 
       <p>{data.conference.description}</p>
 
