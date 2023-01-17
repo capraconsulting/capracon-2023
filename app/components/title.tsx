@@ -17,7 +17,7 @@ export const Title: React.FC<Props> = ({
   className,
   color = withBackground ? "text-white" : "text-black",
   size = Component === "h1"
-    ? "text-7xl"
+    ? "text-7xl laptop:text-9xl"
     : Component === "h2"
     ? "text-3xl"
     : "text-2xl",
@@ -30,7 +30,6 @@ export const Title: React.FC<Props> = ({
         size,
         "inline-block p-2 font-bold tablet:px-4",
         {
-          "laptop:text-9xl": Component === "h1",
           "bg-black": withBackground,
         },
       )}
