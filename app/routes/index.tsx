@@ -7,10 +7,10 @@ import {
   getTalksByTimeslot,
   getTalksByTrack,
 } from "~/notion-conference/helpers";
-import { getDataCached } from "~/notion-conference/notion-conference-cached";
+import { getDataCachedAndFiltered } from "~/notion-conference/notion-conference-cached";
 
-export const loader = async ({ context }: LoaderArgs) => {
-  const data = await getDataCached(context);
+export const loader = async ({ request, context }: LoaderArgs) => {
+  const data = await getDataCachedAndFiltered(request, context);
 
   const formattedConferenceDate = new Intl.DateTimeFormat("no-nb", {
     dateStyle: "medium",

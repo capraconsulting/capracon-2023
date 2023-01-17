@@ -1,6 +1,7 @@
 import type { AppLoadContext } from "@remix-run/server-runtime";
 
 interface Env {
+  PREVIEW_SECRET?: string;
   NOTION_TOKEN?: string;
   KV?: KVNamespace;
   waitUntil?: (promise: Promise<any>) => void;

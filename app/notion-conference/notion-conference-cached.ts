@@ -1,7 +1,7 @@
 import type { AppLoadContext } from "@remix-run/cloudflare";
 
 import { getData } from "~/notion-conference/client";
-import { getEnvVariableOrThrow } from "~/utils/env";
+import { getEnv, getEnvVariableOrThrow } from "~/utils/env";
 
 type Metadata = {
   createdTime: number;
@@ -71,7 +71,7 @@ const kvCachified = async <T>({
   return value;
 };
 
-export const getDataCached = async (context: AppLoadContext) => {
+const getDataCached = async (context: AppLoadContext) => {
   const kv = getEnvVariableOrThrow("KV", context) as KVNamespace;
   const waitUntil = getEnvVariableOrThrow("waitUntil", context) as (
     promise: Promise<any>,
@@ -87,4 +87,34 @@ export const getDataCached = async (context: AppLoadContext) => {
     ttl: 1000 * 5,
     swr: 1000 * 60 * 60 * 24,
   });
+};
+
+export const getDataCachedAndFiltered = async (
+  request: Request,
+  context: AppLoadContext,
+) => {
+  // Filter out parse errors and unpublished data unless a preview secret is given
+  const previewSecret = getEnv(context)["PREVIEW_SECRET"];
+  const showPreview =
+    previewSecret != undefined &&
+    new URL(request.url).searchParams.get("preview") === previewSecret;
+
+  const data = await getDataCached(context);
+
+  return {
+    conference: data.conference,
+    persons: data.persons,
+    talks: data.talks,
+    tracks: data.tracks,
+    timeslots: data.timeslots,
+
+    // Don't provide these data unless a secret preview key is given
+    ...(showPreview
+      ? {
+          invalidPersons: data.invalidPersons,
+          unpublishedTalks: data.unpublishedTalks,
+          invalidTalks: data.invalidTalks,
+        }
+      : {}),
+  };
 };
