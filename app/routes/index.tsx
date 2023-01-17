@@ -115,16 +115,6 @@ export default function Component() {
           </tbody>
         </table>
       </section>
-
-      {/* For dev purposes */}
-      <details open className="mt-12">
-        <summary className="cursor-pointer font-mono font-bold">
-          JSON DATA
-        </summary>
-        <pre className="overflow-scroll border p-2">
-          <code>{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      </details>
     </main>
   );
 }
