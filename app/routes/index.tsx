@@ -32,10 +32,12 @@ export default function Component() {
       <p>{data.conference.description}</p>
 
       <section>
-        <h2 className="inline-block py-2 text-4xl font-bold ">Personer</h2>
+        <h2 className="inline-block py-2 text-4xl font-bold ">
+          Foredragsholdere
+        </h2>
         <ul className="flex overflow-scroll">
-          {data.persons.map((person) => (
-            <li key={person.id}>{person.name}</li>
+          {data.speakers.map((speaker) => (
+            <li key={speaker.id}>{speaker.name}</li>
           ))}
         </ul>
       </section>

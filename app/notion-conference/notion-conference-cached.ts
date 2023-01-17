@@ -103,7 +103,7 @@ export const getDataCachedAndFiltered = async (
 
   return {
     conference: data.conference,
-    persons: data.persons,
+    speakers: data.speakers,
     talks: data.talks,
     tracks: data.tracks,
     timeslots: data.timeslots,
@@ -111,7 +111,7 @@ export const getDataCachedAndFiltered = async (
     // Don't provide these data unless a secret preview key is given
     ...(showPreview
       ? {
-          invalidPersons: data.invalidPersons,
+          invalidSpeakers: data.invalidSpeakers,
           unpublishedTalks: data.unpublishedTalks,
           invalidTalks: data.invalidTalks,
         }

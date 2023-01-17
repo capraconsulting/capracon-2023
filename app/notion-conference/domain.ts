@@ -48,7 +48,7 @@ const conferenceSchema = z.object({
 });
 export type Conference = z.infer<typeof conferenceSchema>;
 
-const personSchema = z.object({
+const speakerSchema = z.object({
   id: z.string(),
   name: z.string(),
   email: z.string().email().optional(),
@@ -58,7 +58,7 @@ const personSchema = z.object({
   // company: z.string(),
   // role: z.string(),
 });
-export type Person = z.infer<typeof personSchema>;
+export type Speaker = z.infer<typeof speakerSchema>;
 
 const timeslotSchema = selectSchema
   .extend({
@@ -93,7 +93,7 @@ const talkSchema = z.object({
   title: z.string(),
   abstract: z.string(),
   track: selectSchema,
-  speakers: z.array(personSchema),
+  speakers: z.array(speakerSchema),
   timeslot: timeslotSchema,
   duration: durartionSchema,
   isPublished: z.boolean(),
@@ -133,13 +133,13 @@ export const parseConference = (fromPage: PageObjectResponse) => {
   } satisfies Relaxed<Conference>);
 };
 
-const mapPerson = (fromPage: PageObjectResponse) => {
+const mapSpeaker = (fromPage: PageObjectResponse) => {
   return {
     id: fromPage.id,
     name: getTitle(fromPage),
     email: getEmail("Epost", fromPage),
     bio: getText("Bio", fromPage),
-  } satisfies Relaxed<Person>;
+  } satisfies Relaxed<Speaker>;
 };
 
 interface FailedParsed<T> {
@@ -147,15 +147,15 @@ interface FailedParsed<T> {
   errors: z.ZodIssue[];
 }
 
-export const safeParsePersons = (fromPages: PageObjectResponse[]) => {
-  const success: Person[] = [];
-  const failed: FailedParsed<Person>[] = [];
+export const safeParseSpeakers = (fromPages: PageObjectResponse[]) => {
+  const success: Speaker[] = [];
+  const failed: FailedParsed<Speaker>[] = [];
 
   fromPages
-    .map(mapPerson)
+    .map(mapSpeaker)
     .map((unparsed) => ({
       unparsed,
-      parsed: personSchema.safeParse(unparsed),
+      parsed: speakerSchema.safeParse(unparsed),
     }))
     .forEach(({ unparsed, parsed }) => {
       if (parsed.success) {
@@ -171,12 +171,12 @@ export const safeParsePersons = (fromPages: PageObjectResponse[]) => {
   return [success, failed] as const;
 };
 
-const mapTalk = (fromPage: PageObjectResponse, persons: Person[]) => {
+const mapTalk = (fromPage: PageObjectResponse, speakers: Speaker[]) => {
   return {
     id: fromPage.id,
     title: getTitle(fromPage),
     speakers: getRelation("Foredragsholder", fromPage)
-      ?.map((id) => persons.find((x) => x.id === id))
+      ?.map((id) => speakers.find((x) => x.id === id))
       .filter(typedBoolean),
     timeslot: getSelectAndColor("Tidspunkt", fromPage) as any,
     track: getSelectAndColor("Track", fromPage),
@@ -190,13 +190,13 @@ const mapTalk = (fromPage: PageObjectResponse, persons: Person[]) => {
 
 export const safeParseTalks = (
   fromPages: PageObjectResponse[],
-  persons: Person[],
+  speakers: Speaker[],
 ) => {
   const success: Talk[] = [];
   const failed: FailedParsed<Talk>[] = [];
 
   fromPages
-    .map((page) => mapTalk(page, persons))
+    .map((page) => mapTalk(page, speakers))
     .map((unparsed) => ({
       unparsed,
       parsed: talkSchema.safeParse(unparsed),

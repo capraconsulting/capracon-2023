@@ -4,7 +4,7 @@ import {
   parseConference,
   parseTimeslots,
   parseTracks,
-  safeParsePersons,
+  safeParseSpeakers,
   safeParseTalks,
 } from "./domain";
 
@@ -14,27 +14,29 @@ export const getData = async (notionToken: string) => {
     notionConference,
     notionMasterProgramDatabase,
     notionMasterProgramPages,
-    notionPersons,
+    notionSpeakers,
+    notionContacts,
   ] = await Promise.all([
     getClient(notionToken).getPage(config.conferenceId),
     getClient(notionToken).getDatabase(config.masterProgramDatabaseId),
     getClient(notionToken).getDatabasePages(config.masterProgramDatabaseId),
-    getClient(notionToken).getDatabasePages(config.personsDatabaseId),
+    getClient(notionToken).getDatabasePages(config.speakersDatabaseId),
+    getClient(notionToken).getDatabasePages(config.contactsDatabaseId),
   ]);
 
   // Parse
-  const [persons, invalidPersons] = safeParsePersons(notionPersons);
+  const [speakers, invalidSpeakers] = safeParseSpeakers(notionSpeakers);
   const [talks, invalidTalks] = safeParseTalks(
     notionMasterProgramPages,
-    persons,
+    speakers,
   );
   const publishedTalks = talks.filter((x) => x.isPublished);
   const unpublishedTalks = talks.filter((x) => x.isPublished);
 
   const data = {
     conference: parseConference(notionConference),
-    persons,
-    invalidPersons,
+    speakers,
+    invalidSpeakers,
     talks: publishedTalks,
     unpublishedTalks,
     invalidTalks,
