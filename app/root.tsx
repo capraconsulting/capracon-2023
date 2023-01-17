@@ -18,6 +18,7 @@ export const meta: MetaFunction = () => ({
 });
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
+
 export default function App() {
   return (
     <html lang="no">
@@ -26,6 +27,7 @@ export default function App() {
         <Links />
       </head>
       <body>
+        <BackgroundSvg />
         <Header />
         <Outlet />
         <ScrollRestoration />
@@ -35,3 +37,9 @@ export default function App() {
     </html>
   );
 }
+
+const BackgroundSvg: React.FC = () => {
+  return (
+    <div className="absolute top-0 left-0 z-[-1] inline-block h-[3000px] min-w-[100vw] bg-[#ccc] bg-[url('../public/images/test.svg')] bg-cover bg-center bg-no-repeat" />
+  );
+};
