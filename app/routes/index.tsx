@@ -1,4 +1,5 @@
 import type { MetaFunction } from "@remix-run/cloudflare";
+import { Link, useSearchParams } from "@remix-run/react";
 
 import { Title } from "~/components/title";
 import { slugify } from "~/notion/helpers";
@@ -18,7 +19,10 @@ export const meta: MetaFunction<never, { root: RootLoader }> = ({
 
 export default function Component() {
   const data = useRootData();
-  const talksByTimeslot = getTalksByTimeslot(data.talks);
+  const talksByTimeslot = getTalksByTimeslot(
+    data.talks.concat(data.unpublishedTalks ?? []),
+  );
+  const search = "?" + useSearchParams()[0].toString();
   return (
     <main className="container mx-auto">
       <div className="text-2xl font-bold">
@@ -95,12 +99,12 @@ export default function Component() {
                                 {String(end.getHours()).padStart(2, "0")}
                                 {String(end.getMinutes()).padStart(2, "0")}
                               </span>
-                              <a
+                              <Link
                                 className="hover:underline"
-                                href={`/talk/${slugify(talk.title)}`}
+                                to={`/talk/${slugify(talk.title)}${search}`}
                               >
                                 {talk.title}
-                              </a>
+                              </Link>
                               <p className="text-sm">
                                 {new Intl.ListFormat("no-nb").format(
                                   talk.speakers.map((speaker) => speaker.name),

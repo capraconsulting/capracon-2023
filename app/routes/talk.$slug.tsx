@@ -19,7 +19,12 @@ export const meta: MetaFunction<never, { root: RootLoader }> = ({
   parentsData,
   params,
 }) => {
-  const talk = getTalkFromSlugOrThrow(params.slug, parentsData["root"].talks);
+  const talk = getTalkFromSlugOrThrow(
+    params.slug,
+    parentsData["root"].talks.concat(
+      parentsData["root"].unpublishedTalks ?? [],
+    ),
+  );
 
   return {
     title: talk.title,
@@ -30,7 +35,10 @@ export const meta: MetaFunction<never, { root: RootLoader }> = ({
 export default function Component() {
   const data = useRootData();
   const params = useParams();
-  const talk = getTalkFromSlugOrThrow(params.slug, data.talks);
+  const talk = getTalkFromSlugOrThrow(
+    params.slug,
+    data.talks.concat(data.unpublishedTalks ?? []),
+  );
 
   return (
     <ContentBox>

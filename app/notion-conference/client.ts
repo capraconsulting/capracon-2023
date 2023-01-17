@@ -33,7 +33,7 @@ export const getData = async (notionToken: string) => {
     speakers,
   );
   const publishedTalks = talks.filter((x) => x.isPublished);
-  const unpublishedTalks = talks.filter((x) => x.isPublished);
+  const unpublishedTalks = talks.filter((x) => !x.isPublished);
 
   const data = {
     conference: parseConference(notionConference),
