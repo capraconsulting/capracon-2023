@@ -3,6 +3,7 @@ import type { AppLoadContext } from "@remix-run/cloudflare";
 import { config } from "~/config";
 import { getData } from "~/notion-conference/client";
 import { getEnv, getEnvVariableOrThrow } from "~/utils/env";
+import { typedBoolean } from "~/utils/misc";
 
 type Metadata = {
   createdTime: number;
@@ -102,10 +103,17 @@ export const getDataCachedAndFiltered = async (
 
   const data = await getDataCached(context);
 
+  const speakersThatHaveTalks = data.speakers.filter((speaker) =>
+    [...data.talks, ...(showPreview ? data.unpublishedTalks : [])].some(
+      (talk) =>
+        talk.speakers.some((speakerInTalk) => speaker.id === speakerInTalk.id),
+    ),
+  );
+
   return {
     conference: data.conference,
     contacts: data.contacts,
-    speakers: data.speakers,
+    speakers: speakersThatHaveTalks,
     talks: data.talks,
     tracks: data.tracks,
     timeslots: data.timeslots,
