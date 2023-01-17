@@ -1,6 +1,7 @@
 import type { MetaFunction } from "@remix-run/cloudflare";
 
 import { Title } from "~/components/title";
+import { slugify } from "~/notion/helpers";
 import {
   getTalksByTimeslot,
   getTalksByTrack,
@@ -94,7 +95,12 @@ export default function Component() {
                                 {String(end.getHours()).padStart(2, "0")}
                                 {String(end.getMinutes()).padStart(2, "0")}
                               </span>
-                              <p>{talk.title}</p>
+                              <a
+                                className="hover:underline"
+                                href={`/talk/${slugify(talk.title)}`}
+                              >
+                                {talk.title}
+                              </a>
                               <p className="text-sm">
                                 {new Intl.ListFormat("no-nb").format(
                                   talk.speakers.map((speaker) => speaker.name),

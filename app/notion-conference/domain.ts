@@ -99,7 +99,7 @@ export type Timeslot = z.infer<typeof timeslotSchema>;
 const talkSchema = z.object({
   id: z.string(),
   title: z.string(),
-  abstract: z.string(),
+  abstract: richTextSchema,
   track: selectSchema,
   speakers: z.array(speakerSchema),
   timeslot: timeslotSchema,
@@ -239,7 +239,7 @@ const mapTalk = (fromPage: PageObjectResponse, speakers: Speaker[]) => {
       .filter(typedBoolean),
     timeslot: getSelectAndColor("Tidspunkt", fromPage) as any,
     track: getSelectAndColor("Track", fromPage),
-    abstract: getText("Abstract", fromPage),
+    abstract: getRichText("Abstract", fromPage),
     duration: getSelectAndColor("Lengde", fromPage) as any,
     isPublished:
       getSelect("Status", fromPage) ===
