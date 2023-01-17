@@ -31,13 +31,23 @@ export default function Praktisk() {
         {data.conference.locationTitle}
       </Title>
 
-      <dl className="text-xl [&>dt]:font-bold">
-        <dt>Lokasjon:</dt>
-        <dd>{data.conference.locationName}</dd>
-        <dt>Adresse:</dt>
-        <dd>{data.conference.locationAddress}</dd>
-        <dt>Hjemmeside:</dt>
-        <dd>{data.conference.locationHomepage}</dd>
+      <dl className="text-xl [&_dt]:font-bold [&_dt]:after:content-[':_']">
+        <div>
+          <dt>Lokasjon</dt>
+          <dd>{data.conference.locationName}</dd>
+        </div>
+        <div>
+          <dt>Adresse</dt>
+          <dd>{data.conference.locationAddress}</dd>
+        </div>
+        <div>
+          <dt>Hjemmeside</dt>
+          <dd>
+            <a className="underline" href={data.conference.locationHomepage}>
+              {new URL(data.conference.locationHomepage).hostname}
+            </a>
+          </dd>
+        </div>
       </dl>
     </ContentBox>
   );
