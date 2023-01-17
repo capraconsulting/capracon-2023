@@ -1,6 +1,7 @@
 import type { MetaFunction } from "@remix-run/cloudflare";
 
 import { ContentBox } from "~/components/content-box";
+import { RichTextList } from "~/components/notion-rich-text";
 import { Title } from "~/components/title";
 import type { RootLoader } from "~/root";
 import { useRootData } from "~/root";
@@ -22,11 +23,9 @@ export default function Praktisk() {
       </Title>
       <p className="text-3xl font-bold">{data.conference.praktiskSubheading}</p>
 
-      {data.conference.praktiskDescription.split("\n\n").map((x, i) => (
-        <p className="mt-3 text-xl" key={i}>
-          {x}
-        </p>
-      ))}
+      <p className="whitespace-pre-line text-xl">
+        <RichTextList richTextList={data.conference.praktiskDescription} />
+      </p>
 
       <Title as="h2" withBackground size="text-6xl">
         {data.conference.locationTitle}

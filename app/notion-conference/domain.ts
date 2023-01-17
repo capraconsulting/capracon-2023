@@ -1,11 +1,13 @@
 import type { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import { z } from "zod";
 
+import type { RichTextItem } from "~/notion/helpers";
 import {
   getDatabasePropertySelectOptions,
   getDate,
   getEmail,
   getRelation,
+  getRichText,
   getSelect,
   getSelectAndColor,
   getText,
@@ -20,6 +22,11 @@ const selectSchema = z.object({
   title: z.string(),
   color: z.string(),
 });
+const richTextSchema = z.array(
+  z.custom<RichTextItem>(
+    (val) => val && typeof val === "object" && "type" in val !== undefined,
+  ),
+);
 
 // Domain
 const conferenceSchema = z.object({
@@ -34,7 +41,7 @@ const conferenceSchema = z.object({
 
   praktiskTitle: z.string(),
   praktiskSubheading: z.string(),
-  praktiskDescription: z.string(),
+  praktiskDescription: richTextSchema,
 
   kontaktTitle: z.string(),
   kontaktDescription: z.string(),
@@ -107,7 +114,7 @@ type Relaxed<T extends object> = {
 //
 // We Typescript `satisfies` to make sure we remember to fill the exactly expected fields
 export const parseConference = (fromPage: PageObjectResponse) => {
-  return conferenceSchema.parse({
+  return conferenceSchema.passthrough().parse({
     title: getTitle(fromPage),
     description: getText("description", fromPage),
     date: getDate("date", fromPage),
@@ -119,7 +126,7 @@ export const parseConference = (fromPage: PageObjectResponse) => {
 
     praktiskTitle: getText("praktiskTitle", fromPage),
     praktiskSubheading: getText("praktiskSubheading", fromPage),
-    praktiskDescription: getText("praktiskDescription", fromPage),
+    praktiskDescription: getRichText("praktiskDescription", fromPage),
 
     kontaktTitle: getText("kontaktTitle", fromPage),
     kontaktDescription: getText("kontaktDescription", fromPage),
