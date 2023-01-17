@@ -24,7 +24,7 @@ const selectSchema = z.object({
 const conferenceSchema = z.object({
   title: z.string(),
   date: z.string(),
-  venue: z.string(),
+  locationName: z.string(),
   description: z.string(),
 });
 export type Conference = z.infer<typeof conferenceSchema>;
@@ -92,9 +92,9 @@ export type Track = Talk["track"];
 export const parseConference = (fromPage: PageObjectResponse) => {
   return conferenceSchema.parse({
     title: getTitle(fromPage)!,
-    description: getText("Beskrivelse", fromPage)!,
-    date: getDate("Dato", fromPage)!,
-    venue: getText("Lokasjon", fromPage)!,
+    description: getText("description", fromPage)!,
+    date: getDate("date", fromPage)!,
+    locationName: getText("location.name", fromPage)!,
   } satisfies Conference);
 };
 

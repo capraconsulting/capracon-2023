@@ -31,7 +31,7 @@ export default function Component() {
     <main className="container mx-auto">
       <div className="text-2xl font-bold">
         <time dateTime={data.conference.date}>{data.date}</time>
-        <p>{data.conference.venue}</p>
+        <p>{data.conference.locationName}</p>
       </div>
 
       <Title as="h1" color="text-red-400">
