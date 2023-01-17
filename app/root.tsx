@@ -16,7 +16,7 @@ import {
 } from "@remix-run/react";
 
 import { Header } from "~/components/header";
-import { getDataCachedAndFiltered } from "./notion-conference/notion-conference-cached";
+import { getDataCachedAndFiltered } from "./notion-conference/client-cached-and-filtered";
 import styles from "./tailwind.css";
 
 export const meta: MetaFunction = () => ({

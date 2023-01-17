@@ -5,4 +5,5 @@ export const config = {
   masterProgramDatabaseId: "27077cab001149a19398a3fedda6884d",
 
   KV_NAMESPACE: "KV",
+  KV_DATA_CACHE_KEY: "all-data",
 } as const;

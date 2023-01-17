@@ -1,5 +1,6 @@
 import type { AppLoadContext } from "@remix-run/cloudflare";
 
+import { config } from "~/config";
 import { getData } from "~/notion-conference/client";
 import { getEnv, getEnvVariableOrThrow } from "~/utils/env";
 
@@ -82,7 +83,7 @@ const getDataCached = async (context: AppLoadContext) => {
   return kvCachified({
     kv,
     waitUntil,
-    key: "all-data",
+    key: config.KV_DATA_CACHE_KEY,
     getFreshValue: () => getData(notionToken),
     ttl: 1000 * 5,
     swr: 1000 * 60 * 60 * 24,
