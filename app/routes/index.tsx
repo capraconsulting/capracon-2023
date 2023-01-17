@@ -2,7 +2,7 @@ import type { LoaderArgs, MetaFunction } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
 
-import { Title } from "~/components/Title";
+import { Title } from "~/components/title";
 import {
   getTalksByTimeslot,
   getTalksByTrack,
@@ -21,7 +21,7 @@ export const loader = async ({ request, context }: LoaderArgs) => {
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => ({
   title: data.conference.title,
-  description: data.conference.description,
+  abstract: data.conference.abstract,
 });
 
 export default function Component() {
@@ -38,7 +38,7 @@ export default function Component() {
         {data.conference.title}
       </Title>
 
-      <p>{data.conference.description}</p>
+      <p>{data.conference.abstract}</p>
 
       <section>
         <h2 className="inline-block py-2 text-4xl font-bold ">Personer</h2>
@@ -50,9 +50,9 @@ export default function Component() {
       </section>
 
       <section>
-        <h2 className="inline-block bg-black py-2 px-4 text-6xl font-bold text-white">
+        <Title as="h2" withBackground size="text-6xl">
           Program
-        </h2>
+        </Title>
         <table className="mt-6 w-full">
           <thead>
             <tr>
