@@ -1,6 +1,4 @@
-import type { LoaderArgs, MetaFunction } from "@remix-run/cloudflare";
-import { json } from "@remix-run/cloudflare";
-import { useLoaderData } from "@remix-run/react";
+import type { MetaFunction } from "@remix-run/cloudflare";
 
 import { Title } from "~/components/title";
 import {
