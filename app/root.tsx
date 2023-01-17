@@ -17,7 +17,28 @@ export const meta: MetaFunction = () => ({
   viewport: "width=device-width,initial-scale=1",
 });
 
-export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
+export const links: LinksFunction = () => [
+  {
+    rel: "manifest",
+    href: "/manifest.webmanifest",
+  },
+  {
+    rel: "icon",
+    href: "/favicon.ico",
+    type: "image/ico",
+    sizes: "any",
+  },
+  {
+    rel: "icon",
+    href: "/icon.svg",
+    type: "image/svg+xml",
+  },
+  {
+    rel: "apple-touch-icon",
+    href: "/apple-touch-icon.png",
+  },
+  { rel: "stylesheet", href: styles },
+];
 
 export default function App() {
   return (

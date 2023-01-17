@@ -83,6 +83,11 @@ export type Talk = z.infer<typeof talkSchema>;
 
 export type Track = Talk["track"];
 
+// Like the built-in Partial, but requires all keys
+type Relaxed<T extends object> = {
+  [K in keyof T]: T[K] | undefined;
+};
+
 // Mappers
 // The `!` operator is used here, usually that it bad idea, but here it's fine
 // zod will catch those type errors runtime
@@ -91,20 +96,20 @@ export type Track = Talk["track"];
 // We Typescript `satisfies` to make sure we remember to fill the exactly expected fields
 export const parseConference = (fromPage: PageObjectResponse) => {
   return conferenceSchema.parse({
-    title: getTitle(fromPage)!,
-    description: getText("description", fromPage)!,
-    date: getDate("date", fromPage)!,
-    locationName: getText("locationName", fromPage)!,
-  } satisfies Conference);
+    title: getTitle(fromPage),
+    description: getText("description", fromPage),
+    date: getDate("date", fromPage),
+    locationName: getText("locationName", fromPage),
+  } satisfies Relaxed<Conference>);
 };
 
 const mapPerson = (fromPage: PageObjectResponse) => {
   return {
     id: fromPage.id,
-    name: getTitle(fromPage)!,
-    email: getEmail("Epost", fromPage)!,
+    name: getTitle(fromPage),
+    email: getEmail("Epost", fromPage),
     bio: getText("Bio", fromPage),
-  } satisfies Person;
+  } satisfies Relaxed<Person>;
 };
 
 interface FailedParsed<T> {
@@ -139,18 +144,18 @@ export const safeParsePersons = (fromPages: PageObjectResponse[]) => {
 const mapTalk = (fromPage: PageObjectResponse, persons: Person[]) => {
   return {
     id: fromPage.id,
-    title: getTitle(fromPage)!,
+    title: getTitle(fromPage),
     speakers: getRelation("Foredragsholder", fromPage)
       ?.map((id) => persons.find((x) => x.id === id))
-      .filter(typedBoolean)!,
+      .filter(typedBoolean),
     timeslot: getSelectAndColor("Tidspunkt", fromPage) as any,
-    track: getSelectAndColor("Track", fromPage)!,
-    abstract: getText("Abstract", fromPage)!,
+    track: getSelectAndColor("Track", fromPage),
+    abstract: getText("Abstract", fromPage),
     duration: getSelectAndColor("Lengde", fromPage) as any,
     isPublished:
       getSelect("Status", fromPage) ===
       "8. Tildelt slot i program (tid og rom)",
-  } satisfies Talk;
+  } satisfies Relaxed<Talk>;
 };
 
 export const safeParseTalks = (
