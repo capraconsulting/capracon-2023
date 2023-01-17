@@ -28,12 +28,15 @@ export const getData = async (notionToken: string) => {
     notionMasterProgramPages,
     persons,
   );
+  const publishedTalks = talks.filter((x) => x.isPublished);
+  const unpublishedTalks = talks.filter((x) => x.isPublished);
 
   const data = {
     conference: parseConference(notionConference),
     persons,
     invalidPersons,
-    talks,
+    talks: publishedTalks,
+    unpublishedTalks,
     invalidTalks,
     tracks: parseTracks(notionMasterProgramDatabase),
     timeslots: parseTimeslots(notionMasterProgramDatabase),
