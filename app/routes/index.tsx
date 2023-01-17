@@ -21,7 +21,7 @@ export const loader = async ({ request, context }: LoaderArgs) => {
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => ({
   title: data.conference.title,
-  abstract: data.conference.abstract,
+  description: data.conference.description,
 });
 
 export default function Component() {
@@ -38,7 +38,7 @@ export default function Component() {
         {data.conference.title}
       </Title>
 
-      <p>{data.conference.abstract}</p>
+      <p>{data.conference.description}</p>
 
       <section>
         <h2 className="inline-block py-2 text-4xl font-bold ">Personer</h2>
