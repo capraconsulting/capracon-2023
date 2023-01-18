@@ -246,30 +246,6 @@
   font-size: 1em;
 }
 
-.track1 {
-  background-color: #1259b2;
-  color: #fff;
-}
-
-.track2 {
-  background-color: #687f00;
-  color: #fff;
-}
-
-.track3 {
-  background-color: #544d69;
-  color: #fff;
-}
-
-.trackAll {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #ccc;
-  color: #000;
-  box-shadow: none;
-}
-
 .text {
   max-width: 750px;
   font-size: 18px;

@@ -1,16 +1,13 @@
 import type { LinksFunction, MetaFunction } from "@remix-run/cloudflare";
-import { Link, useSearchParams } from "@remix-run/react";
+import { useSearchParams } from "@remix-run/react";
 
 import TalkListItem from "~/components/talk-list-item";
 import { Title } from "~/components/title";
-import { slugify } from "~/notion/helpers";
-import {
-  getTalksByTimeslot,
-  getTalksByTrack,
-} from "~/notion-conference/helpers";
+import { getTalksByTimeslot } from "~/notion-conference/helpers";
 import type { RootLoader } from "~/root";
 import { useRootData } from "~/root";
 import styles from "~/styles/program.css";
+import { TrackGridColumn, Tracks } from "~/utils/consts";
 
 export let links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: styles }];
@@ -63,21 +60,30 @@ export default function Component() {
             <div className="schedule" aria-labelledby="schedule-heading">
               <div
                 className="trackSlot"
-                style={{ gridColumn: "track1", gridRow: "tracks" }}
+                style={{
+                  gridColumn: TrackGridColumn[Tracks.Frontend],
+                  gridRow: "tracks",
+                }}
               >
-                <div>Frontend</div>
+                <div>{Tracks.Frontend}</div>
               </div>
               <div
                 className="trackSlot"
-                style={{ gridColumn: "track2", gridRow: "tracks" }}
+                style={{
+                  gridColumn: TrackGridColumn[Tracks.TPU],
+                  gridRow: "tracks",
+                }}
               >
-                <div>TPU</div>
+                <div>{Tracks.TPU}</div>
               </div>
               <div
                 className="trackSlot"
-                style={{ gridColumn: "track3", gridRow: "tracks" }}
+                style={{
+                  gridColumn: TrackGridColumn[Tracks.CloudNative],
+                  gridRow: "tracks",
+                }}
               >
-                <div>CloudNative</div>
+                <div>{Tracks.CloudNative}</div>
               </div>
 
               <h2
@@ -237,80 +243,6 @@ export default function Component() {
             </div>
           </div>
         </div>
-
-        <table className="mt-6 w-full">
-          <thead>
-            <tr>
-              <th />
-              {data.tracks.map((track) => (
-                <th
-                  key={track.id}
-                  className="bg-slate-500 py-1 px-2"
-                  style={{ color: track.color }}
-                >
-                  {track.title}
-                </th>
-              ))}
-            </tr>
-          </thead>
-
-          <tbody>
-            {data.timeslots.map((timeslot) => {
-              const talksByTrack = getTalksByTrack(
-                talksByTimeslot[timeslot.id] ?? [],
-              );
-
-              return (
-                <tr key={timeslot.id}>
-                  <td>{timeslot.title}</td>
-                  {data.tracks.map((track) => {
-                    let d = new Date(data.conference.date);
-                    d.setHours(
-                      timeslot.startTime.hours,
-                      timeslot.startTime.minutes,
-                    );
-                    return (
-                      <td key={track.id}>
-                        {talksByTrack[track.id]?.map((talk) => {
-                          const start = new Date(d);
-                          const end = new Date(start);
-                          end.setMinutes(
-                            start.getMinutes() + talk.duration.minutes,
-                          );
-                          d = end;
-                          return (
-                            <div key={talk.id} title={talk.title}>
-                              <span className="inline-block bg-black p-1 text-sm font-bold leading-3 text-white">
-                                {String(start.getHours()).padStart(2, "0")}
-                                {String(start.getMinutes()).padStart(2, "0")}-
-                                {String(end.getHours()).padStart(2, "0")}
-                                {String(end.getMinutes()).padStart(2, "0")}
-                              </span>
-                              <Link
-                                className="hover:underline"
-                                to={`/talk/${slugify(talk.title)}${search}`}
-                              >
-                                {talk.title}
-                              </Link>
-                              <p className="text-sm">
-                                {new Intl.ListFormat("no-nb").format(
-                                  talk.speakers.map((speaker) => speaker.name),
-                                )}
-                              </p>
-                              <span className="border py-0.5 px-1 text-xs">
-                                {talk.duration.title}
-                              </span>
-                            </div>
-                          );
-                        })}
-                      </td>
-                    );
-                  })}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
       </section>
     </main>
   );

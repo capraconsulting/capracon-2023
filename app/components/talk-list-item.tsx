@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "@remix-run/react";
 
 import type { Talk } from "~/notion-conference/domain";
+import { TrackGridColumn } from "~/utils/consts";
 
 type TalkListItemProps = {
   talk: Talk;
@@ -21,7 +22,7 @@ const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
 
   const gridPosition = {
     gridRow: `time-${startTime} / time-${endTime}`,
-    gridColumn: talk.track.title,
+    gridColumn: TrackGridColumn[talk.track.title],
   };
 
   return (
