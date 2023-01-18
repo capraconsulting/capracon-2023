@@ -3,7 +3,6 @@ import type { AppLoadContext } from "@remix-run/cloudflare";
 import { config } from "~/config";
 import { getData } from "~/notion-conference/client";
 import { getEnv, getEnvVariableOrThrow } from "~/utils/env";
-import { typedBoolean } from "~/utils/misc";
 
 type Metadata = {
   createdTime: number;
