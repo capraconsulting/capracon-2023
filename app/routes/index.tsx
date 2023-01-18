@@ -34,7 +34,7 @@ export default function Component() {
         <p>{data.conference.locationName}</p>
       </div>
 
-      <Title as="h1" color="text-red-400">
+      <Title as="h1" color="text-black">
         {data.conference.title}
       </Title>
 
@@ -86,18 +86,6 @@ export default function Component() {
                 <div>{Tracks.CloudNative}</div>
               </div>
 
-              <h2
-                className={`timeColumn hidden shadow-md laptop:inline `}
-                style={{ gridRow: `time-0800` }}
-              >
-                08:00
-              </h2>
-              <h2
-                className={`timeColumn hidden shadow-md laptop:inline `}
-                style={{ gridRow: `time-0830` }}
-              >
-                08:30
-              </h2>
               <h2
                 className={`timeColumn hidden shadow-md laptop:inline `}
                 style={{ gridRow: `time-0900` }}

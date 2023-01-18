@@ -10,18 +10,6 @@
     grid-gap: 1em;
     grid-template-rows:
       [tracks] auto
-      [time-0800] var(--row)
-      [time-0805] var(--row)
-      [time-0810] var(--row)
-      [time-0815] var(--row)
-      [time-0820] var(--row)
-      [time-0825] var(--row)
-      [time-0830] var(--row)
-      [time-0835] var(--row)
-      [time-0840] var(--row)
-      [time-0845] var(--row)
-      [time-0850] var(--row)
-      [time-0855] var(--row)
       [time-0900] var(--row)
       [time-0905] var(--row)
       [time-0910] var(--row)
@@ -244,6 +232,30 @@
 .timeSlot {
   margin: 0;
   font-size: 1em;
+}
+
+.track1 {
+  background-color: #1259b2;
+  color: #fff;
+}
+
+.track2 {
+  background-color: #687f00;
+  color: #fff;
+}
+
+.track3 {
+  background-color: #544d69;
+  color: #fff;
+}
+
+.trackAll {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ccc;
+  color: #000;
+  box-shadow: none;
 }
 
 .text {
