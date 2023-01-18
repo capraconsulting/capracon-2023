@@ -1,6 +1,7 @@
-import type { MetaFunction } from "@remix-run/cloudflare";
+import type { LinksFunction, MetaFunction } from "@remix-run/cloudflare";
 import { Link, useSearchParams } from "@remix-run/react";
 
+import TalkListItem from "~/components/talk-list-item";
 import { Title } from "~/components/title";
 import { slugify } from "~/notion/helpers";
 import {
@@ -9,6 +10,11 @@ import {
 } from "~/notion-conference/helpers";
 import type { RootLoader } from "~/root";
 import { useRootData } from "~/root";
+import styles from "~/styles/program.css";
+
+export let links: LinksFunction = () => {
+  return [{ rel: "stylesheet", href: styles }];
+};
 
 export const meta: MetaFunction<never, { root: RootLoader }> = ({
   parentsData,
@@ -23,6 +29,7 @@ export default function Component() {
     data.talks.concat(data.unpublishedTalks ?? []),
   );
   const search = "?" + useSearchParams()[0].toString();
+
   return (
     <main className="container mx-auto">
       <div className="text-2xl font-bold">
@@ -48,9 +55,189 @@ export default function Component() {
       </section>
 
       <section>
-        <Title as="h2" withBackground size="text-6xl">
-          Program
-        </Title>
+        <div className="my-12 mx-auto pt-12 pb-8 text-black">
+          <div className="block">
+            <Title as="h2" withBackground size="text-6xl">
+              Program
+            </Title>
+            <div className="schedule" aria-labelledby="schedule-heading">
+              <div
+                className="trackSlot"
+                style={{ gridColumn: "track1", gridRow: "tracks" }}
+              >
+                <div>Frontend</div>
+              </div>
+              <div
+                className="trackSlot"
+                style={{ gridColumn: "track2", gridRow: "tracks" }}
+              >
+                <div>TPU</div>
+              </div>
+              <div
+                className="trackSlot"
+                style={{ gridColumn: "track3", gridRow: "tracks" }}
+              >
+                <div>CloudNative</div>
+              </div>
+
+              <h2
+                className={`timeColumn hidden shadow-md laptop:inline `}
+                style={{ gridRow: `time-0800` }}
+              >
+                08:00
+              </h2>
+              <h2
+                className={`timeColumn hidden shadow-md laptop:inline `}
+                style={{ gridRow: `time-0830` }}
+              >
+                08:30
+              </h2>
+              <h2
+                className={`timeColumn hidden shadow-md laptop:inline `}
+                style={{ gridRow: `time-0900` }}
+              >
+                09:00
+              </h2>
+              <h2
+                className={`timeColumn hidden shadow-md laptop:inline `}
+                style={{ gridRow: `time-0930` }}
+              >
+                09:30
+              </h2>
+              <h2
+                className={`timeColumn hidden shadow-md laptop:inline `}
+                style={{ gridRow: `time-1000` }}
+              >
+                10:00
+              </h2>
+              <h2
+                className={`timeColumn hidden shadow-md laptop:inline `}
+                style={{ gridRow: `time-1030` }}
+              >
+                10:30
+              </h2>
+              <h2
+                className={`timeColumn hidden shadow-md laptop:inline `}
+                style={{ gridRow: `time-1100` }}
+              >
+                11:00
+              </h2>
+              <h2
+                className={`timeColumn hidden shadow-md laptop:inline `}
+                style={{ gridRow: `time-1130` }}
+              >
+                11:30
+              </h2>
+              <h2
+                className={`timeColumn hidden shadow-md laptop:inline `}
+                style={{ gridRow: `time-1200` }}
+              >
+                12:00
+              </h2>
+              <h2
+                className={`timeColumn hidden shadow-md laptop:inline `}
+                style={{ gridRow: `time-1230` }}
+              >
+                12:30
+              </h2>
+              <h2
+                className={`timeColumn hidden shadow-md laptop:inline `}
+                style={{ gridRow: `time-1300` }}
+              >
+                13:00
+              </h2>
+              <h2
+                className={`timeColumn hidden shadow-md laptop:inline `}
+                style={{ gridRow: `time-1330` }}
+              >
+                13:30
+              </h2>
+              <h2
+                className={`timeColumn hidden shadow-md laptop:inline `}
+                style={{ gridRow: `time-1400` }}
+              >
+                14:00
+              </h2>
+              <h2
+                className={`timeColumn hidden shadow-md laptop:inline `}
+                style={{ gridRow: `time-1430` }}
+              >
+                14:30
+              </h2>
+              <h2
+                className={`timeColumn hidden shadow-md laptop:inline `}
+                style={{ gridRow: `time-1500` }}
+              >
+                15:00
+              </h2>
+              <h2
+                className={`timeColumn hidden shadow-md laptop:inline `}
+                style={{ gridRow: `time-1530` }}
+              >
+                15:30
+              </h2>
+              <h2
+                className={`timeColumn hidden shadow-md laptop:inline `}
+                style={{ gridRow: `time-1600` }}
+              >
+                16:00
+              </h2>
+              <h2
+                className={`timeColumn hidden shadow-md laptop:inline `}
+                style={{ gridRow: `time-1630` }}
+              >
+                16:30
+              </h2>
+              <h2
+                className={`timeColumn hidden shadow-md laptop:inline `}
+                style={{ gridRow: `time-1700` }}
+              >
+                17:00
+              </h2>
+              <h2
+                className={`timeColumn hidden shadow-md laptop:inline `}
+                style={{ gridRow: `time-1730` }}
+              >
+                17:30
+              </h2>
+              <h2
+                className={`timeColumn hidden shadow-md laptop:inline `}
+                style={{ gridRow: `time-1800` }}
+              >
+                18:00
+              </h2>
+              <h2
+                className={`timeColumn hidden shadow-md laptop:inline `}
+                style={{ gridRow: `time-1830` }}
+              >
+                18:30
+              </h2>
+              <h2
+                className={`timeColumn hidden shadow-md laptop:inline `}
+                style={{ gridRow: `time-1900` }}
+              >
+                19:00
+              </h2>
+              <h2
+                className={`timeColumn hidden shadow-md laptop:inline `}
+                style={{ gridRow: `time-1930` }}
+              >
+                19:30
+              </h2>
+              <h2
+                className={`timeColumn hidden shadow-md laptop:inline `}
+                style={{ gridRow: `time-2000` }}
+              >
+                20:00
+              </h2>
+
+              {data.talks.map((talk) => (
+                <TalkListItem talk={talk} key={talk.title} />
+              ))}
+            </div>
+          </div>
+        </div>
+
         <table className="mt-6 w-full">
           <thead>
             <tr>
