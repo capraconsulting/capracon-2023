@@ -1,5 +1,7 @@
 import type { ListBlockChildrenResponse } from "@notionhq/client/build/src/api-endpoints";
 
+import type { Tracks } from "~/utils/consts";
+import { TRACKS } from "~/utils/consts";
 import type { DatabasePage, PageResponse } from "./notion";
 import type { DatabaseResponse } from "./notion";
 
@@ -112,6 +114,33 @@ export const getCheckbox = (name: string, fromPage: DatabasePage) => {
   const property = fromPage.properties[name];
   if (property?.type === "checkbox") {
     return property.checkbox;
+  }
+  return undefined;
+};
+
+export const getTrackSelectAndColor = (
+  name: string,
+  fromPage: DatabasePage,
+): { id: string; title: Tracks; color: SelectColor } | undefined => {
+  const property = fromPage.properties[name];
+
+  if (
+    property?.type === "select" &&
+    property.select?.name &&
+    property.select.color
+  ) {
+    const trackName = Object.values(TRACKS).find(
+      (trackName) => property.select?.name === trackName,
+    );
+    if (!trackName) {
+      return undefined;
+    }
+
+    return {
+      id: property.select.id,
+      title: trackName,
+      color: property.select.color,
+    };
   }
   return undefined;
 };

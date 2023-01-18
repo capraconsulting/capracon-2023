@@ -2,6 +2,7 @@ import type { PageObjectResponse } from "@notionhq/client/build/src/api-endpoint
 import { z } from "zod";
 
 import type { RichTextItem } from "~/notion/helpers";
+import { getTrackSelectAndColor } from "~/notion/helpers";
 import {
   getDatabasePropertySelectOptions,
   getDate,
@@ -15,6 +16,7 @@ import {
   getUrl,
 } from "~/notion/helpers";
 import type { DatabaseResponse } from "~/notion/notion";
+import { TRACKS } from "~/utils/consts";
 import { typedBoolean } from "~/utils/misc";
 
 const selectSchema = z.object({
@@ -22,6 +24,9 @@ const selectSchema = z.object({
   title: z.string(),
   color: z.string(),
 });
+
+const trackSchema = selectSchema.merge(z.object({ title: z.enum(TRACKS) }));
+
 const richTextSchema = z.array(
   z.custom<RichTextItem>(
     (val) => val && typeof val === "object" && "type" in val !== undefined,
@@ -100,7 +105,7 @@ const talkSchema = z.object({
   id: z.string(),
   title: z.string(),
   abstract: richTextSchema,
-  track: selectSchema,
+  track: trackSchema,
   speakers: z.array(speakerSchema),
   timeslot: timeslotSchema,
   duration: durartionSchema,
@@ -238,7 +243,7 @@ const mapTalk = (fromPage: PageObjectResponse, speakers: Speaker[]) => {
       ?.map((id) => speakers.find((x) => x.id === id))
       .filter(typedBoolean),
     timeslot: getSelectAndColor("Tidspunkt", fromPage) as any,
-    track: getSelectAndColor("Track", fromPage),
+    track: getTrackSelectAndColor("Track", fromPage),
     abstract: getRichText("Abstract", fromPage),
     duration: getSelectAndColor("Lengde", fromPage) as any,
     isPublished:
