@@ -2,7 +2,6 @@ import type { PageObjectResponse } from "@notionhq/client/build/src/api-endpoint
 import { z } from "zod";
 
 import type { RichTextItem } from "~/notion/helpers";
-import { getTrackSelectAndColor } from "~/notion/helpers";
 import {
   getDatabasePropertySelectOptions,
   getDate,
@@ -244,7 +243,7 @@ const mapTalk = (fromPage: PageObjectResponse, speakers: Speaker[]) => {
       ?.map((id) => speakers.find((x) => x.id === id))
       .filter(typedBoolean),
     timeslot: getSelectAndColor("Tidspunkt", fromPage) as any,
-    track: getTrackSelectAndColor("Track", fromPage),
+    track: getSelectAndColor("Track", fromPage) as any,
     abstract: getRichText("Abstract", fromPage),
     duration: getSelectAndColor("Lengde", fromPage) as any,
     isPublished: getSelect("Status", fromPage) !== "Backupforedrag",
