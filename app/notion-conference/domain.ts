@@ -247,9 +247,7 @@ const mapTalk = (fromPage: PageObjectResponse, speakers: Speaker[]) => {
     track: getTrackSelectAndColor("Track", fromPage),
     abstract: getRichText("Abstract", fromPage),
     duration: getSelectAndColor("Lengde", fromPage) as any,
-    isPublished:
-      getSelect("Status", fromPage) ===
-      "8. Tildelt slot i program (tid og rom)",
+    isPublished: getSelect("Status", fromPage) !== "Backupforedrag",
     startTime: getDate("Starttid", fromPage),
   } satisfies Relaxed<Talk>;
 };
