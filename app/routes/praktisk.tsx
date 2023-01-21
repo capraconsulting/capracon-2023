@@ -1,4 +1,4 @@
-import type { MetaFunction } from "@remix-run/cloudflare";
+import type { V2_MetaFunction } from "@remix-run/cloudflare";
 
 import { ContentBox } from "~/components/content-box";
 import { RichTextList } from "~/components/notion-rich-text";
@@ -6,12 +6,15 @@ import { Title } from "~/components/title";
 import type { RootLoader } from "~/root";
 import { useRootData } from "~/root";
 
-export const meta: MetaFunction<never, { root: RootLoader }> = ({
+export const meta: V2_MetaFunction<never, { root: RootLoader }> = ({
   parentsData,
-}) => ({
-  title: parentsData["root"].conference.praktiskTitle,
-  description: parentsData["root"].conference.praktiskTitle,
-});
+}) => [
+  { title: parentsData["root"].conference.praktiskTitle },
+  {
+    name: "description",
+    content: parentsData["root"].conference.praktiskTitle,
+  },
+];
 
 export default function Praktisk() {
   const data = useRootData();

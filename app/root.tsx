@@ -1,7 +1,6 @@
 import type {
   LinksFunction,
   LoaderArgs,
-  MetaFunction,
   SerializeFrom,
 } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
@@ -18,12 +17,6 @@ import {
 import { Header } from "~/components/header";
 import { getDataCachedAndFiltered } from "./notion-conference/client-cached-and-filtered";
 import styles from "./tailwind.css";
-
-export const meta: MetaFunction = () => ({
-  charset: "utf-8",
-  title: "New Remix App",
-  viewport: "width=device-width,initial-scale=1",
-});
 
 export const links: LinksFunction = () => [
   {
@@ -66,6 +59,8 @@ export default function App() {
   return (
     <html lang="no">
       <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
       </head>

@@ -1,4 +1,4 @@
-import type { LinksFunction, MetaFunction } from "@remix-run/cloudflare";
+import type { LinksFunction, V2_MetaFunction } from "@remix-run/cloudflare";
 import { useSearchParams } from "@remix-run/react";
 
 import TalkListItem from "~/components/talk-list-item";
@@ -13,12 +13,14 @@ export let links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: styles }];
 };
 
-export const meta: MetaFunction<never, { root: RootLoader }> = ({
+export const meta: V2_MetaFunction<never, { root: RootLoader }> = ({
   parentsData,
-}) => ({
-  title: parentsData["root"].conference.title,
-  description: parentsData["root"].conference.description,
-});
+}) => [
+  {
+    title: parentsData["root"].conference.title,
+  },
+  { name: "description", content: parentsData["root"].conference.description },
+];
 
 export default function Component() {
   const data = useRootData();

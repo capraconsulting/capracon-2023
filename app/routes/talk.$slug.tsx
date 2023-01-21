@@ -1,4 +1,4 @@
-import type { MetaFunction } from "@remix-run/cloudflare";
+import type { V2_MetaFunction } from "@remix-run/cloudflare";
 import { Link, useParams } from "@remix-run/react";
 
 import { ContentBox } from "~/components/content-box";
@@ -15,7 +15,7 @@ const getTalkFromSlugOrThrow = (slug: string | undefined, talks: Talk[]) => {
   return talk;
 };
 
-export const meta: MetaFunction<never, { root: RootLoader }> = ({
+export const meta: V2_MetaFunction<never, { root: RootLoader }> = ({
   parentsData,
   params,
 }) => {
@@ -26,10 +26,12 @@ export const meta: MetaFunction<never, { root: RootLoader }> = ({
     ),
   );
 
-  return {
-    title: talk.title,
-    description: getTextFromRichText(talk.abstract),
-  };
+  return [
+    {
+      title: talk.title,
+    },
+    { name: "description", content: getTextFromRichText(talk.abstract) },
+  ];
 };
 
 export default function Component() {

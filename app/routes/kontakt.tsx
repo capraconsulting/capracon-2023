@@ -1,16 +1,21 @@
-import type { MetaFunction } from "@remix-run/cloudflare";
+import type { V2_MetaFunction } from "@remix-run/cloudflare";
 
 import { ContentBox } from "~/components/content-box";
 import { Title } from "~/components/title";
 import type { RootLoader } from "~/root";
 import { useRootData } from "~/root";
 
-export const meta: MetaFunction<never, { root: RootLoader }> = ({
+export const meta: V2_MetaFunction<never, { root: RootLoader }> = ({
   parentsData,
-}) => ({
-  title: parentsData["root"].conference.kontaktTitle,
-  description: parentsData["root"].conference.kontaktDescription,
-});
+}) => [
+  {
+    title: parentsData["root"].conference.kontaktTitle,
+  },
+  {
+    name: "description",
+    content: parentsData["root"].conference.kontaktDescription,
+  },
+];
 
 export default function Kontakt() {
   const data = useRootData();
