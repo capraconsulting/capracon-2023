@@ -86,7 +86,7 @@ const timeslotSchema = selectSchema
     const [start, end] = val.title.split("-");
     const parse = (s: string) => {
       const [hours, minutes] = s.split(":").map(Number);
-      return { hours, minutes };
+      return new Date(`2023-03-24T${hours}:${minutes}`);
     };
     return { ...val, startTime: parse(start), endTime: parse(end) };
   });
@@ -110,6 +110,7 @@ const talkSchema = z.object({
   timeslot: timeslotSchema,
   duration: durartionSchema,
   isPublished: z.boolean(),
+  startTime: z.string(),
 });
 export type Talk = z.infer<typeof talkSchema>;
 
@@ -249,6 +250,7 @@ const mapTalk = (fromPage: PageObjectResponse, speakers: Speaker[]) => {
     isPublished:
       getSelect("Status", fromPage) ===
       "8. Tildelt slot i program (tid og rom)",
+    startTime: getDate("Starttid", fromPage),
   } satisfies Relaxed<Talk>;
 };
 

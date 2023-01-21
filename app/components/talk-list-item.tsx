@@ -10,17 +10,22 @@ type TalkListItemProps = {
 const toTwoDigitString = (num: number) =>
   num.toLocaleString("en-US", { minimumIntegerDigits: 2, useGrouping: false });
 
-const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
-  const startTime =
-    toTwoDigitString(talk.timeslot.startTime.hours) +
-    toTwoDigitString(talk.timeslot.startTime.minutes);
+const addMinutes = (date: Date, minutes: number) => {
+  return new Date(date.getTime() + minutes * 60000);
+};
 
-  const endTime =
-    toTwoDigitString(talk.timeslot.endTime.hours) +
-    toTwoDigitString(talk.timeslot.endTime.minutes);
+const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
+  const startTime = new Date(talk.startTime);
+  const startTimeString = `${toTwoDigitString(
+    startTime.getHours(),
+  )}${toTwoDigitString(startTime.getMinutes())}`;
+  const endTime = addMinutes(startTime, talk.duration.minutes);
+  const endTimeString = `${toTwoDigitString(
+    endTime.getHours(),
+  )}${toTwoDigitString(endTime.getMinutes())}`;
 
   const gridPosition = {
-    gridRow: `time-${startTime} / time-${endTime}`,
+    gridRow: `time-${startTimeString} / time-${endTimeString}`,
     gridColumn: TrackGridColumn[talk.track.title],
   };
 
@@ -29,7 +34,7 @@ const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
       <div className="relative h-[100%] min-h-min bg-white px-2 pt-4 pb-4 shadow-md laptop:px-6 laptop:pt-6 laptop:pb-8">
         <div className="mb-1 inline-block rounded border-x border-y border-black leading-3">
           <span className="inline-block bg-black p-1 text-sm font-bold leading-3 text-white">
-            {startTime} - {endTime}
+            {startTimeString} - {endTimeString}
           </span>
           <span className="inline p-1 pb-2 text-sm font-bold leading-3 tablet:hidden">
             {talk.track.title}
