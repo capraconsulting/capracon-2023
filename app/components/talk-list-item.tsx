@@ -1,7 +1,8 @@
 import React from "react";
 
-import type { Talk } from "~/notion-conference/domain";
+import type { Speaker, Talk } from "~/notion-conference/domain";
 import { TrackGridColumn } from "~/utils/consts";
+import { RichTextList } from "./notion-rich-text";
 
 type TalkListItemProps = {
   talk: Talk;
@@ -12,6 +13,18 @@ const toTwoDigitString = (num: number) =>
 
 const addMinutes = (date: Date, minutes: number) => {
   return new Date(date.getTime() + minutes * 60000);
+};
+
+const Speakers = ({ speakers }: { speakers: Speaker[] }) => {
+  return (
+    <div>
+      {speakers.map((speaker) => (
+        <div className="mt-3 flex gap-2 font-bold" key={speaker.id}>
+          {speaker.name}
+        </div>
+      ))}
+    </div>
+  );
 };
 
 const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
@@ -49,7 +62,12 @@ const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
         >
           {talk.title}
         </h3>
-        {/* <div className="flex flex-wrap gap-x-6">{speakers}</div> */}
+        <p>
+          <RichTextList richTextList={talk.abstract} />
+        </p>
+        <div className="flex flex-wrap gap-x-6">
+          <Speakers speakers={talk.speakers} />
+        </div>
       </div>
     </div>
   );
