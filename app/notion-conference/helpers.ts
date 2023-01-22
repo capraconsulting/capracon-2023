@@ -7,6 +7,14 @@ export const getTalksByTimeslot = (talks: Talk[]) =>
 export const getTalksByTrack = (talks: Talk[]) =>
   groupBy(talks, ({ track }) => track.id);
 
+export const sortedTalksByStartTime = (talks: Talk[]) =>
+  talks
+    .slice()
+    .sort(
+      (a, b) =>
+        new Date(a.startTime).getTime() - new Date(b.startTime).getTime(),
+    );
+
 /**
  * Get exact dates (day and time) for a timeslot
  * Since a timeslot only includes the clock time,

@@ -18,7 +18,7 @@ import type { DatabaseResponse } from "~/notion/notion";
 import { TRACKS } from "~/utils/consts";
 import type { Relaxed } from "~/utils/misc";
 import { typedBoolean } from "~/utils/misc";
-import { formattedHoursMinutes } from "./helpers";
+import { formattedHoursMinutes, sortedTalksByStartTime } from "./helpers";
 
 const selectSchema = z.object({
   id: z.string(),
@@ -228,7 +228,7 @@ export const safeParseTalks = (
   fromPages: PageObjectResponse[],
   speakers: Speaker[],
 ) => {
-  const success: Talk[] = [];
+  let success: Talk[] = [];
   const failed: FailedParsed<Talk>[] = [];
 
   fromPages
@@ -247,6 +247,9 @@ export const safeParseTalks = (
         });
       }
     });
+
+  // Pre-sort the talks in correct order
+  success = sortedTalksByStartTime(success);
 
   return [success, failed] as const;
 };
