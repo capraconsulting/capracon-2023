@@ -31,18 +31,20 @@ export default function Component() {
 
   return (
     <main className="container mx-auto">
-      <div className="text-2xl font-bold">
+      <div className="px-4 text-2xl font-bold text-white">
         <time dateTime={data.conference.date}>{data.date}</time>
         <p>{data.conference.locationName}</p>
       </div>
 
-      <Title as="h1" color="text-black">
+      <Title as="h1" color="text-white">
         {data.conference.title}
       </Title>
 
-      <p>{data.conference.description}</p>
+      <p className="max-w-[500px] p-4 text-white">
+        {data.conference.description}
+      </p>
 
-      <section>
+      {/* <section>
         <h2 className="inline-block py-2 text-4xl font-bold ">
           Foredragsholdere
         </h2>
@@ -51,7 +53,7 @@ export default function Component() {
             <li key={speaker.id}>{speaker.name}</li>
           ))}
         </ul>
-      </section>
+      </section> */}
 
       <section>
         <div className="my-12 mx-auto pt-12 pb-8 text-black">

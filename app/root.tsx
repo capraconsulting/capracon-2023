@@ -64,7 +64,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="bg-[#ebeae1]">
         <BackgroundSvg />
         <Header />
         <Outlet />

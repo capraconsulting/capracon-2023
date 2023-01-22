@@ -1,2 +1,76 @@
-<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" width="100%" viewBox="0 0 1000.474 1944.452"><defs><linearGradient id="b" x1="1.05" y1="1.123" x2=".078" y2=".585" gradientUnits="objectBoundingBox"><stop offset="0" stop-color="#99a2b3"/><stop offset=".448" stop-color="#b28e98"/><stop offset="1" stop-color="#fd414d"/></linearGradient><linearGradient id="c" x1=".198" y1=".362" x2=".907" y2=".766" gradientUnits="objectBoundingBox"><stop offset="0" stop-color="#ffd2b9"/><stop offset="1" stop-color="#b28e98"/></linearGradient><clipPath id="a"><path d="M0 0h1920v4845H0z"/></clipPath></defs><g data-name="Web 1920 – 5" clip-path="url(#a)"><path fill="#f2f1ec" d="M0 0h1920v4845H0z"/><path data-name="Path 12" d="m-20.181 408.45 205.294-299.2 1142.893 431.576-938.777 157.34L32.042 1430.09Z" fill="#e6e4da"/><path data-name="Path 13" d="M376.388 237.887 761.432 32.529l2578.42 827.551L780.884 679.3 70.713 1219.963Z" transform="rotate(-9 1425.318 2772.183)" fill="#e6e4da" style="mix-blend-mode:multiply;isolation:isolate"/><path data-name="Path 27" d="M376.388 237.887 761.432 32.529l2578.42 827.551L780.884 679.3 70.713 1219.963Z" transform="rotate(-9 7648.534 3485.697)" fill="#f8f8f4" style="mix-blend-mode:multiply;isolation:isolate"/><path data-name="Path 28" d="M376.388 237.887 761.432 32.529 3522.508 534.24 780.884 679.3 70.713 1219.963Z" transform="rotate(-9 9754.82 4713.488)" fill="#f8f8f4" style="mix-blend-mode:multiply;isolation:isolate"/><path data-name="Path 2" d="M655.635 185.027 908.046 0l1988.332-43.659-3105.467 1726.722Z" transform="rotate(-8 2913.952 3790.742)" fill="url(#b)" style="mix-blend-mode:multiply;isolation:isolate"/><path data-name="Path 1" d="m-810.185 604.238 2158.2 857.933 961.831 382.35L343.02-545.3Z" transform="rotate(-44.03 552.929 676.276)" fill="url(#c)" style="mix-blend-mode:multiply;isolation:isolate"/></g></svg>
-
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  preserveAspectRatio="none"
+  width="100%"
+  viewBox="0 0 1000.474 1944.452"
+>
+  <defs>
+    <linearGradient
+      id="b"
+      x1="1.05"
+      y1="1.123"
+      x2=".078"
+      y2=".585"
+      gradientUnits="objectBoundingBox"
+    >
+      <stop offset="0" stop-color="#9529ff" />
+      <stop offset=".448" stop-color="#bbdde6" />
+      <stop offset="1" stop-color="#bbdde6" />
+    </linearGradient>
+    <linearGradient
+      id="c"
+      x1=".198"
+      y1=".362"
+      x2=".907"
+      y2=".766"
+      gradientUnits="objectBoundingBox"
+    >
+      <stop offset="0" stop-color="#fd414d" />
+      <stop offset="1" stop-color="#fd414d" />
+    </linearGradient>
+    <clipPath id="a"><path d="M0 0h1920v4845H0z" /></clipPath>
+  </defs>
+  <g data-name="Web 1920 – 5" clip-path="url(#a)">
+    <path fill="#f2f1ec" d="M0 0h1920v4845H0z" />
+    <path
+      data-name="Path 12"
+      d="m-20.181 408.45 205.294-299.2 1142.893 431.576-938.777 157.34L32.042 1430.09Z"
+      fill="#e6e4da"
+    />
+    <path
+      data-name="Path 13"
+      d="M376.388 237.887 761.432 32.529l2578.42 827.551L780.884 679.3 70.713 1219.963Z"
+      transform="rotate(-9 1425.318 2772.183)"
+      fill="#e6e4da"
+      style="mix-blend-mode: multiply; isolation: isolate"
+    />
+    <path
+      data-name="Path 27"
+      d="M376.388 237.887 761.432 32.529l2578.42 827.551L780.884 679.3 70.713 1219.963Z"
+      transform="rotate(-9 7648.534 3485.697)"
+      fill="#f8f8f4"
+      style="mix-blend-mode: multiply; isolation: isolate"
+    />
+    <path
+      data-name="Path 28"
+      d="M376.388 237.887 761.432 32.529 3522.508 534.24 780.884 679.3 70.713 1219.963Z"
+      transform="rotate(-9 9754.82 4713.488)"
+      fill="#f8f8f4"
+      style="mix-blend-mode: multiply; isolation: isolate"
+    />
+    <path
+      data-name="Path 2"
+      d="M655.635 185.027 908.046 0l1988.332-43.659-3105.467 1726.722Z"
+      transform="rotate(-8 2913.952 3790.742)"
+      fill="url(#b)"
+      style="mix-blend-mode: multiply; isolation: isolate"
+    />
+    <path
+      data-name="Path 1"
+      d="m-810.185 604.238 2158.2 857.933 961.831 382.35L343.02-545.3Z"
+      transform="rotate(-44.03 552.929 676.276)"
+      fill="url(#c)"
+      style="mix-blend-mode: multiply; isolation: isolate"
+    />
+  </g>
+</svg>
