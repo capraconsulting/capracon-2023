@@ -110,7 +110,7 @@ const talkSchema = z.object({
   timeslot: timeslotSchema,
   duration: durationSchema,
   isPublished: z.boolean(),
-  startTime: z.string(),
+  startTime: z.string().datetime({ offset: true }),
 });
 export type Talk = z.infer<typeof talkSchema>;
 
