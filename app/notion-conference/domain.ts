@@ -84,7 +84,7 @@ const timeslotSchema = selectSchema
     const [start, end] = val.title.split("-");
     const parse = (s: string) => {
       const [hours, minutes] = s.split(":").map(Number);
-      return new Date(`2023-03-24T${hours}:${minutes}`);
+      return { hours, minutes };
     };
     return { ...val, startTime: parse(start), endTime: parse(end) };
   });
