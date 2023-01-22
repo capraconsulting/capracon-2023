@@ -1,15 +1,24 @@
 import { Client as NotionClient } from "@notionhq/client";
 import type { ListBlockChildrenResponse } from "@notionhq/client/build/src/api-endpoints";
 
-export const getNotionClient = (NOTION_TOKEN: string) =>
-  new NotionClient({
-    auth: NOTION_TOKEN,
+export const getClient = (token: string) => {
+  const notionClient = new NotionClient({
+    auth: token,
   });
+
+  return {
+    getDatabasePages: getDatabasePages(notionClient),
+    getPage: getPage(notionClient),
+    getDatabase: getDatabase(notionClient),
+    getBlocks: getBlocks(notionClient),
+    getBlocksWithChildren: getBlocksWithChildren(notionClient),
+  };
+};
 
 type Sorts = Parameters<NotionClient["databases"]["query"]>[0]["sorts"];
 type Filter = Parameters<NotionClient["databases"]["query"]>[0]["filter"];
 
-export const getDatabasePages =
+const getDatabasePages =
   (notion: NotionClient) =>
   async (databaseId: string, sorts?: Sorts, filter?: Filter) => {
     const response = await notion.databases.query({
@@ -21,20 +30,19 @@ export const getDatabasePages =
     return onlyDatabasePages(response.results);
   };
 
-export const getPage = (notion: NotionClient) => async (pageId: string) => {
+const getPage = (notion: NotionClient) => async (pageId: string) => {
   const response = await notion.pages.retrieve({ page_id: pageId });
   return assertPageResponse(response);
 };
 
-export const getDatabase =
-  (notion: NotionClient) => async (databaseId: string) => {
-    const response = await notion.databases.retrieve({
-      database_id: databaseId,
-    });
-    return assertDatabaseResponse(response);
-  };
+const getDatabase = (notion: NotionClient) => async (databaseId: string) => {
+  const response = await notion.databases.retrieve({
+    database_id: databaseId,
+  });
+  return assertDatabaseResponse(response);
+};
 
-export const getBlocks = (notion: NotionClient) => async (blockId: string) => {
+const getBlocks = (notion: NotionClient) => async (blockId: string) => {
   const blocks = [];
   let cursor;
   // eslint-disable-next-line no-constant-condition
@@ -52,7 +60,7 @@ export const getBlocks = (notion: NotionClient) => async (blockId: string) => {
   return blocks.filter(isBlockObjectResponse);
 };
 
-export const getBlocksWithChildren =
+const getBlocksWithChildren =
   (notion: NotionClient) =>
   async (blockId: string): Promise<BlockWithChildren[]> => {
     const blocks = await getBlocks(notion)(blockId);
@@ -99,7 +107,7 @@ type BlockWithChildren = Block & {
 };
 
 // Database
-export type MaybeDatabasePageResponse = Awaited<
+type MaybeDatabasePageResponse = Awaited<
   ReturnType<NotionClient["databases"]["query"]>
 >["results"][number];
 export type DatabasePage = ReturnType<typeof onlyDatabasePages>[number];
@@ -114,9 +122,7 @@ const onlyDatabasePages = (databasePages: MaybeDatabasePageResponse[]) => {
 };
 
 // Page
-export type MaybePageResponse = Awaited<
-  ReturnType<NotionClient["pages"]["retrieve"]>
->;
+type MaybePageResponse = Awaited<ReturnType<NotionClient["pages"]["retrieve"]>>;
 export type PageResponse = ReturnType<typeof assertPageResponse>;
 const assertPageResponse = (page: MaybePageResponse) => {
   if ("properties" in page) return page;
@@ -124,7 +130,7 @@ const assertPageResponse = (page: MaybePageResponse) => {
 };
 
 // Database
-export type MaybeDatabaseResponse = Awaited<
+type MaybeDatabaseResponse = Awaited<
   ReturnType<NotionClient["databases"]["retrieve"]>
 >;
 export type DatabaseResponse = ReturnType<typeof assertDatabaseResponse>;

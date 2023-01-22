@@ -1,5 +1,5 @@
 import { config } from "~/config";
-import { getClient } from "~/notion/notion-remix-cloudflare";
+import { getClient } from "~/notion/notion";
 import {
   parseConference,
   parseTimeslots,
@@ -28,12 +28,12 @@ export const getData = async (notionToken: string) => {
   // Parse
   const [contacts, invalidContacts] = safeParseContacts(notionContacts);
   const [speakers, invalidSpeakers] = safeParseSpeakers(notionSpeakers);
-  const [talks, invalidTalks] = safeParseTalks(
+  const [allTalks, invalidTalks] = safeParseTalks(
     notionMasterProgramPages,
     speakers,
   );
-  const publishedTalks = talks.filter((x) => x.isPublished);
-  const unpublishedTalks = talks.filter((x) => !x.isPublished);
+  const publishedTalks = allTalks.filter((x) => x.isPublished);
+  const unpublishedTalks = allTalks.filter((x) => !x.isPublished);
 
   const data = {
     conference: parseConference(notionConference),

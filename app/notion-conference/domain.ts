@@ -16,6 +16,7 @@ import {
 } from "~/notion/helpers";
 import type { DatabaseResponse } from "~/notion/notion";
 import { TRACKS } from "~/utils/consts";
+import type { Relaxed } from "~/utils/misc";
 import { typedBoolean } from "~/utils/misc";
 
 const selectSchema = z.object({
@@ -23,8 +24,6 @@ const selectSchema = z.object({
   title: z.string(),
   color: z.string(),
 });
-
-const trackSchema = selectSchema.merge(z.object({ title: z.enum(TRACKS) }));
 
 const richTextSchema = z.array(
   z.custom<RichTextItem>(
@@ -89,8 +88,9 @@ const timeslotSchema = selectSchema
     };
     return { ...val, startTime: parse(start), endTime: parse(end) };
   });
+export type Timeslot = z.infer<typeof timeslotSchema>;
 
-const durartionSchema = selectSchema
+const durationSchema = selectSchema
   .extend({
     title: z.string().regex(/^\d+$/, "must be a valid number"),
   })
@@ -98,7 +98,8 @@ const durartionSchema = selectSchema
     return { ...val, minutes: Number(val.title) };
   });
 
-export type Timeslot = z.infer<typeof timeslotSchema>;
+const trackSchema = selectSchema.extend({ title: z.enum(TRACKS) });
+export type Track = z.infer<typeof trackSchema>;
 
 const talkSchema = z.object({
   id: z.string(),
@@ -107,18 +108,11 @@ const talkSchema = z.object({
   track: trackSchema,
   speakers: z.array(speakerSchema),
   timeslot: timeslotSchema,
-  duration: durartionSchema,
+  duration: durationSchema,
   isPublished: z.boolean(),
   startTime: z.string(),
 });
 export type Talk = z.infer<typeof talkSchema>;
-
-export type Track = Talk["track"];
-
-// Like the built-in Partial, but requires all keys
-type Relaxed<T extends object> = {
-  [K in keyof T]: T[K] | undefined;
-};
 
 // Mapper and parsers
 export const parseConference = (fromPage: PageObjectResponse) => {
@@ -163,30 +157,6 @@ export const safeParseContacts = (fromPages: PageObjectResponse[]) => {
     .map((unparsed) => ({
       unparsed,
       parsed: contactPersonSchema.safeParse(unparsed),
-    }))
-    .forEach(({ unparsed, parsed }) => {
-      if (parsed.success) {
-        success.push(parsed.data);
-      } else {
-        failed.push({
-          unparsed,
-          errors: parsed.error.errors,
-        });
-      }
-    });
-
-  return [success, failed] as const;
-};
-
-export const safeParse = (fromPages: PageObjectResponse[]) => {
-  const success: Speaker[] = [];
-  const failed: FailedParsed<Speaker>[] = [];
-
-  fromPages
-    .map(mapSpeaker)
-    .map((unparsed) => ({
-      unparsed,
-      parsed: speakerSchema.safeParse(unparsed),
     }))
     .forEach(({ unparsed, parsed }) => {
       if (parsed.success) {
