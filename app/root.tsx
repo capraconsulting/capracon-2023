@@ -48,7 +48,7 @@ export const loader = async ({ request, context }: LoaderArgs) => {
     dateStyle: "medium",
   }).format(new Date(data.conference.date));
 
-  return json({ ...data, date: formattedConferenceDate });
+  return json({ ...data, formattedConferenceDate });
 };
 
 export type RootLoader = typeof loader;
