@@ -26,3 +26,31 @@ export const getTimeslotDates = (
 
   return { startDate, endDate };
 };
+
+/**
+ * Format an { hours, minutes } object
+ *
+ * { hours: 9, minutes: 45 } -> "0945"
+ * { hours: 11, minutes: 0 } -> "1100"
+ */
+export const formattedHoursMinutes = ({
+  hours,
+  minutes,
+}: {
+  hours: number;
+  minutes: number;
+}) => String(hours).padStart(2, "0") + String(minutes).padStart(2, "0");
+
+/**
+ * Format an { hours, minutes } object
+ *
+ * { hours: 9, minutes: 45 } -> "09:45"
+ * { hours: 11, minutes: 0 } -> "11:00"
+ */
+export const formattedHoursMinutesAlt = ({
+  hours,
+  minutes,
+}: {
+  hours: number;
+  minutes: number;
+}) => String(hours).padStart(2, "0") + ":" + String(minutes).padStart(2, "0");

@@ -18,6 +18,7 @@ import type { DatabaseResponse } from "~/notion/notion";
 import { TRACKS } from "~/utils/consts";
 import type { Relaxed } from "~/utils/misc";
 import { typedBoolean } from "~/utils/misc";
+import { formattedHoursMinutes } from "./helpers";
 
 const selectSchema = z.object({
   id: z.string(),
@@ -252,10 +253,20 @@ export const safeParseTalks = (
 
 export const parseTracks = (fromDatabase: DatabaseResponse) =>
   z
-    .array(selectSchema)
+    .array(trackSchema)
     .parse(getDatabasePropertySelectOptions("Track", fromDatabase));
 
 export const parseTimeslots = (fromDatabase: DatabaseResponse) =>
   z
     .array(timeslotSchema)
+    // Ensure correct order based on the startTime
+    // regardless of the order the notion api gives the timeslots
+    // 0900 -> 1015 -> 1200
+    .transform((timeslots) =>
+      timeslots.sort(
+        (a, b) =>
+          Number(formattedHoursMinutes(a.startTime)) -
+          Number(formattedHoursMinutes(b.startTime)),
+      ),
+    )
     .parse(getDatabasePropertySelectOptions("Tidspunkt", fromDatabase));
