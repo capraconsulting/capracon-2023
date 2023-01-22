@@ -1,9 +1,7 @@
 import type { LinksFunction, V2_MetaFunction } from "@remix-run/cloudflare";
-import { useSearchParams } from "@remix-run/react";
 
 import TalkListItem from "~/components/talk-list-item";
 import { Title } from "~/components/title";
-import { getTalksByTimeslot } from "~/notion-conference/helpers";
 import type { RootLoader } from "~/root";
 import { useRootData } from "~/root";
 import styles from "~/styles/program.css";
@@ -24,10 +22,6 @@ export const meta: V2_MetaFunction<never, { root: RootLoader }> = ({
 
 export default function Component() {
   const data = useRootData();
-  const talksByTimeslot = getTalksByTimeslot(
-    data.talks.concat(data.unpublishedTalks ?? []),
-  );
-  const search = "?" + useSearchParams()[0].toString();
 
   return (
     <main className="container mx-auto">
