@@ -1,6 +1,6 @@
 import type { V2_MetaFunction } from "@remix-run/cloudflare";
 
-import TalkListItem from "~/components/talk-list-item";
+import { TalkListItem } from "~/components/talk-list-item";
 import { Title } from "~/components/title";
 import type { Talk, Timeslot, Track } from "~/notion-conference/domain";
 import {

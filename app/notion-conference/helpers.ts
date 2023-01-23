@@ -1,5 +1,5 @@
 import { groupBy } from "~/utils/misc";
-import type { Conference, Talk, Timeslot } from "./domain";
+import type { Talk, Timeslot } from "./domain";
 
 export const getTalksByTimeslot = (talks: Talk[]) =>
   groupBy(talks, ({ timeslot }) => timeslot.id);
@@ -14,6 +14,27 @@ export const sortedTalksByStartTime = (talks: Talk[]) =>
       (a, b) =>
         new Date(a.startTime).getTime() - new Date(b.startTime).getTime(),
     );
+
+const getTalkTimes = (talk: Talk) => {
+  const startTime = new Date(talk.startTime);
+  const endTime = new Date(startTime);
+  endTime.setMinutes(endTime.getMinutes() + talk.duration.minutes);
+  return { startTime, endTime };
+};
+
+export const getFormattedTalkTimes = (talk: Talk) => {
+  const { startTime, endTime } = getTalkTimes(talk);
+  return {
+    startTime: formattedHoursMinutes({
+      hours: startTime.getHours(),
+      minutes: startTime.getMinutes(),
+    }),
+    endTime: formattedHoursMinutes({
+      hours: endTime.getHours(),
+      minutes: endTime.getMinutes(),
+    }),
+  };
+};
 
 /**
  * Get exact dates (day and time) for a timeslot

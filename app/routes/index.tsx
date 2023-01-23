@@ -1,11 +1,12 @@
 import type { LinksFunction, V2_MetaFunction } from "@remix-run/cloudflare";
 
-import TalkListItem from "~/components/talk-list-item";
+import { TalkListItem } from "~/components/talk-list-item";
 import { Title } from "~/components/title";
 import type { Track } from "~/notion-conference/domain";
 import {
   formattedHoursMinutes,
   formattedHoursMinutesAlt,
+  getFormattedTalkTimes,
 } from "~/notion-conference/helpers";
 import type { RootLoader } from "~/root";
 import { useRootData } from "~/root";
@@ -92,9 +93,20 @@ export default function Component() {
               ))}
 
               {/* Talks */}
-              {data.talks.concat(data.unpublishedTalks ?? []).map((talk) => (
-                <TalkListItem talk={talk} key={talk.title} />
-              ))}
+              {data.talks.concat(data.unpublishedTalks ?? []).map((talk) => {
+                const { startTime, endTime } = getFormattedTalkTimes(talk);
+                return (
+                  <div
+                    key={talk.title}
+                    style={{
+                      gridColumn: TrackGridColumn[talk.track.title],
+                      gridRow: `time-${startTime} / time-${endTime}`,
+                    }}
+                  >
+                    <TalkListItem talk={talk} />
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
