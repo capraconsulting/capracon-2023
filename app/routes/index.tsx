@@ -76,8 +76,12 @@ export default function Component() {
               {data.timeslots.map((timeslot) => (
                 <h2
                   key={timeslot.id}
-                  className={`timeColumn hidden shadow-md laptop:inline `}
+                  className={classNames(
+                    "hidden laptop:inline",
+                    "rounded-lg rounded-tr-none border-t-[6px] border-t-black bg-white p-2 font-semibold shadow-md",
+                  )}
                   style={{
+                    gridColumn: "times",
                     gridRow: `time-${formattedHoursMinutes(
                       timeslot.startTime,
                     )}`,
