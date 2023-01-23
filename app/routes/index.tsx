@@ -225,7 +225,7 @@ export default function Component() {
                 20:00
               </h2>
 
-              {data.talks.map((talk) => (
+              {data.talks.concat(data.unpublishedTalks ?? []).map((talk) => (
                 <TalkListItem talk={talk} key={talk.title} />
               ))}
             </div>
