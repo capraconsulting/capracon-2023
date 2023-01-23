@@ -6,17 +6,6 @@ import type { Speaker, Talk } from "~/notion-conference/domain";
 import { getFormattedTalkTimes } from "~/notion-conference/helpers";
 import { RichTextList } from "./notion-rich-text";
 
-type TalkListItemProps = {
-  talk: Talk;
-};
-
-const toTwoDigitString = (num: number) =>
-  num.toLocaleString("en-US", { minimumIntegerDigits: 2, useGrouping: false });
-
-const addMinutes = (date: Date, minutes: number) => {
-  return new Date(date.getTime() + minutes * 60000);
-};
-
 const Speakers = ({ speakers }: { speakers: Speaker[] }) => {
   return (
     <div>
@@ -29,6 +18,9 @@ const Speakers = ({ speakers }: { speakers: Speaker[] }) => {
   );
 };
 
+interface TalkListItemProps {
+  talk: Talk;
+}
 export const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
   const { startTime, endTime } = getFormattedTalkTimes(talk);
 
