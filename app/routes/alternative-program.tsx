@@ -7,6 +7,7 @@ import {
   formattedHoursMinutesAlt,
   getTalksByTimeslot,
   getTalksByTrack,
+  getTimeslotDurationInMinutes,
 } from "~/notion-conference/helpers";
 import type { RootLoader } from "~/root";
 import { useRootData } from "~/root";
@@ -81,6 +82,7 @@ export default function Component() {
                   </div>
 
                   <TalksByTrack
+                    timeslot={timeslot}
                     talks={talksByTimeslot[timeslot.id] ?? []}
                     tracks={orderedTracks}
                   />
@@ -119,10 +121,11 @@ const TrackHeading = ({ track }: TrackHeadingProps) => {
 };
 
 interface TalksByTrackProps {
+  timeslot: Timeslot;
   talks: Talk[];
   tracks: Track[];
 }
-const TalksByTrack = ({ talks, tracks }: TalksByTrackProps) => {
+const TalksByTrack = ({ timeslot, talks, tracks }: TalksByTrackProps) => {
   const talksByTrack = getTalksByTrack(talks);
   const orderedTracks = ORDERED_TRACKS.map((trackTitle) =>
     tracks.find((track) => track.title === trackTitle),
@@ -130,7 +133,8 @@ const TalksByTrack = ({ talks, tracks }: TalksByTrackProps) => {
 
   // Temp hack, overwrite and set some styling inside the TalkListItem.
   // Should be done inside the component instead
-  const talkListItemOverwrites = "[&_a]:h-[100%] [&_*]:mb-0";
+  const talkListItemOverwrites =
+    "[&_a>div]:overflow-hidden [&_a]:h-[100%] [&_*]:mb-0";
 
   // Special Case: Shared Track
   // Examples: Keynote, Pauses, Snacks, Panels, Endnote
@@ -146,6 +150,10 @@ const TalksByTrack = ({ talks, tracks }: TalksByTrackProps) => {
     );
   }
 
+  const timeslotDurationInMinutes = getTimeslotDurationInMinutes(timeslot);
+  const getDurationPercentage = (talk: Talk) =>
+    (talk.duration.minutes / timeslotDurationInMinutes) * 100;
+
   return (
     <div
       className={`flex w-full flex-col justify-between gap-[1em] laptop:flex-row ${talkListItemOverwrites}`}
@@ -153,10 +161,17 @@ const TalksByTrack = ({ talks, tracks }: TalksByTrackProps) => {
       {orderedTracks.map((track) => (
         <div
           key={track.id}
-          className="contents w-full flex-col gap-[1em] laptop:flex"
+          className="contents w-full flex-col justify-between laptop:flex"
         >
           {(talksByTrack[track.id] ?? []).map((talk) => (
-            <TalkListItem key={talk.id} talk={talk} />
+            <div
+              key={talk.id}
+              style={{
+                height: `${getDurationPercentage(talk)}%`,
+              }}
+            >
+              <TalkListItem talk={talk} />
+            </div>
           ))}
         </div>
       ))}

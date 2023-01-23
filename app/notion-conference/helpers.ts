@@ -20,19 +20,24 @@ export const sortedTalksByStartTime = (talks: Talk[]) =>
  * Since a timeslot only includes the clock time,
  * this needs to be calculated using the global conference date
  */
-export const getTimeslotDates = (
-  timeslot: Timeslot,
-  conference: Conference,
-) => {
-  const startDate = new Date(conference.date);
+export const getTimeslotDates = (timeslot: Timeslot, date: Date) => {
+  const startDate = new Date(date);
   startDate.setHours(startDate.getHours() + timeslot.startTime.hours);
   startDate.setMinutes(startDate.getMinutes() + timeslot.startTime.minutes);
 
-  const endDate = new Date(conference.date);
+  const endDate = new Date(date);
   endDate.setHours(endDate.getHours() + timeslot.endTime.hours);
   endDate.setMinutes(endDate.getMinutes() + timeslot.endTime.minutes);
 
   return { startDate, endDate };
+};
+
+export const getTimeslotDurationInMinutes = (timeslot: Timeslot) => {
+  const { startDate, endDate } = getTimeslotDates(
+    timeslot,
+    new Date("2023-01-01"),
+  );
+  return Math.round((endDate.getTime() - startDate.getTime()) / 1000 / 60);
 };
 
 /**
