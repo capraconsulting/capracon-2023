@@ -8,13 +8,13 @@ import { RichTextList } from "./notion-rich-text";
 
 const Speakers = ({ speakers }: { speakers: Speaker[] }) => {
   return (
-    <div>
+    <>
       {speakers.map((speaker) => (
         <div className="flex gap-2 font-bold" key={speaker.id}>
           {speaker.name}
         </div>
       ))}
-    </div>
+    </>
   );
 };
 
@@ -44,10 +44,10 @@ export const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
         >
           {talk.title}
         </h3>
-        <p className="p-4">
+        <p>
           <RichTextList richTextList={talk.abstract} />
         </p>
-        <div className="flex flex-wrap gap-x-6 gap-y-3 p-4">
+        <div className="flex flex-wrap gap-x-6 gap-y-3">
           <Speakers speakers={talk.speakers} />
         </div>
       </div>
