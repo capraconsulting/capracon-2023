@@ -4,10 +4,15 @@
 /*************************
  * GRID SCHEDULE LAYOUT
  *************************/
+.schedule {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
 @media screen and (min-width: 1024px) /* tablet */ {
   .schedule {
     display: grid;
-    grid-gap: 1em;
+    gap: 1em;
     grid-template-rows:
       [tracks] auto
       [time-0845] var(--row)
