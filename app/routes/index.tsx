@@ -47,7 +47,7 @@ export default function Component() {
         {data.conference.title}
       </Title>
 
-      <p className="max-w-[500px] p-4 text-white">
+      <p className="max-w-[500px] p-4 text-2xl text-white">
         {data.conference.description}
       </p>
 
