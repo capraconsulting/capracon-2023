@@ -51,64 +51,58 @@ export default function Component() {
         {data.conference.description}
       </p>
 
-      <section>
-        <div className="my-12 mx-auto pt-12 pb-8 text-black">
-          <div className="block">
-            <Title as="h2" withBackground size="text-6xl">
-              Program
-            </Title>
+      <section className="my-12 mx-auto pt-12 pb-8 text-black">
+        <Title as="h2" withBackground size="text-6xl">
+          Program
+        </Title>
 
-            <div className="schedule">
-              {/* Track headings */}
-              {trackHeadings.map((track) => (
-                <div
-                  key={track.id}
-                  className="sticky top-0 z-20 hidden laptop:block"
-                  style={{
-                    gridColumn: TrackGridColumn[track.title],
-                    gridRow: "tracks",
-                  }}
-                >
-                  <TrackHeading track={track} />
-                </div>
-              ))}
-
-              {/* Timeslot markers */}
-              {data.timeslots.map((timeslot) => (
-                <h2
-                  key={timeslot.id}
-                  className={classNames(
-                    "hidden laptop:inline",
-                    "rounded-lg rounded-tr-none border-t-[6px] border-t-black bg-white p-2 font-semibold shadow-md",
-                  )}
-                  style={{
-                    gridColumn: "times",
-                    gridRow: `time-${formattedHoursMinutes(
-                      timeslot.startTime,
-                    )}`,
-                  }}
-                >
-                  {formattedHoursMinutesAlt(timeslot.startTime)}
-                </h2>
-              ))}
-
-              {/* Talks */}
-              {data.talks.concat(data.unpublishedTalks ?? []).map((talk) => {
-                const { startTime, endTime } = getFormattedTalkTimes(talk);
-                return (
-                  <div
-                    key={talk.title}
-                    style={{
-                      gridColumn: TrackGridColumn[talk.track.title],
-                      gridRow: `time-${startTime} / time-${endTime}`,
-                    }}
-                  >
-                    <TalkListItem talk={talk} />
-                  </div>
-                );
-              })}
+        <div className="schedule">
+          {/* Track headings */}
+          {trackHeadings.map((track) => (
+            <div
+              key={track.id}
+              className="sticky top-0 z-20 hidden laptop:block"
+              style={{
+                gridColumn: TrackGridColumn[track.title],
+                gridRow: "tracks",
+              }}
+            >
+              <TrackHeading track={track} />
             </div>
-          </div>
+          ))}
+
+          {/* Timeslot markers */}
+          {data.timeslots.map((timeslot) => (
+            <h2
+              key={timeslot.id}
+              className={classNames(
+                "hidden laptop:inline",
+                "rounded-lg rounded-tr-none border-t-[6px] border-t-black bg-white p-2 font-semibold shadow-md",
+              )}
+              style={{
+                gridColumn: "times",
+                gridRow: `time-${formattedHoursMinutes(timeslot.startTime)}`,
+              }}
+            >
+              {formattedHoursMinutesAlt(timeslot.startTime)}
+            </h2>
+          ))}
+
+          {/* Talks */}
+          {data.talks.concat(data.unpublishedTalks ?? []).map((talk) => {
+            const { startTime, endTime } = getFormattedTalkTimes(talk);
+            return (
+              <div
+                key={talk.title}
+                style={{
+                  gridColumn: TrackGridColumn[talk.track.title],
+                  gridRow: `time-${startTime} / time-${endTime}`,
+                }}
+              >
+                <TalkListItem talk={talk} />
+              </div>
+            );
+          })}
         </div>
       </section>
     </main>
