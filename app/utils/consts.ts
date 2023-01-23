@@ -1,20 +1,27 @@
 export enum Tracks {
   "Felles" = "Felles",
-  "TPU" = "TPU",
   "Frontend" = "Frontend",
+  "TPU" = "TPU",
   "CloudNative" = "CloudNative",
 }
 
 export const TRACKS = [
   Tracks.Felles,
-  Tracks.TPU,
   Tracks.Frontend,
+  Tracks.TPU,
   Tracks.CloudNative,
 ] as const;
 
-export const TrackGridColumn = {
+export const TrackGridColumn: Record<Tracks, string> = {
+  [Tracks.Felles]: "track1 / track4",
   [Tracks.Frontend]: "track1",
   [Tracks.TPU]: "track2",
   [Tracks.CloudNative]: "track3",
-  [Tracks.Felles]: "track1 / track4",
 };
+
+// Which tracks to show headings for
+export const TRACK_HEADINGS = [
+  Tracks.Frontend,
+  Tracks.TPU,
+  Tracks.CloudNative,
+] as const;

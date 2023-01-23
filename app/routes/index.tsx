@@ -2,6 +2,7 @@ import type { LinksFunction, V2_MetaFunction } from "@remix-run/cloudflare";
 
 import TalkListItem from "~/components/talk-list-item";
 import { Title } from "~/components/title";
+import type { Track } from "~/notion-conference/domain";
 import {
   formattedHoursMinutes,
   formattedHoursMinutesAlt,
@@ -9,7 +10,8 @@ import {
 import type { RootLoader } from "~/root";
 import { useRootData } from "~/root";
 import styles from "~/styles/program.css";
-import { TrackGridColumn, Tracks } from "~/utils/consts";
+import { TRACK_HEADINGS, TrackGridColumn, Tracks } from "~/utils/consts";
+import { classNames, typedBoolean } from "~/utils/misc";
 
 export let links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: styles }];
@@ -26,6 +28,10 @@ export const meta: V2_MetaFunction<never, { root: RootLoader }> = ({
 
 export default function Component() {
   const data = useRootData();
+
+  const trackHeadings = TRACK_HEADINGS.map((trackTitle) =>
+    data.tracks.find((track) => track.title === trackTitle),
+  ).filter(typedBoolean);
 
   return (
     <main className="container mx-auto">
@@ -50,35 +56,23 @@ export default function Component() {
             <Title as="h2" withBackground size="text-6xl">
               Program
             </Title>
-            <div className="schedule" aria-labelledby="schedule-heading">
-              <div
-                className="trackSlot"
-                style={{
-                  gridColumn: TrackGridColumn[Tracks.Frontend],
-                  gridRow: "tracks",
-                }}
-              >
-                <div>{Tracks.Frontend}</div>
-              </div>
-              <div
-                className="trackSlot"
-                style={{
-                  gridColumn: TrackGridColumn[Tracks.TPU],
-                  gridRow: "tracks",
-                }}
-              >
-                <div>{Tracks.TPU}</div>
-              </div>
-              <div
-                className="trackSlot"
-                style={{
-                  gridColumn: TrackGridColumn[Tracks.CloudNative],
-                  gridRow: "tracks",
-                }}
-              >
-                <div>{Tracks.CloudNative}</div>
-              </div>
 
+            <div className="schedule">
+              {/* Track headings */}
+              {trackHeadings.map((track) => (
+                <div
+                  key={track.id}
+                  className="sticky top-0 z-20 hidden laptop:block"
+                  style={{
+                    gridColumn: TrackGridColumn[track.title],
+                    gridRow: "tracks",
+                  }}
+                >
+                  <TrackHeading track={track} />
+                </div>
+              ))}
+
+              {/* Timeslot markers */}
               {data.timeslots.map((timeslot) => (
                 <h2
                   key={timeslot.id}
@@ -93,6 +87,7 @@ export default function Component() {
                 </h2>
               ))}
 
+              {/* Talks */}
               {data.talks.concat(data.unpublishedTalks ?? []).map((talk) => (
                 <TalkListItem talk={talk} key={talk.title} />
               ))}
@@ -103,3 +98,27 @@ export default function Component() {
     </main>
   );
 }
+
+interface TrackHeadingProps {
+  track: Track;
+}
+const TrackHeading = ({ track }: TrackHeadingProps) => {
+  const trackColors: Record<Tracks, `border-${string}`> = {
+    [Tracks["Felles"]]: "border-black",
+    [Tracks["Frontend"]]: "border-[#bbdde6]",
+    [Tracks["TPU"]]: "border-[#651d32]",
+    [Tracks["CloudNative"]]: "border-[#ffd2b9]",
+  } as const;
+  return (
+    <div className="flex w-full items-center justify-center bg-white px-[5px] pt-5 pb-6">
+      <span
+        className={classNames(
+          trackColors[track.title],
+          "border-b-8 px-[6px] py-1 text-[1.2rem] font-bold uppercase",
+        )}
+      >
+        {track.title}
+      </span>
+    </div>
+  );
+};
