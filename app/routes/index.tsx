@@ -2,6 +2,10 @@ import type { LinksFunction, V2_MetaFunction } from "@remix-run/cloudflare";
 
 import TalkListItem from "~/components/talk-list-item";
 import { Title } from "~/components/title";
+import {
+  formattedHoursMinutes,
+  formattedHoursMinutesAlt,
+} from "~/notion-conference/helpers";
 import type { RootLoader } from "~/root";
 import { useRootData } from "~/root";
 import styles from "~/styles/program.css";
@@ -86,7 +90,35 @@ export default function Component() {
                 <div>{Tracks.CloudNative}</div>
               </div>
 
-              <h2
+              {data.timeslots.map((timeslot) => (
+                <h2
+                  key={timeslot.id}
+                  className={`timeColumn hidden shadow-md laptop:inline `}
+                  style={{
+                    gridRow: `time-${formattedHoursMinutes(
+                      timeslot.startTime,
+                    )}`,
+                  }}
+                >
+                  {formattedHoursMinutesAlt(timeslot.startTime)}
+                </h2>
+              ))}
+
+              {data.timeslots.map((timeslot) => (
+                <h2
+                  key={timeslot.id}
+                  className={`timeColumn hidden shadow-md laptop:inline `}
+                  style={{
+                    gridRow: `time-${formattedHoursMinutes(
+                      timeslot.startTime,
+                    )}`,
+                  }}
+                >
+                  {formattedHoursMinutesAlt(timeslot.startTime)}
+                </h2>
+              ))}
+
+              {/* <h2
                 className={`timeColumn hidden shadow-md laptop:inline `}
                 style={{ gridRow: `time-0900` }}
               >
@@ -223,7 +255,7 @@ export default function Component() {
                 style={{ gridRow: `time-2000` }}
               >
                 20:00
-              </h2>
+              </h2> */}
 
               {data.talks.concat(data.unpublishedTalks ?? []).map((talk) => (
                 <TalkListItem talk={talk} key={talk.title} />
