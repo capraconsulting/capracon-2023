@@ -28,7 +28,10 @@ export const getTitle = (fromPage: PageResponse | DatabasePage) => {
   );
   if (title?.type !== "title")
     throw new Error("Could not get title from passed notion page");
-  return title.title.at(0)?.plain_text.trim();
+
+  return (
+    title.title.find((it) => it.plain_text !== "")?.plain_text?.trim() ?? ""
+  );
 };
 
 export const getBoolean = (name: string, fromPage: DatabasePage) => {
