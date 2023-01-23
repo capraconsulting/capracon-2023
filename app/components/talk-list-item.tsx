@@ -10,7 +10,7 @@ const Speakers = ({ speakers }: { speakers: Speaker[] }) => {
   return (
     <div>
       {speakers.map((speaker) => (
-        <div className="mt-3 flex gap-2 font-bold" key={speaker.id}>
+        <div className="flex gap-2 font-bold" key={speaker.id}>
           {speaker.name}
         </div>
       ))}
@@ -25,7 +25,7 @@ export const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
   const { startTime, endTime } = getFormattedTalkTimes(talk);
 
   return (
-    <Link to={`/talk/${slugify(talk.title)}`} className="mb-4 laptop:m-0">
+    <Link to={`/talk/${slugify(talk.title)}`}>
       <div className="relative h-[100%] min-h-min bg-white px-2 pt-4 pb-4 shadow-md laptop:px-6 laptop:pt-6 laptop:pb-8">
         <div className="mb-1 inline-block rounded border-x border-y border-black leading-3">
           <span className="inline-block bg-black p-1 text-sm font-bold leading-3 text-white">
@@ -47,7 +47,7 @@ export const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
         <p>
           <RichTextList richTextList={talk.abstract} />
         </p>
-        <div className="flex flex-wrap gap-x-6">
+        <div className="flex flex-wrap gap-x-6 gap-y-3 p-4">
           <Speakers speakers={talk.speakers} />
         </div>
       </div>
