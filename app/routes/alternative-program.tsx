@@ -62,11 +62,11 @@ export default function Component() {
             </Title>
 
             {/* Track headers */}
-            <div className="hidden flex-row gap-[1em] laptop:flex">
+            <div className="sticky top-0 z-20 hidden flex-row gap-[1em] laptop:flex">
               {/* A hacky way to match the timeslot spacing */}
               <div className="shrink-0 grow-0 basis-[4em]" />
 
-              <div className="sticky top-0 z-20 mb-[1em] flex w-full flex-row gap-[1em]">
+              <div className="mb-[1em] flex w-full flex-row gap-[1em]">
                 {orderedTracks.map((track) => (
                   <TrackHeading key={track.id} track={track} />
                 ))}
@@ -131,6 +131,10 @@ const TalksByTrack = ({ timeslot, talks, tracks }: TalksByTrackProps) => {
     tracks.find((track) => track.title === trackTitle),
   ).filter(typedBoolean);
 
+  const timeslotDurationInMinutes = getTimeslotDurationInMinutes(timeslot);
+  const getDurationPercentage = (talk: Talk) =>
+    `${(talk.duration.minutes / timeslotDurationInMinutes) * 100}%`;
+
   // Temp hack, overwrite and set some styling inside the TalkListItem.
   // Should be done inside the component instead
   const talkListItemOverwrites =
@@ -142,17 +146,22 @@ const TalksByTrack = ({ timeslot, talks, tracks }: TalksByTrackProps) => {
   const sharedTalks = talks.filter((talk) => talk.track.title === SHARED_TRACK);
   if (sharedTalks?.length) {
     return (
-      <div className={`w-full ${talkListItemOverwrites}`}>
+      <div
+        className={`flex w-full flex-col justify-between ${talkListItemOverwrites}`}
+      >
         {sharedTalks.map((talk) => (
-          <TalkListItem key={talk.id} talk={talk} />
+          <div
+            key={talk.id}
+            style={{
+              height: getDurationPercentage(talk),
+            }}
+          >
+            <TalkListItem talk={talk} />
+          </div>
         ))}
       </div>
     );
   }
-
-  const timeslotDurationInMinutes = getTimeslotDurationInMinutes(timeslot);
-  const getDurationPercentage = (talk: Talk) =>
-    (talk.duration.minutes / timeslotDurationInMinutes) * 100;
 
   return (
     <div
@@ -167,7 +176,7 @@ const TalksByTrack = ({ timeslot, talks, tracks }: TalksByTrackProps) => {
             <div
               key={talk.id}
               style={{
-                height: `${getDurationPercentage(talk)}%`,
+                height: getDurationPercentage(talk),
               }}
             >
               <TalkListItem talk={talk} />
