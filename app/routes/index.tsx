@@ -93,20 +93,6 @@ export default function Component() {
                 </h2>
               ))}
 
-              {data.timeslots.map((timeslot) => (
-                <h2
-                  key={timeslot.id}
-                  className={`timeColumn hidden shadow-md laptop:inline `}
-                  style={{
-                    gridRow: `time-${formattedHoursMinutes(
-                      timeslot.startTime,
-                    )}`,
-                  }}
-                >
-                  {formattedHoursMinutesAlt(timeslot.startTime)}
-                </h2>
-              ))}
-
               {data.talks.concat(data.unpublishedTalks ?? []).map((talk) => (
                 <TalkListItem talk={talk} key={talk.title} />
               ))}
