@@ -1,5 +1,9 @@
 :root {
   --row: auto;
+  --color-site-1: #00ff4e;
+  --color-site-2: #9529ff;
+  --color-site-3: #ffd600;
+  --color-site-4: #ff702d;
 }
 /*************************
  * GRID SCHEDULE LAYOUT
