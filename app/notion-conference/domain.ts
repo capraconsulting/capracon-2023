@@ -6,6 +6,7 @@ import {
   getDatabasePropertySelectOptions,
   getDate,
   getEmail,
+  getImage,
   getRelation,
   getRichText,
   getSelect,
@@ -57,6 +58,7 @@ const speakerSchema = z.object({
   name: z.string(),
   email: z.string().email().optional(),
   bio: z.string().optional(),
+  image: z.string().url().optional(),
 
   // TODO: Not currently in notion database, but maybe they should be??
   // company: z.string(),
@@ -180,6 +182,7 @@ const mapSpeaker = (fromPage: PageObjectResponse) => {
     name: getTitle(fromPage),
     email: getEmail("Epost", fromPage),
     bio: getText("Bio", fromPage),
+    image: getImage("Bilde", fromPage),
   } satisfies Relaxed<Speaker>;
 };
 

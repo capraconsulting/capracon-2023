@@ -14,6 +14,8 @@ import {
   useRouteLoaderData,
 } from "@remix-run/react";
 
+import remixImageStyles from "remix-image/remix-image.css";
+
 import { Header } from "~/components/header";
 import { getDataCachedAndFiltered } from "./notion-conference/client-cached-and-filtered";
 import styles from "./tailwind.css";
@@ -39,6 +41,7 @@ export const links: LinksFunction = () => [
     href: "/apple-touch-icon.png",
   },
   { rel: "stylesheet", href: styles },
+  { rel: "stylesheet", href: remixImageStyles },
 ];
 
 export const loader = async ({ request, context }: LoaderArgs) => {

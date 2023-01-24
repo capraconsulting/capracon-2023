@@ -101,6 +101,22 @@ export const getDate = (name: string, fromPage: DatabasePage) => {
   return undefined;
 };
 
+export const getImage = (name: string, fromPage: DatabasePage) => {
+  const property = fromPage.properties[name];
+  if (property?.type === "files") {
+    return property.files
+      .map((it) =>
+        it.type === "external"
+          ? it.external.url
+          : it.type === "file"
+          ? it.file.url
+          : undefined,
+      )
+      .find((it) => !!it?.length);
+  }
+  return undefined;
+};
+
 export const getDateRange = (name: string, fromPage: DatabasePage) => {
   const property = fromPage.properties[name];
   if (property?.type === "date") {
