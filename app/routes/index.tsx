@@ -82,10 +82,10 @@ export default function Component() {
                 )}
                 style={{
                   gridColumn: "times",
-                  gridRow: `time-${formattedHoursMinutes(timeslot.endTime)}`,
+                  gridRow: `time-${formattedHoursMinutes(timeslot.startTime)}`,
                 }}
               >
-                {formattedHoursMinutesAlt(timeslot.endTime)}
+                {formattedHoursMinutesAlt(timeslot.startTime)}
               </h2>
               <h2
                 className={classNames(
