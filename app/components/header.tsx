@@ -32,18 +32,20 @@ type LinkOptions = { title: string; to: string };
 type DropDownProps = {
   title: string;
   options: LinkOptions[];
+  className?: string;
 };
 
 const DropDown: React.FC<DropDownProps> = ({
   title,
   options,
+  className,
 }: DropDownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
   return (
     <div
-      className="relative flex flex-col"
+      className={classNames("relative flex flex-col", className)}
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
     >
@@ -93,7 +95,11 @@ export const Header: React.FC = () => {
             {text}
           </NavLink>
         ))}
-        <DropDown title="Tidligere år" options={options} />
+        <DropDown
+          className="hidden sm:block"
+          title="Tidligere år"
+          options={options}
+        />
       </nav>
     </header>
   );
