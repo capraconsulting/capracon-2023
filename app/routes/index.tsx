@@ -74,32 +74,19 @@ export default function Component() {
 
           {/* Timeslot markers */}
           {data.timeslots.map((timeslot) => (
-            <React.Fragment key={timeslot.id}>
-              <h2
-                className={classNames(
-                  "hidden laptop:inline",
-                  "rounded-lg rounded-tr-none border-t-[6px] border-t-black bg-white p-2 font-semibold shadow-md",
-                )}
-                style={{
-                  gridColumn: "times",
-                  gridRow: `time-${formattedHoursMinutes(timeslot.startTime)}`,
-                }}
-              >
-                {formattedHoursMinutesAlt(timeslot.startTime)}
-              </h2>
-              <h2
-                className={classNames(
-                  "hidden laptop:inline",
-                  "rounded-lg rounded-tr-none border-t-[6px] border-t-black bg-white p-2 font-semibold shadow-md",
-                )}
-                style={{
-                  gridColumn: "times",
-                  gridRow: `time-${formattedHoursMinutes(timeslot.endTime)}`,
-                }}
-              >
-                {formattedHoursMinutesAlt(timeslot.endTime)}
-              </h2>
-            </React.Fragment>
+            <h2
+              key={timeslot.id}
+              className={classNames(
+                "hidden laptop:inline",
+                "rounded-lg rounded-tr-none border-t-[6px] border-t-black bg-white p-2 font-semibold shadow-md",
+              )}
+              style={{
+                gridColumn: "times",
+                gridRow: `time-${formattedHoursMinutes(timeslot.startTime)}`,
+              }}
+            >
+              {formattedHoursMinutesAlt(timeslot.startTime)}
+            </h2>
           ))}
 
           {/* Talks */}
