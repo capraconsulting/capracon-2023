@@ -16,7 +16,7 @@ const Speakers = ({ speakers }: { speakers: Speaker[] }) => {
           {speaker.image && (
             <Image
               className="h-14 w-14 rounded-full"
-              src={speaker.image}
+              src={speaker.id}
               alt=""
               responsive={[
                 {
