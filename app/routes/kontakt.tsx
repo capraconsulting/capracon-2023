@@ -26,22 +26,27 @@ export default function Kontakt() {
         {data.conference.kontaktTitle}
       </Title>
       <p className="mb-12 text-3xl">{data.conference.kontaktDescription}</p>
-
-      {data.contacts.map((contactPerson) => (
-        <div key={contactPerson.id} className="">
-          <div className="text-xl font-bold">{contactPerson.name}</div>
-          <dl className="[&_dt]:font-bold">
-            <dt>Stilling</dt>
-            <dd>{contactPerson.role}</dd>
-            <dt>E-post</dt>
-            <dd>
-              <a href={`mailto:${contactPerson.email}`}>
-                {contactPerson.email}
-              </a>
-            </dd>
-          </dl>
-        </div>
-      ))}
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        {data.contacts.map((contactPerson) => (
+          <div key={contactPerson.id} className="flex flex-row gap-2">
+            <div className="h-28 w-28 rounded-full bg-neutral-300"></div>
+            {/*TODO: add image*/}
+            <div>
+              <div className="mb-4 text-xl font-bold">{contactPerson.name}</div>
+              <dl className="[&_dt]:font-bold">
+                <dt>Stilling</dt>
+                <dd>{contactPerson.role}</dd>
+                <dt>E-post</dt>
+                <dd>
+                  <a href={`mailto:${contactPerson.email}`}>
+                    {contactPerson.email}
+                  </a>
+                </dd>
+              </dl>
+            </div>
+          </div>
+        ))}
+      </div>
     </ContentBox>
   );
 }
