@@ -117,7 +117,7 @@ const TrackHeading = ({ track }: TrackHeadingProps) => {
   const trackColors: Record<Tracks, `border-${string}`> = {
     [Tracks["Felles"]]: "border-black",
     [Tracks["Frontend"]]: "border-[#bbdde6]",
-    [Tracks["Team-, prosjekt- og utviklingsledelse"]]: "border-[#651d32]",
+    [Tracks["Ledelse"]]: "border-[#651d32]",
     [Tracks["CloudNative"]]: "border-[#ffd2b9]",
   } as const;
   return (
