@@ -24,9 +24,11 @@ export default function Praktisk() {
       <Title as="h1" withBackground size="text-6xl">
         {data.conference.praktiskTitle}
       </Title>
-      <p className="text-3xl font-bold">{data.conference.praktiskSubheading}</p>
+      <p className="mb-4 px-4 text-3xl font-bold">
+        {data.conference.praktiskSubheading}
+      </p>
 
-      <p className="whitespace-pre-line text-xl">
+      <p className="mb-12 whitespace-pre-line px-4 text-xl">
         <RichTextList richTextList={data.conference.praktiskDescription} />
       </p>
 
@@ -34,7 +36,7 @@ export default function Praktisk() {
         {data.conference.locationTitle}
       </Title>
 
-      <dl className="text-xl [&_dt]:font-bold [&_dt]:after:content-[':_']">
+      <dl className="mb-12 px-4 text-xl [&_dt]:font-bold [&_dt]:after:content-[':_']">
         <div>
           <dt>Lokasjon</dt>
           <dd>{data.conference.locationName}</dd>
