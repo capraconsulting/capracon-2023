@@ -106,6 +106,7 @@ const talkSchema = z.object({
   id: z.string(),
   title: z.string(),
   abstract: richTextSchema,
+  abstractShort: richTextSchema,
   track: trackSchema,
   speakers: z.array(speakerSchema),
   timeslot: timeslotSchema,
@@ -216,6 +217,7 @@ const mapTalk = (fromPage: PageObjectResponse, speakers: Speaker[]) => {
     timeslot: getSelectAndColor("Tidspunkt", fromPage) as any,
     track: getSelectAndColor("Track", fromPage) as any,
     abstract: getRichText("Abstract", fromPage),
+    abstractShort: getRichText("Abstract_short", fromPage),
     duration: getSelectAndColor("Lengde", fromPage) as any,
     isPublished:
       getSelect("Status", fromPage) ===

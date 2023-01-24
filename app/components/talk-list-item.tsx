@@ -45,7 +45,11 @@ export const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
           {talk.title}
         </h3>
         <p>
-          <RichTextList richTextList={talk.abstract} />
+          <RichTextList
+            richTextList={
+              talk.abstractShort.length > 0 ? talk.abstractShort : talk.abstract
+            }
+          />
         </p>
         <div className="flex flex-wrap gap-x-6 gap-y-3">
           <Speakers speakers={talk.speakers} />
