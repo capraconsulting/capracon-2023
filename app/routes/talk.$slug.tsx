@@ -8,6 +8,7 @@ import { getTextFromRichText, slugify } from "~/notion/helpers";
 import type { Talk } from "~/notion-conference/domain";
 import type { RootLoader } from "~/root";
 import { useRootData } from "~/root";
+import { classNames } from "~/utils/misc";
 
 const getTalkFromSlugOrThrow = (slug: string | undefined, talks: Talk[]) => {
   const talk = talks.find((talk) => slugify(talk.title) === slug);
@@ -44,7 +45,16 @@ export default function Component() {
 
   return (
     <ContentBox>
-      <Title as="h1" withBackground size="text-6xl">
+      <Title
+        as="h1"
+        withBackground
+        size="text-3xl"
+        className={classNames(
+          talk.title && talk.title.length > 40
+            ? "laptop:text-5xl"
+            : "laptop:text-6xl",
+        )}
+      >
         {talk.title}
       </Title>
 

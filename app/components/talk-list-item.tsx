@@ -6,6 +6,7 @@ import { Image } from "remix-image";
 import { slugify } from "~/notion/helpers";
 import type { Speaker, Talk } from "~/notion-conference/domain";
 import { getFormattedTalkTimes } from "~/notion-conference/helpers";
+import { classNames } from "~/utils/misc";
 import { RichTextList } from "./notion-rich-text";
 
 const Speakers = ({ speakers }: { speakers: Speaker[] }) => {
@@ -60,11 +61,12 @@ export const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
           </span>
         </div>
         <h3
-          className={`mb-2 break-words text-2xl font-bold tracking-tight tablet:mb-6 tablet:font-black ${
+          className={classNames(
+            "mb-2 break-words text-2xl font-bold tracking-tight tablet:mb-6 tablet:font-black",
             talk.title && talk.title.length > 40
               ? "laptop:text-3xl"
-              : "laptop:text-4xl"
-          }`}
+              : "laptop:text-4xl",
+          )}
         >
           {talk.title}
         </h3>
