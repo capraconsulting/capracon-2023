@@ -1,3 +1,4 @@
+import React from "react";
 import type { LinksFunction, V2_MetaFunction } from "@remix-run/cloudflare";
 
 import { TalkListItem } from "~/components/talk-list-item";
@@ -73,19 +74,32 @@ export default function Component() {
 
           {/* Timeslot markers */}
           {data.timeslots.map((timeslot) => (
-            <h2
-              key={timeslot.id}
-              className={classNames(
-                "hidden laptop:inline",
-                "rounded-lg rounded-tr-none border-t-[6px] border-t-black bg-white p-2 font-semibold shadow-md",
-              )}
-              style={{
-                gridColumn: "times",
-                gridRow: `time-${formattedHoursMinutes(timeslot.startTime)}`,
-              }}
-            >
-              {formattedHoursMinutesAlt(timeslot.startTime)}
-            </h2>
+            <React.Fragment key={timeslot.id}>
+              <h2
+                className={classNames(
+                  "hidden laptop:inline",
+                  "rounded-lg rounded-tr-none border-t-[6px] border-t-black bg-white p-2 font-semibold shadow-md",
+                )}
+                style={{
+                  gridColumn: "times",
+                  gridRow: `time-${formattedHoursMinutes(timeslot.endTime)}`,
+                }}
+              >
+                {formattedHoursMinutesAlt(timeslot.endTime)}
+              </h2>
+              <h2
+                className={classNames(
+                  "hidden laptop:inline",
+                  "rounded-lg rounded-tr-none border-t-[6px] border-t-black bg-white p-2 font-semibold shadow-md",
+                )}
+                style={{
+                  gridColumn: "times",
+                  gridRow: `time-${formattedHoursMinutes(timeslot.endTime)}`,
+                }}
+              >
+                {formattedHoursMinutesAlt(timeslot.endTime)}
+              </h2>
+            </React.Fragment>
           ))}
 
           {/* Talks */}
