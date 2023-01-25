@@ -59,10 +59,8 @@ const speakerSchema = z.object({
   email: z.string().email().optional(),
   bio: z.string().optional(),
   image: z.string().url().optional(),
-
-  // TODO: Not currently in notion database, but maybe they should be??
-  // company: z.string(),
-  // role: z.string(),
+  company: z.string().optional(),
+  role: z.string().optional(),
 });
 export type Speaker = z.infer<typeof speakerSchema>;
 
@@ -183,6 +181,8 @@ const mapSpeaker = (fromPage: PageObjectResponse) => {
     email: getEmail("Epost", fromPage),
     bio: getText("Bio", fromPage),
     image: getImage("Bilde", fromPage),
+    company: getText("Selskap", fromPage),
+    role: getText("Stilling", fromPage),
   } satisfies Relaxed<Speaker>;
 };
 

@@ -11,8 +11,23 @@ const Speakers = ({ speakers }: { speakers: Speaker[] }) => {
   return (
     <>
       {speakers.map((speaker) => (
-        <div className="flex gap-2 font-bold" key={speaker.id}>
-          {speaker.name}
+        <div className="flex flex-col gap-2 laptop:flex-row" key={speaker.id}>
+          <div className="h-20 w-20 rounded-full bg-neutral-300" />
+          <div className="flex flex-col justify-center">
+            <span className="text-lg font-semibold leading-snug tablet:text-base laptop:text-xl">
+              {speaker.name}
+            </span>
+            {speaker.role && (
+              <span className="text-base tablet:text-sm laptop:text-base">
+                {speaker.role}
+              </span>
+            )}
+            {speaker.company && (
+              <span className="text-base tablet:text-sm laptop:text-base">
+                {speaker.company}
+              </span>
+            )}
+          </div>
         </div>
       ))}
     </>
@@ -29,7 +44,7 @@ export const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
   return (
     <Link to={`/talk/${slugify(talk.title)}`}>
       <div className="relative h-[100%] min-h-min bg-white px-2 pt-4 pb-4 shadow-md laptop:px-6 laptop:pt-6 laptop:pb-8">
-        <div className="mb-1 inline-block rounded border-x border-y border-black leading-3">
+        <div className="inline-block rounded border-x border-y border-black leading-3">
           <span className="inline-block bg-black p-1 text-sm font-bold leading-3 text-white">
             {startTime} - {endTime}
           </span>
@@ -37,9 +52,12 @@ export const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
             {talk.track.title}
           </span>
         </div>
+
+        <div className="mt-1" />
+
         <h3
           className={classNames(
-            "mb-2 break-words text-2xl font-bold tracking-tight tablet:mb-6 tablet:font-black",
+            "break-words text-2xl font-bold tracking-tight tablet:font-black",
             talk.title && talk.title.length > 40
               ? "laptop:text-3xl"
               : "laptop:text-4xl",
@@ -47,6 +65,9 @@ export const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
         >
           {talk.title}
         </h3>
+
+        <div className="mt-2 tablet:mt-6" />
+
         <p>
           <RichTextList
             richTextList={
@@ -54,6 +75,9 @@ export const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
             }
           />
         </p>
+
+        <div className="mt-4" />
+
         <div className="flex flex-wrap gap-x-6 gap-y-3">
           <Speakers speakers={talk.speakers} />
         </div>
