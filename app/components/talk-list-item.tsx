@@ -1,8 +1,6 @@
 import React from "react";
 import { Link } from "@remix-run/react";
 
-import { Image } from "remix-image";
-
 import { slugify } from "~/notion/helpers";
 import type { Speaker, Talk } from "~/notion-conference/domain";
 import { getFormattedTalkTimes } from "~/notion-conference/helpers";
@@ -14,27 +12,6 @@ const Speakers = ({ speakers }: { speakers: Speaker[] }) => {
     <>
       {speakers.map((speaker) => (
         <div className="flex gap-2 font-bold" key={speaker.id}>
-          {speaker.image && (
-            <Image
-              className="h-14 w-14 rounded-full"
-              src={speaker.id}
-              alt=""
-              responsive={[
-                {
-                  size: {
-                    width: 80,
-                    height: 80,
-                  },
-                },
-              ]}
-              options={{
-                fit: "cover",
-                // @ts-ignore No idea why TS complains here doesn't work
-                width: 200,
-                height: 200,
-              }}
-            />
-          )}
           {speaker.name}
         </div>
       ))}
