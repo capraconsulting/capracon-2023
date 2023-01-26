@@ -66,9 +66,20 @@ const DropDown: React.FC<DropDownProps> = ({
                 key={option.title}
                 className="rounded-sm py-2.5 px-4 font-bold hover:bg-neutral-900 hover:text-white"
               >
-                <Link className="block" to={option.to}>
-                  {option.title}
-                </Link>
+                {option.to.startsWith("http") ? (
+                  <a
+                    className="block"
+                    target="_blank"
+                    href={option.to}
+                    rel="noreferrer"
+                  >
+                    {option.title}
+                  </a>
+                ) : (
+                  <Link className="block" to={option.to}>
+                    {option.title}
+                  </Link>
+                )}
               </li>
             );
           })}
@@ -84,7 +95,9 @@ const links = {
   kontakt: "/kontakt",
 } as const;
 
-const options = [{ title: "2022", to: "/2022" }];
+const options = [
+  { title: "2022", to: "https://capracon-2022.netlify.app/2022" },
+];
 
 export const Header: React.FC = () => {
   return (
