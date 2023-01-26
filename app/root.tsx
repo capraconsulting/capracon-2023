@@ -60,7 +60,7 @@ export const useRootData = () =>
 
 export default function App() {
   return (
-    <html lang="no">
+    <html lang="no" className="relative">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -68,7 +68,9 @@ export default function App() {
         <Links />
       </head>
       <body className="bg-[#ebeae1]">
-        <BackgroundSvg />
+        <div className="absolute top-0 bottom-0 -z-10 h-full min-h-screen w-full overflow-hidden">
+          <BackgroundSvg />
+        </div>
         <Header />
         <Outlet />
         <ScrollRestoration />
@@ -81,6 +83,6 @@ export default function App() {
 
 const BackgroundSvg: React.FC = () => {
   return (
-    <div className="absolute top-0 left-0 z-[-1] inline-block h-[3000px] min-w-[100vw] bg-[#ccc] bg-[url('../public/images/test.svg')] bg-cover bg-center bg-no-repeat" />
+    <div className="h-[3000px] w-full bg-[url('../public/images/test.svg')] bg-cover bg-center bg-no-repeat" />
   );
 };
