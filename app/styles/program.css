@@ -15,6 +15,15 @@
     gap: 1em;
     grid-template-rows:
       [tracks] auto
+      [time-0800] var(--row)
+      [time-0805] var(--row)
+      [time-0810] var(--row)
+      [time-0815] var(--row)
+      [time-0820] var(--row)
+      [time-0825] var(--row)
+      [time-0830] var(--row)
+      [time-0835] var(--row)
+      [time-0840] var(--row)
       [time-0845] var(--row)
       [time-0850] var(--row)
       [time-0855] var(--row)
