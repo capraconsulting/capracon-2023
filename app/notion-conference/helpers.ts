@@ -1,3 +1,4 @@
+import { timeZone } from "~/utils/consts";
 import { groupBy } from "~/utils/misc";
 import type { Talk } from "./domain";
 
@@ -22,17 +23,18 @@ const getTalkTimes = (talk: Talk) => {
   return { startTime, endTime };
 };
 
+// Format using Intl.DateTimeFormat with the correct timezone to ensure
+// same format on server as in browser
+const talkTimeFormatter = new Intl.DateTimeFormat("no-nb", {
+  timeZone,
+  hour: "2-digit",
+  minute: "2-digit",
+});
 export const getFormattedTalkTimes = (talk: Talk) => {
   const { startTime, endTime } = getTalkTimes(talk);
   return {
-    startTime: formattedHoursMinutes({
-      hours: startTime.getHours(),
-      minutes: startTime.getMinutes(),
-    }),
-    endTime: formattedHoursMinutes({
-      hours: endTime.getHours(),
-      minutes: endTime.getMinutes(),
-    }),
+    startTime: talkTimeFormatter.format(startTime).split(":").join(""),
+    endTime: talkTimeFormatter.format(endTime).split(":").join(""),
   };
 };
 

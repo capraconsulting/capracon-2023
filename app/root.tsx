@@ -19,6 +19,7 @@ import remixImageStyles from "remix-image/remix-image.css";
 import { Header } from "~/components/header";
 import { getDataCachedAndFiltered } from "./notion-conference/client-cached-and-filtered";
 import styles from "./tailwind.css";
+import { timeZone } from "./utils/consts";
 
 export const links: LinksFunction = () => [
   {
@@ -49,6 +50,7 @@ export const loader = async ({ request, context }: LoaderArgs) => {
 
   const formattedConferenceDate = new Intl.DateTimeFormat("no-nb", {
     dateStyle: "medium",
+    timeZone,
   }).format(new Date(data.conference.date));
 
   return json({ ...data, formattedConferenceDate });

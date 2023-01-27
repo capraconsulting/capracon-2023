@@ -1,3 +1,5 @@
+export const timeZone = "Europe/Oslo";
+
 export enum Tracks {
   "Felles" = "Felles",
   "Frontend" = "Frontend",
