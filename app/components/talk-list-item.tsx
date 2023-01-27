@@ -12,7 +12,7 @@ const Speakers = ({ speakers }: { speakers: Speaker[] }) => {
     <>
       {speakers.map((speaker) => (
         <div className="flex flex-col gap-2 laptop:flex-row" key={speaker.id}>
-          <div className="h-20 w-20 rounded-full bg-neutral-300" />
+          {/* <div className="h-20 w-20 rounded-full bg-neutral-300" /> */}
           <div className="flex flex-col justify-center">
             <span className="text-lg font-semibold leading-snug tablet:text-base laptop:text-xl">
               {speaker.name}
