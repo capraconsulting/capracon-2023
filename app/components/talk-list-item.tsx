@@ -3,7 +3,7 @@ import { Link } from "@remix-run/react";
 
 import { slugify } from "~/notion/helpers";
 import type { Speaker, Talk } from "~/notion-conference/domain";
-import { getFormattedTalkTimes } from "~/notion-conference/helpers";
+import { getFormattedTalkTimesAlt } from "~/notion-conference/helpers";
 import { classNames } from "~/utils/misc";
 import { RichTextList } from "./notion-rich-text";
 
@@ -39,14 +39,22 @@ interface TalkListItemProps {
 }
 
 export const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
-  const { startTime, endTime } = getFormattedTalkTimes(talk);
+  const { startTime, endTime } = getFormattedTalkTimesAlt(talk);
 
   return (
     <Link to={`/talk/${slugify(talk.title)}`}>
       <div className="relative h-[100%] min-h-min bg-white px-2 pt-4 pb-4 shadow-md laptop:px-6 laptop:pt-6 laptop:pb-8">
         <div className="inline-block rounded border-x border-y border-black leading-3">
           <span className="inline-block bg-black p-1 text-sm font-bold leading-3 text-white">
-            {startTime} - {endTime}
+            <div className="sr-only">
+              <span>fra </span>
+              <time dateTime={startTime}>{startTime}</time>
+              <span> til </span>
+              <time dateTime={endTime}>{endTime}</time>
+            </div>
+            <div aria-hidden>
+              {startTime.split(":").join("")} - {endTime.split(":").join("")}
+            </div>
           </span>
           <span className="inline p-1 pb-2 text-sm font-bold leading-3 tablet:hidden">
             {talk.track.title}

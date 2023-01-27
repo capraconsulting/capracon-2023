@@ -37,6 +37,13 @@ export const getFormattedTalkTimes = (talk: Talk) => {
     endTime: talkTimeFormatter.format(endTime).split(":").join(""),
   };
 };
+export const getFormattedTalkTimesAlt = (talk: Talk) => {
+  const { startTime, endTime } = getTalkTimes(talk);
+  return {
+    startTime: talkTimeFormatter.format(startTime),
+    endTime: talkTimeFormatter.format(endTime),
+  };
+};
 
 /**
  * Format an { hours, minutes } object
