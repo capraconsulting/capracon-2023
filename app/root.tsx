@@ -83,6 +83,6 @@ export default function App() {
 
 const BackgroundSvg: React.FC = () => {
   return (
-    <div className="h-[3000px] w-full bg-[url('../public/images/test.svg')] bg-cover bg-center bg-no-repeat" />
+    <div className="h-[3000px] w-full bg-[url('../public/images/capracon-background.svg')] bg-cover bg-center bg-no-repeat" />
   );
 };
