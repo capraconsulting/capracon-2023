@@ -1,8 +1,13 @@
 import React from "react";
-import type { LinksFunction, V2_MetaFunction } from "@remix-run/cloudflare";
+import type {
+  HeadersFunction,
+  LinksFunction,
+  V2_MetaFunction,
+} from "@remix-run/cloudflare";
 
 import { TalkListItem } from "~/components/talk-list-item";
 import { Title } from "~/components/title";
+import { config } from "~/config";
 import type { Track } from "~/notion-conference/domain";
 import {
   formattedHoursMinutes,
@@ -14,6 +19,8 @@ import { useRootData } from "~/root";
 import styles from "~/styles/program.css";
 import { TRACK_HEADINGS, TrackGridColumn, Tracks } from "~/utils/consts";
 import { classNames, typedBoolean } from "~/utils/misc";
+
+export const headers: HeadersFunction = () => config.cacheControlHeaders;
 
 export let links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: styles }];

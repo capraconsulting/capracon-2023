@@ -85,8 +85,8 @@ const getDataCached = async (context: AppLoadContext) => {
     waitUntil,
     key: config.KV_DATA_CACHE_KEY,
     getFreshValue: () => getData(notionToken),
-    ttl: 1000 * 5,
-    swr: 1000 * 60 * 60 * 24,
+    ttl: config.KV_TTL_IN_MS,
+    swr: config.KW_SWR_IN_MS,
   });
 };
 
