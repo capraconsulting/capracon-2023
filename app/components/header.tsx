@@ -15,11 +15,16 @@ const NavLink: React.FC<PropsWithChildren<Pick<LinkProps, "to">>> = ({
   return (
     <RemixNavLink
       to={to}
+      end
       prefetch="intent"
       className={({ isActive }) =>
-        classNames("rounded-sm py-2.5 px-4 font-bold uppercase", {
-          "bg-neutral-900 text-white": isActive,
-        })
+        classNames(
+          "rounded-sm py-2.5 px-4 font-bold uppercase",
+          // "hover:bg-neutral-900 hover:text-white active:bg-neutral-900 active:text-white",
+          {
+            "bg-neutral-900 text-white": isActive,
+          },
+        )
       }
     >
       {children}
