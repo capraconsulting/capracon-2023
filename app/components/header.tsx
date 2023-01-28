@@ -20,7 +20,7 @@ const NavLink: React.FC<PropsWithChildren<Pick<LinkProps, "to">>> = ({
       className={({ isActive }) =>
         classNames(
           "rounded-sm py-2.5 px-4 font-bold uppercase",
-          // "hover:bg-neutral-900 hover:text-white active:bg-neutral-900 active:text-white",
+          "hover:bg-neutral-900 hover:text-white active:bg-neutral-900 active:text-white",
           {
             "bg-neutral-900 text-white": isActive,
           },
