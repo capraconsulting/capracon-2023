@@ -25,6 +25,9 @@ const imageRequestSchema = z.discriminatedUnion("type", [
 ]);
 type ImageRequest = z.infer<typeof imageRequestSchema>;
 
+/**
+ * Get a conferencee specific image url
+ */
 const getImageUrl = async (
   imageRequest: ImageRequest,
   context: AppLoadContext,
@@ -61,7 +64,10 @@ export const loader = async ({ context, request }: LoaderArgs) => {
     throw new Error("No image");
   }
 
-  return fetch(imageUrl, {
+  const response = await fetch(imageUrl, {
+    headers: {
+      accept: "image/*",
+    },
     cf: {
       image: {
         format: "webp",
@@ -70,6 +76,17 @@ export const loader = async ({ context, request }: LoaderArgs) => {
         width: 50 * 3,
         height: 50 * 3,
       },
+    },
+  });
+
+  const arrBuff = await response.arrayBuffer();
+  const buffer = new Uint8Array(arrBuff);
+
+  const contentType = response.headers.get("content-type")!;
+
+  return new Response(buffer, {
+    headers: {
+      "content-type": contentType,
     },
   });
 };
