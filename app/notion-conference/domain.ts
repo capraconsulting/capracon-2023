@@ -68,6 +68,7 @@ const contactPersonSchema = z.object({
   id: z.string(),
   name: z.string(),
   email: z.string().email(),
+  image: z.string().url().optional(),
   role: z.string(),
 });
 export type ContactPerson = z.infer<typeof contactPersonSchema>;
