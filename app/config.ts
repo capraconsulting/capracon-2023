@@ -8,7 +8,7 @@ export const config = {
   KV_DATA_CACHE_KEY: "all-data",
 
   KV_TTL_IN_MS: 1000 * 5,
-  KW_SWR_IN_MS: 1000 * 60 * 60 * 24 * 365,
+  KW_SWR_IN_MS: 1000 * 60 * 60 * 24,
 
   cacheControlHeaders: {
     "Cache-Control": `public, s-maxage=${1}, stale-while-revalidate=${
