@@ -73,7 +73,7 @@ export const loader = async ({ context, request }: LoaderArgs) => {
         format: "webp",
 
         // For now we just show thumbnails, this might change in the future
-        width: 50 * 3,
+        // width: 50 * 3,
         height: 50 * 3,
       },
     },
