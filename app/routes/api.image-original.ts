@@ -9,26 +9,23 @@ import {
 } from "~/notion-conference/domain";
 import { getEnvVariableOrThrow } from "~/utils/env";
 
-const imageOptionsSchema = z.object({
-  size: z.enum(["thumbnail"]).default("thumbnail"),
-});
-
-const imageRequestSchema = z.discriminatedUnion("type", [
-  imageOptionsSchema.extend({
+// Schema
+export const imageRequestSchema = z.discriminatedUnion("type", [
+  z.object({
     type: z.literal("speaker"),
-    speakerId: z.string(),
+    id: z.string(),
   }),
-  imageOptionsSchema.extend({
+  z.object({
     type: z.literal("contact"),
-    contactId: z.string(),
+    id: z.string(),
   }),
 ]);
-type ImageRequest = z.infer<typeof imageRequestSchema>;
+export type ImageRequest = z.infer<typeof imageRequestSchema>;
 
 /**
  * Get a conferencee specific image url
  */
-const getImageUrl = async (
+const getNotionConferenceImageUrl = async (
   imageRequest: ImageRequest,
   context: AppLoadContext,
 ) => {
@@ -37,7 +34,7 @@ const getImageUrl = async (
 
   if (imageRequest.type === "speaker") {
     const [[speaker]] = safeParseSpeakers([
-      await client.getPage(imageRequest.speakerId),
+      await client.getPage(imageRequest.id),
     ]);
     if (!speaker.image) return undefined;
 
@@ -46,7 +43,7 @@ const getImageUrl = async (
 
   if (imageRequest.type === "contact") {
     const [[contact]] = safeParseContacts([
-      await client.getPage(imageRequest.contactId),
+      await client.getPage(imageRequest.id),
     ]);
     if (!contact.image) return undefined;
 
@@ -54,39 +51,22 @@ const getImageUrl = async (
   }
 };
 
+/**
+ * Proxy conference specific images hosted on notion
+ *
+ * the image links are long, dynamic, and only available for a short period
+ * the image optimization services will cache based on the url, therfor
+ * it makes sense to provide them a nice static url
+ */
 export const loader = async ({ context, request }: LoaderArgs) => {
   const imageRequest = imageRequestSchema.parse(
     Object.fromEntries(new URL(request.url).searchParams),
   );
-  const imageUrl = await getImageUrl(imageRequest, context);
+  const imageUrl = await getNotionConferenceImageUrl(imageRequest, context);
   if (!imageUrl) {
     // TODO: Return placeholder image
     throw new Error("No image");
   }
 
-  const response = await fetch(imageUrl, {
-    headers: {
-      accept: "image/*",
-    },
-    cf: {
-      image: {
-        format: "webp",
-
-        // For now we just show thumbnails, this might change in the future
-        // width: 50 * 3,
-        height: 50 * 3,
-      },
-    },
-  });
-
-  const arrBuff = await response.arrayBuffer();
-  const buffer = new Uint8Array(arrBuff);
-
-  const contentType = response.headers.get("content-type")!;
-
-  return new Response(buffer, {
-    headers: {
-      "content-type": contentType,
-    },
-  });
+  return fetch(imageUrl);
 };
