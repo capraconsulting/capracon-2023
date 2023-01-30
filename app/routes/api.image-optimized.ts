@@ -19,7 +19,7 @@ const buildImagekitUrl = (src: string, options: ImageOptions) => {
   )}`;
 };
 const buildCloudinaryUrl = (src: string, options: ImageOptions) => {
-  return `https://res.cloudinary.com/dyq7ofn3z/image/fetch/c_thumb,w_300,h_300,g_face/${encodeURIComponent(
+  return `https://res.cloudinary.com/dyq7ofn3z/image/fetch/f_auto,c_thumb,w_300,h_300,g_face/${encodeURIComponent(
     src,
   )}`;
 };
