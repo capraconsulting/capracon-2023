@@ -7,7 +7,7 @@ import type { ImageRequest } from "./api.image-original";
 import { imageRequestSchema } from "./api.image-original";
 
 const imageOptionsSchema = z.object({
-  provider: z.enum(["imagekit", "cloudinary"]).default("imagekit"),
+  provider: z.enum(["imagekit", "cloudinary"]).default("cloudinary"),
   // Here we put options like format, height, width, cropping options
   // For now these are just hardcoded
 });
@@ -42,9 +42,12 @@ const buildOriginalImageUrl = ({ type, id }: ImageRequest) =>
 
 export const buildImageUrl = ({ type, id }: ImageRequest) => {
   // Link the user directly to the image cdn
-  return buildImagekitUrl(buildOriginalImageUrl({ type, id }), {
-    provider: "cloudinary",
-  });
+  return buildExternalProviderOptimizedImageUrl(
+    buildOriginalImageUrl({ type, id }),
+    {
+      provider: "cloudinary",
+    },
+  );
 
   // return `/api/image-optimized/?type=${type}&id=${id}`;
 };
