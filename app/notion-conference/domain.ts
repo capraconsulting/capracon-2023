@@ -151,6 +151,7 @@ const mapContactPerson = (fromPage: PageObjectResponse) => {
     id: fromPage.id,
     name: getTitle(fromPage),
     email: getEmail("Epost", fromPage),
+    image: getImage("Bilde", fromPage),
     role: getText("Stilling", fromPage),
   } satisfies Relaxed<ContactPerson>;
 };

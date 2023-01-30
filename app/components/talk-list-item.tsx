@@ -4,6 +4,7 @@ import { Link } from "@remix-run/react";
 import { slugify } from "~/notion/helpers";
 import type { Speaker, Talk } from "~/notion-conference/domain";
 import { getFormattedTalkTimesAlt } from "~/notion-conference/helpers";
+import { buildImageUrl } from "~/routes/api.image-optimized";
 import { classNames } from "~/utils/misc";
 import { RichTextList } from "./notion-rich-text";
 
@@ -12,7 +13,16 @@ const Speakers = ({ speakers }: { speakers: Speaker[] }) => {
     <>
       {speakers.map((speaker) => (
         <div className="flex flex-col gap-2 laptop:flex-row" key={speaker.id}>
-          {/* <div className="h-20 w-20 rounded-full bg-neutral-300" /> */}
+          {speaker.image && (
+            <img
+              alt={`Bilde av ${speaker.name}`}
+              src={buildImageUrl({ type: "speaker", id: speaker.id })}
+              className="h-20 w-20 rounded-full object-cover"
+            />
+          )}
+          {!speaker.image && (
+            <div className="h-20 w-20 rounded-full bg-neutral-300" />
+          )}
           <div className="flex flex-col justify-center">
             <span className="text-lg font-semibold leading-snug tablet:text-base laptop:text-xl">
               {speaker.name}

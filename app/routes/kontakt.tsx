@@ -4,6 +4,7 @@ import { ContentBox } from "~/components/content-box";
 import { Title } from "~/components/title";
 import type { RootLoader } from "~/root";
 import { useRootData } from "~/root";
+import { buildImageUrl } from "./api.image-optimized";
 
 export const meta: V2_MetaFunction<never, { root: RootLoader }> = ({
   parentsData,
@@ -29,8 +30,19 @@ export default function Kontakt() {
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {data.contacts.map((contactPerson) => (
           <div key={contactPerson.id} className="flex flex-row gap-2">
-            <div className="h-28 w-28 rounded-full bg-neutral-300"></div>
-            {/*TODO: add image*/}
+            {contactPerson.image && (
+              <img
+                alt={`Bilde av ${contactPerson.name}`}
+                src={buildImageUrl({
+                  type: "contact",
+                  id: contactPerson.id,
+                })}
+                className="h-20 w-20 rounded-full object-cover"
+              />
+            )}
+            {!contactPerson.image && (
+              <div className="h-20 w-20 rounded-full bg-neutral-300" />
+            )}
             <div>
               <div className="mb-4 text-xl font-bold">{contactPerson.name}</div>
               <dl className="[&_dt]:font-bold">

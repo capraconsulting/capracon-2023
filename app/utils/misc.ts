@@ -53,3 +53,7 @@ export function classNames(...args: ClassName[]): string {
   }
   return resolved.filter(typedBoolean).join(" ");
 }
+
+export function assertUnreachable(x: never): never {
+  throw new Error(`Unknown value ${x}`);
+}
