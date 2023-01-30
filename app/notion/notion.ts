@@ -1,12 +1,5 @@
-import type { AppLoadContext } from "@remix-run/server-runtime";
-
 import { Client as NotionClient } from "@notionhq/client";
 import type { ListBlockChildrenResponse } from "@notionhq/client/build/src/api-endpoints";
-import type { Resolver } from "remix-image/build/types/resolver";
-import { MimeType } from "remix-image/serverPure";
-
-import { safeParseSpeakers } from "~/notion-conference/domain";
-import { getEnvVariableOrThrow } from "~/utils/env";
 
 export const getClient = (token: string) => {
   const notionClient = new NotionClient({
@@ -19,30 +12,6 @@ export const getClient = (token: string) => {
     getDatabase: getDatabase(notionClient),
     getBlocks: getBlocks(notionClient),
     getBlocksWithChildren: getBlocksWithChildren(notionClient),
-  };
-};
-
-export const createSpeakerResolver = (context: AppLoadContext): Resolver => {
-  const notionToken = getEnvVariableOrThrow("NOTION_TOKEN", context) as string;
-  const client = getClient(notionToken);
-
-  return async (asset) => {
-    const [[employee]] = safeParseSpeakers([await client.getPage(asset)]);
-    if (!employee.image) {
-      throw new Error("No image");
-    }
-    const imageUrl = new URL(employee.image);
-    const ext = imageUrl.pathname.split(".").pop();
-    const imageRes = await fetch(imageUrl);
-    return {
-      buffer: new Uint8Array(await imageRes.arrayBuffer()),
-      contentType:
-        ext === "jpg" || ext === "jpeg"
-          ? MimeType.JPEG
-          : ext === "webp"
-          ? MimeType.WEBP
-          : MimeType.PNG,
-    };
   };
 };
 
