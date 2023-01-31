@@ -53,7 +53,7 @@ export const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
 
   return (
     <Link to={`/talk/${slugify(talk.title)}`}>
-      <div className="relative h-[100%] min-h-min bg-white px-2 pt-4 pb-4 shadow-md laptop:px-6 laptop:pt-6 laptop:pb-8">
+      <div className="relative h-[100%] min-h-min bg-white p-4 pb-6 shadow-md laptop:px-6 laptop:pt-6 laptop:pb-8">
         <div className="inline-block rounded border-x border-y border-black leading-3">
           <span className="inline-block bg-black p-1 text-sm font-bold leading-3 text-white">
             <div className="sr-only">
