@@ -2,6 +2,7 @@ import { ContentBox } from "~/components/content-box";
 import { Title } from "~/components/title";
 import { slugify } from "~/notion/helpers";
 import { useRootData } from "~/root";
+import { classNames } from "~/utils/misc";
 import { buildImageUrl } from "./api.image-optimized";
 
 export default function Component() {
@@ -19,7 +20,13 @@ export default function Component() {
       </Title>
       {sortedSpeakers.map((speaker) => (
         <ContentBox key={speaker.id} id={slugify(speaker.name)}>
-          <h2>{speaker.name}</h2>
+          <h2
+            className={classNames(
+              "break-words text-3xl font-semibold tracking-tight tablet:font-black",
+            )}
+          >
+            {speaker.name}
+          </h2>
 
           {speaker.image && (
             <img
