@@ -6,12 +6,18 @@ import { buildImageUrl } from "./api.image-optimized";
 
 export default function Component() {
   const { speakers } = useRootData();
+  const sortedSpeakers = speakers.sort((a, b) => {
+    if (a.name < b.name) return -1;
+    if (a.name > b.name) return 1;
+    return 0;
+  });
+
   return (
     <main className="container mx-auto">
       <Title as="h1" withBackground>
         Foredragsholdere
       </Title>
-      {speakers.map((speaker) => (
+      {sortedSpeakers.map((speaker) => (
         <ContentBox key={speaker.id} id={slugify(speaker.name)}>
           <h2>{speaker.name}</h2>
 
