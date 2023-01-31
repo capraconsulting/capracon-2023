@@ -61,9 +61,13 @@ export default function Component() {
 
       <div>
         {talk.speakers.map((speaker) => (
-          <div key={speaker.id}>
+          <Link
+            key={speaker.id}
+            to={`/speakers#${slugify(speaker.name)}`}
+            className="hover:underline"
+          >
             <p className="text-2xl font-bold">{speaker.name}</p>
-          </div>
+          </Link>
         ))}
       </div>
 
