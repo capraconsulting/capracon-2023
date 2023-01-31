@@ -59,7 +59,7 @@ export default function Component() {
         {data.conference.description}
       </p>
 
-      <section className="pt-12 pb-8">
+      <section className="pt-12">
         <Title as="h2" withBackground size="text-6xl">
           Program
         </Title>
