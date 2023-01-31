@@ -50,7 +50,7 @@ export default function Component() {
         withBackground
         size="text-3xl"
         className={classNames(
-          "p-4",
+          "p-5",
           talk.title && talk.title.length > 40
             ? "laptop:text-5xl"
             : "laptop:text-6xl",

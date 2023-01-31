@@ -71,7 +71,7 @@ export const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
           </span>
         </div>
 
-        <div className="mt-1" />
+        <div className="mt-3" />
 
         <h3
           className={classNames(
@@ -84,7 +84,7 @@ export const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
           {talk.title}
         </h3>
 
-        <div className="mt-2 tablet:mt-6" />
+        <div className="mt-2 tablet:mt-3" />
 
         <p>
           <RichTextList

@@ -21,31 +21,32 @@ export default function Praktisk() {
 
   return (
     <ContentBox>
-      <Title as="h1" withBackground size="text-6xl">
+      <Title as="h1" withBackground size="text-6xl" className="mb-10">
         {data.conference.praktiskTitle}
       </Title>
-      <p className="mb-4 px-4 text-3xl font-bold">
+
+      <p className="mb-4 text-3xl font-bold">
         {data.conference.praktiskSubheading}
       </p>
 
-      <p className="mb-12 whitespace-pre-line px-4 text-xl">
+      <p className="mb-12 whitespace-pre-line text-xl">
         <RichTextList richTextList={data.conference.praktiskDescription} />
       </p>
 
-      <Title as="h2" withBackground size="text-6xl">
+      <Title as="h2" withBackground size="text-6xl" className="mb-10">
         {data.conference.locationTitle}
       </Title>
 
-      <dl className="mb-12 px-4 text-xl [&_dt]:font-bold [&_dt]:after:content-[':_']">
-        <div>
+      <dl className="mb-12 text-xl [&_dt]:font-bold [&_dt]:after:content-[':_']">
+        <div className="mb-5">
           <dt>Lokasjon</dt>
           <dd>{data.conference.locationName}</dd>
         </div>
-        <div>
+        <div className="mb-5">
           <dt>Adresse</dt>
           <dd>{data.conference.locationAddress}</dd>
         </div>
-        <div>
+        <div className="mb-5">
           <dt>Hjemmeside</dt>
           <dd>
             <a className="underline" href={data.conference.locationHomepage}>
