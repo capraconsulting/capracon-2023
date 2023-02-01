@@ -27,7 +27,7 @@ export default function Component() {
   });
 
   return (
-    <main className="container mx-auto">
+    <main className="container mx-auto pb-6 tablet:pb-12">
       <Title
         as="h1"
         withBackground
