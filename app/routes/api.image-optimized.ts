@@ -7,20 +7,32 @@ import type { ImageRequest } from "./api.image-original";
 import { imageRequestSchema } from "./api.image-original";
 
 const imageOptionsSchema = z.object({
-  mode: z.enum(["face", "portrait"]),
+  mode: z.enum(["face", "portrait", "landscape"]),
 });
 export type ImageOptions = z.infer<typeof imageOptionsSchema>;
 
 const buildCloudinaryUrl = (src: string, options: ImageOptions) => {
+  // Square, using 1:1 ratio
   if (options.mode === "face") {
     return `https://res.cloudinary.com/dyq7ofn3z/image/fetch/f_auto,c_thumb,w_300,h_300,g_face/${encodeURIComponent(
       src,
     )}`;
-  } else if (options.mode === "portrait") {
+  }
+
+  // Portrait, using 2:3 ratio (200w,300h)
+  if (options.mode === "portrait") {
     return `https://res.cloudinary.com/dyq7ofn3z/image/fetch/f_auto,c_fill,w_600,h_900,g_face/${encodeURIComponent(
       src,
     )}`;
   }
+
+  // Portrait, using 3:2 ratio (300w,200h)
+  if (options.mode === "landscape") {
+    return `https://res.cloudinary.com/dyq7ofn3z/image/fetch/f_auto,c_fill,w_1200,h_800,g_face/${encodeURIComponent(
+      src,
+    )}`;
+  }
+
   assertUnreachable(options.mode);
 };
 const buildExternalProviderOptimizedImageUrl = (

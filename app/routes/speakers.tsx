@@ -14,7 +14,12 @@ export default function Component() {
 
   return (
     <main className="container mx-auto">
-      <Title as="h1" withBackground>
+      <Title
+        as="h1"
+        withBackground
+        size="text-4xl"
+        className="tablet:text-5xl sm:text-6xl"
+      >
         Foredragsholdere
       </Title>
       <div className="flex flex-col gap-6 tablet:gap-12">
@@ -24,30 +29,51 @@ export default function Component() {
             key={speaker.id}
             id={slugify(speaker.name)}
           >
-            <h2
-              className={classNames(
-                "break-words text-3xl font-semibold tracking-tight tablet:font-black",
-              )}
-            >
-              {speaker.name}
-            </h2>
-
-            <div className="mt-3" />
-
-            <div className="flex flex-row gap-4">
+            <div className="flex flex-col gap-4 tablet:flex-row">
               {speaker.image && (
-                <img
-                  alt={`Bilde av ${speaker.name}`}
-                  src={buildImageUrl({
-                    type: "speaker",
-                    id: speaker.id,
-                    mode: "portrait",
-                  })}
-                  className="h-60 w-40 rounded object-cover"
-                />
+                // Make the picture change orientation depending on screen size
+                <picture className="contents">
+                  <source
+                    srcSet={buildImageUrl({
+                      type: "speaker",
+                      id: speaker.id,
+                      mode: "landscape",
+                    })}
+                    media="(max-width: 480px)"
+                    className="hidden"
+                  />
+                  <source
+                    srcSet={buildImageUrl({
+                      type: "speaker",
+                      id: speaker.id,
+                      mode: "portrait",
+                    })}
+                    media="(min-width: 481px)"
+                    className="hidden"
+                  />
+                  <img
+                    alt={`Bilde av ${speaker.name}`}
+                    src={buildImageUrl({
+                      type: "speaker",
+                      id: speaker.id,
+                      mode: "portrait",
+                    })}
+                    className="sm:h-70 aspect-[3/2] w-full rounded object-cover tablet:aspect-[2/3] tablet:h-60 tablet:w-auto"
+                  />
+                </picture>
               )}
 
-              <p>{speaker.bio}</p>
+              <div className="flex flex-col gap-2">
+                <h2
+                  className={classNames(
+                    "break-words text-3xl font-semibold tracking-tight tablet:font-black",
+                  )}
+                >
+                  {speaker.name}
+                </h2>
+
+                <p>{speaker.bio}</p>
+              </div>
             </div>
           </article>
         ))}
