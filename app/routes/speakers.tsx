@@ -1,11 +1,25 @@
+import type { V2_MetaFunction } from "@remix-run/cloudflare";
+
 import { Title } from "~/components/title";
 import { slugify } from "~/notion/helpers";
+import type { RootLoader } from "~/root";
 import { useRootData } from "~/root";
 import { classNames } from "~/utils/misc";
 import { buildImageUrl } from "./api.image-optimized";
 
+export const meta: V2_MetaFunction<never, { root: RootLoader }> = ({
+  parentsData,
+}) => [
+  {
+    title: parentsData["root"].conference.foredragsholdereTitle,
+  },
+  {
+    name: "description",
+    content: parentsData["root"].conference.foredragsholdereDescription,
+  },
+];
 export default function Component() {
-  const { speakers } = useRootData();
+  const { conference, speakers } = useRootData();
   const sortedSpeakers = speakers.sort((a, b) => {
     if (a.name < b.name) return -1;
     if (a.name > b.name) return 1;
@@ -20,7 +34,7 @@ export default function Component() {
         size="text-4xl"
         className="tablet:text-5xl sm:text-6xl"
       >
-        Foredragsholdere
+        {conference.foredragsholdereTitle}
       </Title>
       <div className="flex flex-col gap-6 tablet:gap-12">
         {sortedSpeakers.map((speaker) => (
@@ -63,7 +77,7 @@ export default function Component() {
                 </picture>
               )}
 
-              <div className="flex flex-col gap-2">
+              <div>
                 <h2
                   className={classNames(
                     "break-words text-3xl font-semibold tracking-tight tablet:font-black",
@@ -72,7 +86,20 @@ export default function Component() {
                   {speaker.name}
                 </h2>
 
-                <p>{speaker.bio}</p>
+                <div className="mt-1 flex flex-col gap-1">
+                  {speaker.role && (
+                    <p className="text-base tablet:text-sm laptop:text-base">
+                      {speaker.role}
+                    </p>
+                  )}
+                  {speaker.company && (
+                    <p className="text-base tablet:text-sm laptop:text-base">
+                      {speaker.company}
+                    </p>
+                  )}
+                </div>
+
+                {speaker.bio && <p className="mt-2">{speaker.bio}</p>}
               </div>
             </div>
           </article>

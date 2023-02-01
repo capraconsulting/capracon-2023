@@ -50,6 +50,9 @@ const conferenceSchema = z.object({
 
   kontaktTitle: z.string(),
   kontaktDescription: z.string(),
+
+  foredragsholdereTitle: z.string(),
+  foredragsholdereDescription: z.string(),
 });
 export type Conference = z.infer<typeof conferenceSchema>;
 
@@ -138,6 +141,12 @@ export const parseConference = (fromPage: PageObjectResponse) => {
 
     kontaktTitle: getText("kontaktTitle", fromPage),
     kontaktDescription: getText("kontaktDescription", fromPage),
+
+    foredragsholdereTitle: getText("foredragsholdereTitle", fromPage),
+    foredragsholdereDescription: getText(
+      "foredragsholdereDescription",
+      fromPage,
+    ),
   } satisfies Relaxed<Conference>);
 };
 
