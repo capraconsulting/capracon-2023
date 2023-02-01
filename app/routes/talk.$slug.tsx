@@ -9,6 +9,7 @@ import type { Talk } from "~/notion-conference/domain";
 import type { RootLoader } from "~/root";
 import { useRootData } from "~/root";
 import { classNames } from "~/utils/misc";
+import { buildImageUrl } from "./api.image-optimized";
 
 const getTalkFromSlugOrThrow = (slug: string | undefined, talks: Talk[]) => {
   const talk = talks.find((talk) => slugify(talk.title) === slug);
@@ -59,21 +60,55 @@ export default function Component() {
         {talk.title}
       </Title>
 
-      <div>
+      <div className="mt-4" />
+
+      <div className="flex flex-col gap-6 tablet:flex-row tablet:gap-10">
         {talk.speakers.map((speaker) => (
           <Link
             key={speaker.id}
             to={`/speakers#${slugify(speaker.name)}`}
-            className="hover:underline"
+            className="flex flex-row gap-2 hover:underline laptop:flex-row"
           >
-            <p className="text-2xl font-bold">{speaker.name}</p>
+            {speaker.image && (
+              <img
+                alt={`Bilde av ${speaker.name}`}
+                src={buildImageUrl({
+                  type: "speaker",
+                  id: speaker.id,
+                  mode: "face",
+                })}
+                className="h-28 w-28 rounded-full object-cover"
+              />
+            )}
+            {!speaker.image && (
+              <div className="h-28 w-28 rounded-full bg-neutral-300" />
+            )}
+            <div className="flex flex-col justify-center">
+              <p className="text-lg font-semibold leading-snug">
+                {speaker.name}
+              </p>
+              {speaker.role && (
+                <span className="text-base tablet:text-sm laptop:text-base">
+                  {speaker.role}
+                </span>
+              )}
+              {speaker.company && (
+                <span className="text-base tablet:text-sm laptop:text-base">
+                  {speaker.company}
+                </span>
+              )}
+            </div>
           </Link>
         ))}
       </div>
 
+      <div className="mt-6" />
+
       <p className="whitespace-pre-line text-xl">
         <RichTextList richTextList={talk.abstract} />
       </p>
+
+      <div className="mt-6" />
 
       <Link to="/" className="underline">
         Tilbake til program
