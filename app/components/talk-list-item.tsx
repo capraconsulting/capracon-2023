@@ -16,7 +16,11 @@ const Speakers = ({ speakers }: { speakers: Speaker[] }) => {
           {speaker.image && (
             <img
               alt={`Bilde av ${speaker.name}`}
-              src={buildImageUrl({ type: "speaker", id: speaker.id })}
+              src={buildImageUrl({
+                type: "speaker",
+                id: speaker.id,
+                mode: "face",
+              })}
               className="h-20 w-20 rounded-full object-cover"
             />
           )}

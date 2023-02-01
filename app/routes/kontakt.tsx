@@ -36,6 +36,7 @@ export default function Kontakt() {
                 src={buildImageUrl({
                   type: "contact",
                   id: contactPerson.id,
+                  mode: "face",
                 })}
                 className="h-20 w-20 rounded-full object-cover"
               />

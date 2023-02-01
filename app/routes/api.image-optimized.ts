@@ -7,46 +7,39 @@ import type { ImageRequest } from "./api.image-original";
 import { imageRequestSchema } from "./api.image-original";
 
 const imageOptionsSchema = z.object({
-  provider: z.enum(["imagekit", "cloudinary"]).default("cloudinary"),
-  // Here we put options like format, height, width, cropping options
-  // For now these are just hardcoded
+  mode: z.enum(["face", "portrait"]),
 });
 export type ImageOptions = z.infer<typeof imageOptionsSchema>;
 
-const buildImagekitUrl = (src: string, options: ImageOptions) => {
-  return `https://ik.imagekit.io/y0rnxuzer/tr:w-300,h-300,c-at_max,fo-face/${encodeURIComponent(
-    src,
-  )}`;
-};
 const buildCloudinaryUrl = (src: string, options: ImageOptions) => {
-  return `https://res.cloudinary.com/dyq7ofn3z/image/fetch/f_auto,c_thumb,w_300,h_300,g_face/${encodeURIComponent(
-    src,
-  )}`;
+  if (options.mode === "face") {
+    return `https://res.cloudinary.com/dyq7ofn3z/image/fetch/f_auto,c_thumb,w_300,h_300,g_face/${encodeURIComponent(
+      src,
+    )}`;
+  } else if (options.mode === "portrait") {
+    return `https://res.cloudinary.com/dyq7ofn3z/image/fetch/f_auto,c_fill,w_600,h_900,g_face/${encodeURIComponent(
+      src,
+    )}`;
+  }
+  assertUnreachable(options.mode);
 };
 const buildExternalProviderOptimizedImageUrl = (
   src: string,
   options: ImageOptions,
-) => {
-  switch (options.provider) {
-    case "cloudinary":
-      return buildCloudinaryUrl(src, options);
-    case "imagekit":
-      return buildImagekitUrl(src, options);
-    default:
-      assertUnreachable(options.provider);
-  }
-};
+) => buildCloudinaryUrl(src, options);
 
 const buildOriginalImageUrl = ({ type, id }: ImageRequest) =>
   `https://capracon.no/api/image-original?type=${type}&id=${id}`;
 
-export const buildImageUrl = ({ type, id }: ImageRequest) => {
+export const buildImageUrl = ({
+  type,
+  id,
+  ...options
+}: ImageRequest & ImageOptions) => {
   // Link the user directly to the image cdn
   return buildExternalProviderOptimizedImageUrl(
     buildOriginalImageUrl({ type, id }),
-    {
-      provider: "cloudinary",
-    },
+    options,
   );
 
   // return `/api/image-optimized/?type=${type}&id=${id}`;
