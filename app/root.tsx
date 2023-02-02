@@ -74,7 +74,12 @@ export default function App() {
         </div>
         <Header />
         <Outlet />
-        <ScrollRestoration />
+        <ScrollRestoration
+          getKey={(location) => {
+            const paths = ["/"];
+            return paths.includes(location.pathname) ? location.pathname : null;
+          }}
+        />
         <Scripts />
         <LiveReload />
 
