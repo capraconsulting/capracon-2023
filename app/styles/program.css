@@ -14,6 +14,7 @@
     display: grid;
     gap: 1em;
     grid-template-rows:
+      [workshop] auto
       [tracks] auto
       [time-0800] var(--row)
       [time-0805] var(--row)

@@ -7,7 +7,7 @@ import type {
 import { TalkListItem } from "~/components/talk-list-item";
 import { Title } from "~/components/title";
 import { config } from "~/config";
-import type { Track } from "~/notion-conference/domain";
+import type { Talk, Track } from "~/notion-conference/domain";
 import {
   formattedHoursMinutes,
   formattedHoursMinutesAlt,
@@ -41,6 +41,8 @@ export default function Component() {
     data.tracks.find((track) => track.title === trackTitle),
   ).filter(typedBoolean);
 
+  const workshop = data.talks.find((talk) => talk.title.includes("Workshop"));
+
   return (
     <main className="container mx-auto pb-32">
       <div className="px-4 text-2xl font-bold text-white">
@@ -63,7 +65,19 @@ export default function Component() {
           Program
         </Title>
 
+        {/* Workshop */}
         <div className="schedule">
+          {workshop && (
+            <div
+              className="bg-white"
+              style={{
+                gridColumn: TrackGridColumn.Felles,
+                gridRow: "workshop",
+              }}
+            >
+              <TalkListItem talk={workshop} />
+            </div>
+          )}
           {/* Track headings */}
           {trackHeadings.map((track) => (
             <div
