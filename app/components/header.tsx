@@ -50,7 +50,7 @@ const DropDown: React.FC<DropDownProps> = ({
       onMouseLeave={() => setIsOpen(false)}
     >
       <button
-        className={`rounded-sm py-2.5 px-4 font-bold uppercase ${
+        className={`rounded-sm p-3 font-bold uppercase ${
           options.some((option) => location.pathname.includes(option.to))
             ? "bg-neutral-900 text-white"
             : ""
@@ -64,7 +64,7 @@ const DropDown: React.FC<DropDownProps> = ({
             return (
               <li
                 key={option.title}
-                className="rounded-sm py-2.5 px-4 font-bold hover:bg-neutral-900 hover:text-white"
+                className="rounded-sm p-3 font-bold hover:bg-neutral-900 hover:text-white"
               >
                 {option.to.startsWith("http") ? (
                   <a
