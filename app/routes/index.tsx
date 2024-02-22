@@ -45,18 +45,20 @@ export default function Component() {
 
   return (
     <main className="container mx-auto pb-32">
-      <div className="px-4 text-2xl font-bold">
+      <Title as="h1" color="text-white">
+        {data.conference.title}
+      </Title>
+
+      <div className="px-4 text-2xl font-bold text-white">
         <time dateTime={data.conference.date}>
           {data.formattedConferenceDate}
         </time>
         <p>{data.conference.locationName}</p>
       </div>
 
-      <Title as="h1">{data.conference.title}</Title>
-
-      <p className="max-w-[500px] p-4 text-2xl">
-        {data.conference.description}
-      </p>
+      <div>
+        <div className="mt-8 h-96 w-full rounded-xl bg-black"></div>
+      </div>
 
       <section className="pt-12">
         <Title as="h2" withBackground size="text-6xl">
