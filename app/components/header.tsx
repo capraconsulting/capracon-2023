@@ -7,6 +7,7 @@ import { useLocation } from "@remix-run/react";
 import { NavLink as RemixNavLink } from "@remix-run/react";
 
 import { classNames } from "~/utils/misc";
+import capraGroupHeadImage from "./../images/capra_group.png";
 
 const NavLink: React.FC<PropsWithChildren<Pick<LinkProps, "to">>> = ({
   to,
@@ -17,8 +18,8 @@ const NavLink: React.FC<PropsWithChildren<Pick<LinkProps, "to">>> = ({
       to={to}
       prefetch="intent"
       className={({ isActive }) =>
-        classNames("rounded-sm p-3 font-bold uppercase", {
-          "bg-neutral-900 text-primary-light": isActive,
+        classNames("rounded-sm p-3 font-bold uppercase text-white", {
+          "border-b-2 border-white": isActive,
         })
       }
     >
@@ -64,7 +65,7 @@ const DropDown: React.FC<DropDownProps> = ({
             return (
               <li
                 key={option.title}
-                className="rounded-sm p-3 font-bold hover:bg-neutral-900 hover:text-primary-light"
+                className="rounded-sm p-3 font-bold" // hover:bg-neutral-900 hover:text-white"
               >
                 {option.to.startsWith("http") ? (
                   <a
@@ -101,19 +102,26 @@ const options = [
 
 export const Header: React.FC = () => {
   return (
-    <header className="flex w-full justify-center tablet:justify-end">
-      <nav className="box-border flex h-24 gap-2 p-6">
-        {Object.entries(links).map(([text, to]) => (
-          <NavLink key={text} to={to}>
-            {text}
-          </NavLink>
-        ))}
-        <DropDown
-          className="hidden sm:block"
-          title="Tidligere år"
-          options={options}
+    <header>
+      <div className="flex h-60 w-full justify-center tablet:justify-end">
+        <img
+          src={capraGroupHeadImage}
+          alt="Logoene i Capra Gruppen"
+          className="absolute z-0 w-full"
         />
-      </nav>
+        <nav className="z-10 box-border flex h-24 gap-2 p-6">
+          {Object.entries(links).map(([text, to]) => (
+            <NavLink key={text} to={to}>
+              {text}
+            </NavLink>
+          ))}
+          <DropDown
+            className="hidden text-white sm:block"
+            title="Tidligere år"
+            options={options}
+          />
+        </nav>
+      </div>
     </header>
   );
 };
