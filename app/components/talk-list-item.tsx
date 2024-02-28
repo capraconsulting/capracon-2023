@@ -57,9 +57,9 @@ export const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
 
   return (
     <Link to={`/talk/${slugify(talk.title)}`}>
-      <div className="relative h-[100%] min-h-min bg-white p-4 pb-6 shadow-md laptop:px-6 laptop:pt-6 laptop:pb-8">
-        <div className="inline-block rounded border-x border-y border-black leading-3">
-          <span className="inline-block bg-black p-1 text-sm font-bold leading-3 text-white">
+      <div className="relative h-[100%] min-h-min bg-primary-light p-4 pb-6 shadow-md laptop:px-6 laptop:pt-6 laptop:pb-8">
+        <div className="inline-block rounded border-x border-y border-primary leading-3">
+          <span className="inline-block bg-primary p-1 text-sm font-bold leading-3 text-primary-light">
             <div className="sr-only">
               <span>fra </span>
               <time dateTime={startTime}>{startTime}</time>
@@ -79,7 +79,7 @@ export const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
 
         <h3
           className={classNames(
-            "break-words text-2xl font-bold tracking-tight tablet:font-black",
+            "break-words text-2xl font-bold tracking-tight tablet:font-primary",
             talk.title && talk.title.length > 40
               ? "laptop:text-3xl"
               : "laptop:text-4xl",

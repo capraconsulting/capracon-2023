@@ -15,7 +15,7 @@ export const Title: React.FC<Props> = ({
   children,
   withBackground = false,
   className,
-  color = withBackground ? "text-white" : "text-black",
+  color = withBackground ? "text-primary-light" : "text-primary",
   size = Component === "h1"
     ? "text-7xl laptop:text-9xl"
     : Component === "h2"
@@ -30,7 +30,7 @@ export const Title: React.FC<Props> = ({
         size,
         "mb-4 inline-block font-bold leading-normal",
         {
-          "bg-black p-4": withBackground,
+          "bg-primary p-4": withBackground,
         },
       )}
     >

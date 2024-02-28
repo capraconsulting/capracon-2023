@@ -45,18 +45,16 @@ export default function Component() {
 
   return (
     <main className="container mx-auto pb-32">
-      <div className="px-4 text-2xl font-bold text-white">
+      <div className="px-4 text-2xl font-bold">
         <time dateTime={data.conference.date}>
           {data.formattedConferenceDate}
         </time>
         <p>{data.conference.locationName}</p>
       </div>
 
-      <Title as="h1" color="text-white">
-        {data.conference.title}
-      </Title>
+      <Title as="h1">{data.conference.title}</Title>
 
-      <p className="max-w-[500px] p-4 text-2xl text-white">
+      <p className="max-w-[500px] p-4 text-2xl">
         {data.conference.description}
       </p>
 
@@ -69,7 +67,7 @@ export default function Component() {
         <div className="schedule">
           {workshop && (
             <div
-              className="bg-white"
+              className="bg-primary-light"
               style={{
                 gridColumn: TrackGridColumn.Felles,
                 gridRow: "workshop",
@@ -98,7 +96,7 @@ export default function Component() {
               key={timeslot.id}
               className={classNames(
                 "hidden laptop:inline",
-                "rounded-lg rounded-tr-none border-t-[6px] border-t-black bg-white p-2 font-semibold shadow-md",
+                "rounded-lg rounded-tr-none border-t-[6px] border-t-primary bg-primary-light p-2 font-semibold shadow-md",
               )}
               style={{
                 gridColumn: "times",
@@ -135,13 +133,13 @@ interface TrackHeadingProps {
 }
 const TrackHeading = ({ track }: TrackHeadingProps) => {
   const trackColors: Record<Tracks, `border-${string}`> = {
-    [Tracks["Felles"]]: "border-black",
-    [Tracks["Frontend"]]: "border-[#bbdde6]",
-    [Tracks["Ledelse"]]: "border-[#651d32]",
-    [Tracks["CloudNative"]]: "border-[#ffd2b9]",
+    [Tracks["Felles"]]: "border-primary",
+    [Tracks["Frontend"]]: "border-frontend",
+    [Tracks["Ledelse"]]: "border-ledelse",
+    [Tracks["CloudNative"]]: "border-cloud-native",
   } as const;
   return (
-    <div className="flex w-full items-center justify-center bg-white px-[5px] pt-5 pb-6">
+    <div className="flex w-full items-center justify-center bg-primary-light px-[5px] pt-5 pb-6">
       <span
         className={classNames(
           trackColors[track.title],

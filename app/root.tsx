@@ -66,10 +66,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="bg-[#ebeae1]">
-        <div className="absolute top-0 bottom-0 -z-10 h-full min-h-screen w-full overflow-hidden">
-          <BackgroundSvg />
-        </div>
+      <body className="bg-background text-primary">
         <Header />
         <Outlet />
         <ScrollRestoration
@@ -93,12 +90,3 @@ export default function App() {
     </html>
   );
 }
-
-const BackgroundSvg: React.FC = () => {
-  return (
-    <div
-      style={{ color: "#F2F1EC" }}
-      className="h-[3000px] w-full bg-cover bg-center bg-no-repeat"
-    />
-  );
-};
