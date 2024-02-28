@@ -5,7 +5,7 @@ export const config = {
   masterProgramDatabaseId: "43afb7a3986f493193ec208dd2080543",
 
   KV_NAMESPACE: "KV",
-  KV_DATA_CACHE_KEY: "all-data",
+  KV_DATA_CACHE_KEY: "all-data-2024",
 
   KV_TTL_IN_MS: 1000 * 5,
   KW_SWR_IN_MS: 1000 * 60 * 60 * 24,
