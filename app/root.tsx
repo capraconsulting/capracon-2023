@@ -15,7 +15,6 @@ import {
 } from "@remix-run/react";
 
 import { Header } from "~/components/header";
-import capraconBackground from "./images/capracon-background.svg";
 import { getDataCachedAndFiltered } from "./notion-conference/client-cached-and-filtered";
 import styles from "./tailwind.css";
 import { timeZone } from "./utils/consts";
@@ -66,12 +65,8 @@ export default function App() {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
-        <link rel="preload" as="image" href={capraconBackground} />
       </head>
-      <body className="bg-[#ebeae1]">
-        <div className="absolute top-0 bottom-0 -z-10 h-full min-h-screen w-full overflow-hidden">
-          <BackgroundSvg />
-        </div>
+      <body className="bg-background text-primary">
         <Header />
         <Outlet />
         <ScrollRestoration
@@ -95,12 +90,3 @@ export default function App() {
     </html>
   );
 }
-
-const BackgroundSvg: React.FC = () => {
-  return (
-    <div
-      style={{ backgroundImage: `url(${capraconBackground})` }}
-      className="h-[3000px] w-full bg-cover bg-center bg-no-repeat"
-    />
-  );
-};

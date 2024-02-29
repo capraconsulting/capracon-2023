@@ -18,7 +18,7 @@ const NavLink: React.FC<PropsWithChildren<Pick<LinkProps, "to">>> = ({
       prefetch="intent"
       className={({ isActive }) =>
         classNames("rounded-sm p-3 font-bold uppercase", {
-          "bg-neutral-900 text-white": isActive,
+          "bg-neutral-900 text-primary-light": isActive,
         })
       }
     >
@@ -52,7 +52,7 @@ const DropDown: React.FC<DropDownProps> = ({
       <button
         className={`rounded-sm p-3 font-bold uppercase ${
           options.some((option) => location.pathname.includes(option.to))
-            ? "bg-neutral-900 text-white"
+            ? "bg-neutral-900 text-primary-light"
             : ""
         }`}
       >
@@ -64,7 +64,7 @@ const DropDown: React.FC<DropDownProps> = ({
             return (
               <li
                 key={option.title}
-                className="rounded-sm p-3 font-bold hover:bg-neutral-900 hover:text-white"
+                className="rounded-sm p-3 font-bold hover:bg-neutral-900 hover:text-primary-light"
               >
                 {option.to.startsWith("http") ? (
                   <a
