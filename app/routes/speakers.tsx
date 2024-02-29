@@ -28,12 +28,7 @@ export default function Component() {
 
   return (
     <main className="container mx-auto pb-6 tablet:pb-12">
-      <Title
-        as="h1"
-        withBackground
-        size="text-4xl"
-        className="tablet:text-5xl sm:text-6xl"
-      >
+      <Title as="h1" size="text-4xl" className="tablet:text-5xl sm:text-6xl">
         {conference.foredragsholdereTitle}
       </Title>
       <div className="flex flex-col gap-6 tablet:gap-12">
@@ -80,7 +75,7 @@ export default function Component() {
               <div>
                 <h2
                   className={classNames(
-                    "break-words text-3xl font-semibold tracking-tight tablet:font-primary",
+                    "tablet:font-primary break-words text-3xl font-semibold tracking-tight",
                   )}
                 >
                   {speaker.name}
