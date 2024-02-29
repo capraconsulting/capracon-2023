@@ -69,7 +69,6 @@ export default function App() {
           href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
           rel="stylesheet"
         />
-
         <Meta />
         <Links />
       </head>
@@ -97,12 +96,3 @@ export default function App() {
     </html>
   );
 }
-
-const BackgroundSvg: React.FC = () => {
-  return (
-    <div
-      style={{ color: "#F2F1EC" }}
-      className="h-[3000px] w-full bg-cover bg-center bg-no-repeat"
-    />
-  );
-};

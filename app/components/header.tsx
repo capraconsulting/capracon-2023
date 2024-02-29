@@ -8,6 +8,7 @@ import { NavLink as RemixNavLink } from "@remix-run/react";
 
 import { classNames } from "~/utils/misc";
 import capraGroupHeadImage from "./../images/capra_group.png";
+import capraGroupSmallerHeadImage from "./../images/capra_group_smaller.png";
 
 const NavLink: React.FC<PropsWithChildren<Pick<LinkProps, "to">>> = ({
   to,
@@ -103,11 +104,16 @@ const options = [
 export const Header: React.FC = () => {
   return (
     <header>
-      <div className="flex h-60 w-full justify-center tablet:justify-end">
+      <div className="flex h-24 w-full justify-center tablet:justify-end laptop:h-60">
         <img
           src={capraGroupHeadImage}
           alt="Logoene i Capra Gruppen"
-          className="absolute z-0 w-full"
+          className="absolute z-0 hidden w-full laptop:block"
+        />
+        <img
+          src={capraGroupSmallerHeadImage}
+          alt="Logoene i Capra Gruppen"
+          className="absolute z-0 w-full laptop:hidden"
         />
         <nav className="z-10 box-border flex h-24 gap-2 p-6">
           {Object.entries(links).map(([text, to]) => (
