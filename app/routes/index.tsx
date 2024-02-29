@@ -45,11 +45,11 @@ export default function Component() {
 
   return (
     <main className="container mx-auto pb-32">
-      <Title as="h1" color="text-white">
+      <Title as="h1" color="text-black">
         {data.conference.title}
       </Title>
 
-      <div className="px-4 text-2xl font-bold text-white">
+      <div className="px-4 text-2xl font-bold text-black">
         <time dateTime={data.conference.date}>
           {data.formattedConferenceDate}
         </time>
