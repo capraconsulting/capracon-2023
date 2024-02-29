@@ -122,12 +122,6 @@ interface TrackHeadingProps {
   track: Track;
 }
 const TrackHeading = ({ track }: TrackHeadingProps) => {
-  const trackColors: Record<Tracks, `border-${string}`> = {
-    [Tracks["Felles"]]: "border-black",
-    [Tracks["Frontend"]]: "border-[#bbdde6]",
-    [Tracks["Ledelse"]]: "border-[#651d32]",
-    [Tracks["Cloud"]]: "border-[#ffd2b9]",
-  } as const;
   return (
     <div className="flex w-full items-center justify-center rounded-xl bg-black px-[5px] pt-10 pb-12">
       <span
