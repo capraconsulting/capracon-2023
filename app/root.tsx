@@ -90,3 +90,12 @@ export default function App() {
     </html>
   );
 }
+
+const BackgroundSvg: React.FC = () => {
+  return (
+    <div
+      style={{ color: "#F2F1EC" }}
+      className="h-[3000px] w-full bg-cover bg-center bg-no-repeat"
+    />
+  );
+};
