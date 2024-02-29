@@ -85,8 +85,7 @@ export default function Component() {
             <h2
               key={timeslot.id}
               className={classNames(
-                "hidden laptop:inline",
-                "rounded-lg rounded-tr-none border-t-[6px] border-t-primary bg-primary-light p-2 font-semibold shadow-md",
+                "flex h-16 w-16 items-center justify-center rounded-full bg-primary-light text-sm font-semibold",
               )}
               style={{
                 gridColumn: "times",
