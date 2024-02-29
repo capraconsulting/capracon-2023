@@ -48,7 +48,6 @@ export default function Component() {
     <ContentBox>
       <Title
         as="h1"
-        withBackground
         size="text-3xl"
         className={classNames(
           "p-5",
