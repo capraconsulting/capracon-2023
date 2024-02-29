@@ -98,6 +98,7 @@ const links = {
 } as const;
 
 const options = [
+  { title: "2023", to: "https://capracon-2023.capracon-2023.pages.dev" },
   { title: "2022", to: "https://capracon-2022.netlify.app/2022" },
 ];
 
