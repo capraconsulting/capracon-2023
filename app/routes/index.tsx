@@ -85,7 +85,7 @@ export default function Component() {
             <h2
               key={timeslot.id}
               className={classNames(
-                "flex h-16 w-16 items-center justify-center rounded-full bg-primary-light text-sm font-semibold",
+                "flex h-16 w-16 items-center justify-center truncate rounded-full bg-primary-light text-sm font-semibold",
               )}
               style={{
                 gridColumn: "times",
