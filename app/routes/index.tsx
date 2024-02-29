@@ -61,7 +61,7 @@ export default function Component() {
       </div>
 
       <section className="pt-12">
-        <Title as="h2" withBackground size="text-6xl">
+        <Title as="h2" size="text-6xl">
           Program
         </Title>
 
