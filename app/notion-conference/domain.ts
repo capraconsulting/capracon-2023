@@ -16,7 +16,7 @@ import {
   getUrl,
 } from "~/notion/helpers";
 import type { DatabaseResponse } from "~/notion/notion";
-import { TRACKS } from "~/utils/consts";
+import { TRACKS, YEARS } from "~/utils/consts";
 import type { Relaxed } from "~/utils/misc";
 import { typedBoolean } from "~/utils/misc";
 import { formattedHoursMinutes, sortedTalksByStartTime } from "./helpers";
@@ -120,6 +120,7 @@ const talkSchema = z.object({
     .string()
     .datetime({ offset: true })
     .transform((val) => new Date(val).toISOString()),
+  year: z.string(),
 });
 export type Talk = z.infer<typeof talkSchema>;
 
@@ -240,6 +241,7 @@ const mapTalk = (fromPage: PageObjectResponse, speakers: Speaker[]) => {
       getSelect("Status", fromPage) ===
       "8. Tildelt slot i program (tid og rom)",
     startTime: getDate("Starttid", fromPage),
+    year: (getSelectAndColor("Årgang", fromPage)?.title ?? "2023") as string,
   } satisfies Relaxed<Talk>;
 };
 
@@ -252,6 +254,7 @@ export const safeParseTalks = (
 
   fromPages
     .map((page) => mapTalk(page, speakers))
+    .filter((talk) => talk.year === "2024")
     .map((unparsed) => ({
       unparsed,
       parsed: talkSchema.safeParse(unparsed),
@@ -269,6 +272,13 @@ export const safeParseTalks = (
 
   // Pre-sort the talks in correct order
   success = sortedTalksByStartTime(success);
+
+  console.log(
+    "Successfull talks: ",
+    success.length,
+    " failed talks:",
+    failed.length,
+  );
 
   return [success, failed] as const;
 };

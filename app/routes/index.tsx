@@ -37,11 +37,11 @@ export const meta: V2_MetaFunction<never, { root: RootLoader }> = ({
 export default function Component() {
   const data = useRootData();
 
+  const talks = data.talks.concat(data.unpublishedTalks ?? []);
+
   const trackHeadings = TRACK_HEADINGS.map((trackTitle) =>
     data.tracks.find((track) => track.title === trackTitle),
   ).filter(typedBoolean);
-
-  const workshop = data.talks.find((talk) => talk.title.includes("Workshop"));
 
   return (
     <main className="container mx-auto pb-32">
@@ -63,19 +63,7 @@ export default function Component() {
           Program
         </Title>
 
-        {/* Workshop */}
         <div className="schedule">
-          {workshop && (
-            <div
-              className="bg-primary-light"
-              style={{
-                gridColumn: TrackGridColumn.Felles,
-                gridRow: "workshop",
-              }}
-            >
-              <TalkListItem talk={workshop} />
-            </div>
-          )}
           {/* Track headings */}
           {trackHeadings.map((track) => (
             <div
@@ -108,7 +96,7 @@ export default function Component() {
           ))}
 
           {/* Talks */}
-          {data.talks.concat(data.unpublishedTalks ?? []).map((talk) => {
+          {talks.map((talk) => {
             const { startTime, endTime } = getFormattedTalkTimes(talk);
             return (
               <div
@@ -133,10 +121,10 @@ interface TrackHeadingProps {
 }
 const TrackHeading = ({ track }: TrackHeadingProps) => {
   const trackColors: Record<Tracks, `border-${string}`> = {
-    [Tracks["Felles"]]: "border-primary",
-    [Tracks["Frontend"]]: "border-frontend",
-    [Tracks["Ledelse"]]: "border-ledelse",
-    [Tracks["CloudNative"]]: "border-cloud-native",
+    [Tracks["Felles"]]: "border-black",
+    [Tracks["Frontend"]]: "border-[#bbdde6]",
+    [Tracks["Ledelse"]]: "border-[#651d32]",
+    [Tracks["Cloud"]]: "border-[#ffd2b9]",
   } as const;
   return (
     <div className="flex w-full items-center justify-center bg-primary-light px-[5px] pt-5 pb-6">
