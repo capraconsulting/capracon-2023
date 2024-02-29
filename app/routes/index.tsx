@@ -129,11 +129,10 @@ const TrackHeading = ({ track }: TrackHeadingProps) => {
     [Tracks["Cloud"]]: "border-[#ffd2b9]",
   } as const;
   return (
-    <div className="flex w-full items-center justify-center bg-primary-light px-[5px] pt-5 pb-6">
+    <div className="flex w-full items-center justify-center rounded-xl bg-black px-[5px] pt-10 pb-12">
       <span
         className={classNames(
-          trackColors[track.title],
-          "border-b-8 px-[6px] py-1 text-[1.2rem] font-bold uppercase",
+          "border-b-4 border-white px-[6px] py-1 text-[1.2rem] uppercase text-white",
         )}
       >
         {track.title}
