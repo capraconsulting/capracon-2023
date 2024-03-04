@@ -109,12 +109,12 @@ export const Header: React.FC = () => {
         <img
           src={capraGroupHeadImage}
           alt="Logoene i Capra Gruppen"
-          className="absolute z-0 hidden w-full laptop:block"
+          className="absolute z-0 hidden h-56 w-full laptop:block"
         />
         <img
           src={capraGroupSmallerHeadImage}
           alt="Logoene i Capra Gruppen"
-          className="absolute z-0 w-full laptop:hidden"
+          className="absolute z-0 h-24 w-full laptop:hidden"
         />
         <nav className="z-10 box-border flex h-24 gap-2 p-6">
           {Object.entries(links).map(([text, to]) => (
