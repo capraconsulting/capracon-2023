@@ -4,6 +4,7 @@ import type {
   V2_MetaFunction,
 } from "@remix-run/cloudflare";
 
+import frontImage from "~/../app/images/MDB-CAPRACON-42.png";
 import { TalkListItem } from "~/components/talk-list-item";
 import { Title } from "~/components/title";
 import { config } from "~/config";
@@ -57,7 +58,13 @@ export default function Component() {
       </div>
 
       <div>
-        <div className="mt-8 h-96 w-full rounded-xl bg-black"></div>
+        <div className="mt-8 h-96 w-full rounded-xl bg-black">
+          <img
+            src={frontImage}
+            alt="Bilde av Jørgen Halvorsen sitt foredrag under CapraCon 2023"
+            className="h-full w-full rounded-xl object-cover"
+          />
+        </div>
       </div>
 
       <section className="pt-12">
