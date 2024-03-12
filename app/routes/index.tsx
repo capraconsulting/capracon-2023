@@ -37,47 +37,31 @@ export const meta: V2_MetaFunction<never, { root: RootLoader }> = ({
 export default function Component() {
   const data = useRootData();
 
+  const talks = data.talks.concat(data.unpublishedTalks ?? []);
+
   const trackHeadings = TRACK_HEADINGS.map((trackTitle) =>
     data.tracks.find((track) => track.title === trackTitle),
   ).filter(typedBoolean);
 
-  const workshop = data.talks.find((talk) => talk.title.includes("Workshop"));
-
   return (
     <main className="container mx-auto pb-32">
-      <div className="px-4 text-2xl font-bold text-white">
+      <Title as="h1" color="text-black">
+        {data.conference.title}
+      </Title>
+
+      <div className="px-4 text-2xl font-bold text-black">
         <time dateTime={data.conference.date}>
           {data.formattedConferenceDate}
         </time>
         <p>{data.conference.locationName}</p>
       </div>
 
-      <Title as="h1" color="text-white">
-        {data.conference.title}
-      </Title>
-
-      <p className="max-w-[500px] p-4 text-2xl text-white">
-        {data.conference.description}
-      </p>
-
       <section className="pt-12">
-        <Title as="h2" withBackground size="text-6xl">
+        <Title as="h2" size="text-6xl">
           Program
         </Title>
 
-        {/* Workshop */}
         <div className="schedule">
-          {workshop && (
-            <div
-              className="bg-white"
-              style={{
-                gridColumn: TrackGridColumn.Felles,
-                gridRow: "workshop",
-              }}
-            >
-              <TalkListItem talk={workshop} />
-            </div>
-          )}
           {/* Track headings */}
           {trackHeadings.map((track) => (
             <div
@@ -97,20 +81,22 @@ export default function Component() {
             <h2
               key={timeslot.id}
               className={classNames(
-                "hidden laptop:inline",
-                "rounded-lg rounded-tr-none border-t-[6px] border-t-black bg-white p-2 font-semibold shadow-md",
+                "hidden laptop:flex",
+                "flex h-16 w-16 items-center justify-center rounded-full bg-primary-light text-sm font-semibold",
               )}
               style={{
                 gridColumn: "times",
                 gridRow: `time-${formattedHoursMinutes(timeslot.startTime)}`,
               }}
             >
-              {formattedHoursMinutesAlt(timeslot.startTime)}
+              <span className="overflow-hidden truncate">
+                {formattedHoursMinutesAlt(timeslot.startTime)}
+              </span>
             </h2>
           ))}
 
           {/* Talks */}
-          {data.talks.concat(data.unpublishedTalks ?? []).map((talk) => {
+          {talks.map((talk) => {
             const { startTime, endTime } = getFormattedTalkTimes(talk);
             return (
               <div
@@ -134,18 +120,11 @@ interface TrackHeadingProps {
   track: Track;
 }
 const TrackHeading = ({ track }: TrackHeadingProps) => {
-  const trackColors: Record<Tracks, `border-${string}`> = {
-    [Tracks["Felles"]]: "border-black",
-    [Tracks["Frontend"]]: "border-[#bbdde6]",
-    [Tracks["Ledelse"]]: "border-[#651d32]",
-    [Tracks["CloudNative"]]: "border-[#ffd2b9]",
-  } as const;
   return (
-    <div className="flex w-full items-center justify-center bg-white px-[5px] pt-5 pb-6">
+    <div className="flex w-full items-center justify-center rounded-xl bg-black px-[5px] pt-10 pb-12">
       <span
         className={classNames(
-          trackColors[track.title],
-          "border-b-8 px-[6px] py-1 text-[1.2rem] font-bold uppercase",
+          "border-b-4 border-white px-[6px] py-1 text-[1.2rem] uppercase text-white",
         )}
       >
         {track.title}

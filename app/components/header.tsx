@@ -7,6 +7,8 @@ import { useLocation } from "@remix-run/react";
 import { NavLink as RemixNavLink } from "@remix-run/react";
 
 import { classNames } from "~/utils/misc";
+import capraGroupHeadImage from "./../images/capra_group.png";
+import capraGroupSmallerHeadImage from "./../images/capra_group_smaller.png";
 
 const NavLink: React.FC<PropsWithChildren<Pick<LinkProps, "to">>> = ({
   to,
@@ -17,8 +19,8 @@ const NavLink: React.FC<PropsWithChildren<Pick<LinkProps, "to">>> = ({
       to={to}
       prefetch="intent"
       className={({ isActive }) =>
-        classNames("rounded-sm p-3 font-bold uppercase", {
-          "bg-neutral-900 text-white": isActive,
+        classNames("rounded-sm p-3 font-bold uppercase text-white", {
+          "border-b-2 border-white": isActive,
         })
       }
     >
@@ -52,7 +54,7 @@ const DropDown: React.FC<DropDownProps> = ({
       <button
         className={`rounded-sm p-3 font-bold uppercase ${
           options.some((option) => location.pathname.includes(option.to))
-            ? "bg-neutral-900 text-white"
+            ? "bg-neutral-900 text-primary-light"
             : ""
         }`}
       >
@@ -64,7 +66,7 @@ const DropDown: React.FC<DropDownProps> = ({
             return (
               <li
                 key={option.title}
-                className="rounded-sm p-3 font-bold hover:bg-neutral-900 hover:text-white"
+                className="rounded-sm p-3 font-bold" // hover:bg-neutral-900 hover:text-white"
               >
                 {option.to.startsWith("http") ? (
                   <a
@@ -96,24 +98,37 @@ const links = {
 } as const;
 
 const options = [
+  { title: "2023", to: "https://capracon-2023.capracon-2023.pages.dev" },
   { title: "2022", to: "https://capracon-2022.netlify.app/2022" },
 ];
 
 export const Header: React.FC = () => {
   return (
-    <header className="flex w-full justify-center tablet:justify-end">
-      <nav className="box-border flex h-24 gap-2 p-6">
-        {Object.entries(links).map(([text, to]) => (
-          <NavLink key={text} to={to}>
-            {text}
-          </NavLink>
-        ))}
-        <DropDown
-          className="hidden sm:block"
-          title="Tidligere år"
-          options={options}
+    <header>
+      <div className="flex h-24 w-full justify-center tablet:justify-end laptop:h-60">
+        <img
+          src={capraGroupHeadImage}
+          alt="Logoene i Capra Gruppen"
+          className="absolute z-0 hidden h-56 w-full laptop:block"
         />
-      </nav>
+        <img
+          src={capraGroupSmallerHeadImage}
+          alt="Logoene i Capra Gruppen"
+          className="absolute z-0 h-24 w-full laptop:hidden"
+        />
+        <nav className="z-10 box-border flex h-24 gap-2 p-6">
+          {Object.entries(links).map(([text, to]) => (
+            <NavLink key={text} to={to}>
+              {text}
+            </NavLink>
+          ))}
+          <DropDown
+            className="hidden text-white sm:block"
+            title="Tidligere år"
+            options={options}
+          />
+        </nav>
+      </div>
     </header>
   );
 };
