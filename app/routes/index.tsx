@@ -4,7 +4,8 @@ import type {
   V2_MetaFunction,
 } from "@remix-run/cloudflare";
 
-import frontImage from "~/../app/images/MDB-CAPRACON-42.png";
+import frontImage from "app/images/MDB-CAPRACON-42.png";
+
 import { TalkListItem } from "~/components/talk-list-item";
 import { Title } from "~/components/title";
 import { config } from "~/config";
