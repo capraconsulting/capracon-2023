@@ -1,4 +1,4 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>capralifecycle/renovate-config:aggressive-base"]
+  "extends": ["github>capralifecycle/renovate-config:default-base"]
 }
