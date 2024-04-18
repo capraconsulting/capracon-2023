@@ -121,7 +121,7 @@ interface TrackHeadingProps {
 }
 const TrackHeading = ({ track }: TrackHeadingProps) => {
   return (
-    <div className="flex w-full items-center justify-center rounded-xl bg-black px-[5px] pt-10 pb-12">
+    <div className="flex w-full items-center justify-center rounded-xl bg-black px-[5px] pb-12 pt-10">
       <span
         className={classNames(
           "border-b-4 border-white px-[6px] py-1 text-[1.2rem] uppercase text-white",

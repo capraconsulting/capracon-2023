@@ -26,18 +26,18 @@ export const links: LinksFunction = () => [
   },
   {
     rel: "icon",
-    href: "/favicon.ico",
+    href: "/favicon-group.ico",
     type: "image/ico",
     sizes: "any",
   },
   {
     rel: "icon",
-    href: "/icon.svg",
+    href: "/icon-group.svg",
     type: "image/svg+xml",
   },
   {
     rel: "apple-touch-icon",
-    href: "/apple-touch-icon.png",
+    href: "/apple-touch-icon-group.png",
   },
   { rel: "stylesheet", href: styles },
 ];
