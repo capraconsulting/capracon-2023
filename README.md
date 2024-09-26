@@ -17,7 +17,7 @@ NOTION_TOKEN=<api-key-here>
 PREVIEW_SECRET=<secret-here>
 ```
 
-Spør noen i [#tema_capraweb](https://capra.slack.com/archives/C01A1QLRKJM) for secrets, alle i capra skal få tilgang 😊
+Spør noen i [#team_capraweb](https://capra.slack.com/archives/C01A1QLRKJM) for secrets, alle i capra skal få tilgang 😊
 
 Kjør opp dev serveren slik
 
