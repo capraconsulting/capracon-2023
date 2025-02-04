@@ -44,11 +44,23 @@ const Speakers = ({ speakers }: { speakers: Speaker[] }) => {
               {speaker.company && (
                 <span className="text-base tablet:text-sm laptop:text-base">
                   {speaker.company.trim() === "Capra" ? (
-                    <img width={65} alt={speaker.company} src="/capra.webp" />
+                    <img
+                      className="h-[21px]"
+                      alt={speaker.company}
+                      src="/capra.webp"
+                    />
                   ) : speaker.company.trim() === "Liflig" ? (
-                    <img width={65} alt={speaker.company} src="/liflig.webp" />
+                    <img
+                      className="h-[21px]"
+                      alt={speaker.company}
+                      src="/liflig.webp"
+                    />
                   ) : speaker.company.trim() === "Fryde" ? (
-                    <img width={65} alt={speaker.company} src="/fryde.webp" />
+                    <img
+                      className="h-[21px]"
+                      alt={speaker.company}
+                      src="/fryde.webp"
+                    />
                   ) : (
                     speaker.company
                   )}
@@ -60,19 +72,19 @@ const Speakers = ({ speakers }: { speakers: Speaker[] }) => {
                 <span className="text-base tablet:text-sm laptop:text-base">
                   {speaker.company.trim() === "Capra" ? (
                     <img
-                      width={65}
+                      className="h-[21px]"
                       alt={speaker.company}
                       src="/capra-dark.webp"
                     />
                   ) : speaker.company.trim() === "Liflig" ? (
                     <img
-                      width={65}
+                      className="h-[21px]"
                       alt={speaker.company}
                       src="/liflig-dark.webp"
                     />
                   ) : speaker.company.trim() === "Fryde" ? (
                     <img
-                      width={65}
+                      className="h-[21px]"
                       alt={speaker.company}
                       src="/fryde-dark.webp"
                     />
@@ -104,7 +116,7 @@ export const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
       <div className="relative rounded-md border border-gray-200 bg-white px-3 py-4 hover:border-gray-800 hover:transition-[3s] dark:border-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 laptop:px-6 laptop:pb-8 laptop:pt-6">
         <div className="flex w-full justify-between">
           <div>
-            <div className="inline-flex h-6 items-center justify-center whitespace-nowrap rounded-lg border border-gray-300 bg-transparent px-2.5 py-0.5 text-xs font-medium dark:bg-zinc-800">
+            <div className="mr-2 inline-flex h-6 items-center justify-center whitespace-nowrap rounded-lg border border-gray-300 bg-transparent px-2.5 py-0.5 text-xs font-medium dark:bg-zinc-800">
               <div className="sr-only">
                 <span>fra </span>
                 <time dateTime={startTime}>{startTime}</time>
@@ -133,12 +145,21 @@ export const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
           >
             {isHydrated ? (
               isFavorite ? (
-                <FeatherIcon icon="eye" className="text-gray h-6 w-6" />
+                <div className="flex flex-row items-center text-sm">
+                  <FeatherIcon icon="eye" className="mr-2 h-4 w-4" />
+                  Følger
+                </div>
               ) : (
-                <FeatherIcon icon="eye-off" className="h-6 w-6 text-gray-400" />
+                <div className="flex flex-row items-center text-sm text-gray-400">
+                  <FeatherIcon icon="eye-off" className="mr-2 h-4 w-4 " />
+                  Følg
+                </div>
               )
             ) : (
-              <FeatherIcon icon="eye-off" className="h-6 w-6  text-gray-400" />
+              <FeatherIcon
+                icon="eye-off"
+                className="mr-2 h-4 w-4 text-gray-400"
+              />
             )}
           </button>
         </div>

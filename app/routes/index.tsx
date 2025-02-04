@@ -50,7 +50,7 @@ export default function Component() {
         autoPlay
         loop
         preload="true"
-        className="mx-auto min-h-[400px] w-full bg-black object-cover [mask-image:url(/mask.svg)] [mask-position:center] [mask-repeat:no-repeat] [mask-size:60%] tablet:[mask-size:30%]"
+        className="mx-auto min-h-[400px] w-full bg-black object-cover [mask-image:url(/mask.svg)] [mask-position:center] [mask-repeat:no-repeat] [mask-size:60%] tablet:min-h-[720px] tablet:[mask-size:45%] desktop:[mask-size:38%]"
         muted
       >
         <source src="/background.mov" type="video/mp4" />

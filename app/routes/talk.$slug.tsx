@@ -105,19 +105,19 @@ export default function Component() {
                     <span className="text-base tablet:text-sm laptop:text-base">
                       {speaker.company.trim() === "Capra" ? (
                         <img
-                          width={65}
+                          className="h-[21px]"
                           alt={speaker.company}
                           src="/capra.webp"
                         />
                       ) : speaker.company.trim() === "Liflig" ? (
                         <img
-                          width={65}
+                          className="h-[21px]"
                           alt={speaker.company}
                           src="/liflig.webp"
                         />
                       ) : speaker.company.trim() === "Fryde" ? (
                         <img
-                          width={65}
+                          className="h-[21px]"
                           alt={speaker.company}
                           src="/fryde.webp"
                         />
@@ -132,19 +132,19 @@ export default function Component() {
                     <span className="text-base tablet:text-sm laptop:text-base">
                       {speaker.company.trim() === "Capra" ? (
                         <img
-                          width={65}
+                          className="h-[21px]"
                           alt={speaker.company}
                           src="/capra-dark.webp"
                         />
                       ) : speaker.company.trim() === "Liflig" ? (
                         <img
-                          width={65}
+                          className="h-[21px]"
                           alt={speaker.company}
                           src="/liflig-dark.webp"
                         />
                       ) : speaker.company.trim() === "Fryde" ? (
                         <img
-                          width={65}
+                          className="h-[21px]"
                           alt={speaker.company}
                           src="/fryde-dark.webp"
                         />
