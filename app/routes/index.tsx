@@ -49,13 +49,10 @@ export default function Component() {
         playsInline
         autoPlay
         loop
-        className="mx-auto min-h-[400px] object-cover [mask-image:url(/mask.svg)] [mask-position:center] [mask-repeat:no-repeat] [mask-size:45%] tablet:[mask-size:25%]"
+        className="mx-auto min-h-[400px] object-cover [mask-image:url(/mask.svg)] [mask-position:center] [mask-repeat:no-repeat] [mask-size:50%] tablet:[mask-size:30%]"
         muted
       >
-        <source
-          src="https://anti-brands.fra1.digitaloceanspaces.com/brands/capragruppen/media/Capra_Logo_animasjon.mp4"
-          type="video/mp4"
-        />
+        <source src="/background.mp4" type="video/mp4" />
       </video>
 
       <section className="mx-auto min-h-[90vh] p-4 sm:max-w-[1200px] sm:px-12">
