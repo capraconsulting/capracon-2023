@@ -1,6 +1,13 @@
 :root {
   --row: auto;
 }
+
+@media (prefers-color-scheme: dark) {
+  html {
+    background-color: black !important;
+  }
+}
+
 /*************************
  * GRID SCHEDULE LAYOUT
  *************************/
