@@ -38,11 +38,11 @@ export default function Kontakt() {
                   id: contactPerson.id,
                   mode: "face",
                 })}
-                className="h-20 w-20 rounded-full object-cover"
+                className="h-24 w-24 rounded-full border border-black object-cover grayscale"
               />
             )}
             {!contactPerson.image && (
-              <div className="h-20 w-20 rounded-full bg-neutral-300" />
+              <div className="h-20 w-20 rounded-full bg-neutral-300 grayscale" />
             )}
             <div>
               <div className="mb-4 text-xl font-bold">{contactPerson.name}</div>

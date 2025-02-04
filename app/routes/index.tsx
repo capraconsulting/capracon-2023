@@ -44,19 +44,28 @@ export default function Component() {
   ).filter(typedBoolean);
 
   return (
-    <main className="container mx-auto pb-32">
-      <Title as="h1" color="text-black">
-        {data.conference.title}
-      </Title>
+    <main className="container mx-auto">
+      <video
+        playsInline
+        autoPlay
+        loop
+        className="mx-auto min-h-[400px] object-cover [mask-image:url(/mask.svg)] [mask-position:center] [mask-repeat:no-repeat] [mask-size:45%] tablet:[mask-size:25%]"
+        muted
+      >
+        <source
+          src="https://anti-brands.fra1.digitaloceanspaces.com/brands/capragruppen/media/Capra_Logo_animasjon.mp4"
+          type="video/mp4"
+        />
+      </video>
 
-      <div className="px-4 text-2xl font-bold text-black">
-        <time dateTime={data.conference.date}>
-          {data.formattedConferenceDate}
-        </time>
-        <p>{data.conference.locationName}</p>
-      </div>
+      <section className="mx-auto min-h-[90vh] p-4 sm:max-w-[1200px] sm:px-12">
+        <div className="text-2xl font-bold text-black dark:text-white">
+          <time dateTime={data.conference.date}>
+            {data.formattedConferenceDate}
+          </time>
+          <p>{data.conference.locationName}</p>
+        </div>
 
-      <section className="pt-12">
         <Title as="h2" size="text-6xl">
           Program
         </Title>
@@ -66,7 +75,7 @@ export default function Component() {
           {trackHeadings.map((track) => (
             <div
               key={track.id}
-              className="sticky top-0 z-20 hidden laptop:block"
+              className="sticky top-0 z-20 hidden laptop:flex"
               style={{
                 gridColumn: TrackGridColumn[track.title],
                 gridRow: "tracks",
@@ -82,7 +91,7 @@ export default function Component() {
               key={timeslot.id}
               className={classNames(
                 "hidden laptop:flex",
-                "flex h-16 w-16 items-center justify-center rounded-full bg-primary-light text-sm font-semibold",
+                "inline-flex h-6 items-center justify-center whitespace-nowrap bg-transparent px-2.5 py-0.5 text-xs font-medium",
               )}
               style={{
                 gridColumn: "times",
@@ -121,12 +130,8 @@ interface TrackHeadingProps {
 }
 const TrackHeading = ({ track }: TrackHeadingProps) => {
   return (
-    <div className="flex w-full items-center justify-center rounded-xl bg-black px-[5px] pb-12 pt-10">
-      <span
-        className={classNames(
-          "border-b-4 border-white px-[6px] py-1 text-[1.2rem] uppercase text-white",
-        )}
-      >
+    <div className="pointer-events-none flex w-full items-center justify-center border border-[#999] bg-white p-2 dark:border-[#27272A] dark:bg-[black] ">
+      <span className={classNames("uppercase text-black dark:text-white")}>
         {track.title}
       </span>
     </div>

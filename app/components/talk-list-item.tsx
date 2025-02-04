@@ -1,6 +1,10 @@
 import React from "react";
 import { Link } from "@remix-run/react";
 
+import FeatherIcon from "feather-icons-react";
+import { useHydrated } from "remix-utils";
+
+import { useFavorites } from "~/hooks/useFavorites";
 import { slugify } from "~/notion/helpers";
 import type { Speaker, Talk } from "~/notion-conference/domain";
 import { getFormattedTalkTimesAlt } from "~/notion-conference/helpers";
@@ -12,7 +16,7 @@ const Speakers = ({ speakers }: { speakers: Speaker[] }) => {
   return (
     <>
       {speakers.map((speaker) => (
-        <div className="flex flex-col gap-2 laptop:flex-row" key={speaker.id}>
+        <div className="flex flex-col gap-2  laptop:flex-row" key={speaker.id}>
           {speaker.image && (
             <img
               alt={`Bilde av ${speaker.name}`}
@@ -21,7 +25,7 @@ const Speakers = ({ speakers }: { speakers: Speaker[] }) => {
                 id: speaker.id,
                 mode: "face",
               })}
-              className="h-20 w-20 rounded-full object-cover"
+              className="h-20 w-20 rounded-full border border-black object-cover grayscale"
             />
           )}
           {!speaker.image && (
@@ -36,11 +40,48 @@ const Speakers = ({ speakers }: { speakers: Speaker[] }) => {
                 {speaker.role}
               </span>
             )}
-            {speaker.company && (
-              <span className="text-base tablet:text-sm laptop:text-base">
-                {speaker.company}
-              </span>
-            )}
+            <span className="flex dark:hidden">
+              {speaker.company && (
+                <span className="text-base tablet:text-sm laptop:text-base">
+                  {speaker.company.trim() === "Capra" ? (
+                    <img width={65} alt={speaker.company} src="/capra.webp" />
+                  ) : speaker.company.trim() === "Liflig" ? (
+                    <img width={65} alt={speaker.company} src="/liflig.webp" />
+                  ) : speaker.company.trim() === "Fryde" ? (
+                    <img width={65} alt={speaker.company} src="/fryde.webp" />
+                  ) : (
+                    speaker.company
+                  )}
+                </span>
+              )}
+            </span>
+            <span className="hidden dark:flex">
+              {speaker.company && (
+                <span className="text-base tablet:text-sm laptop:text-base">
+                  {speaker.company.trim() === "Capra" ? (
+                    <img
+                      width={65}
+                      alt={speaker.company}
+                      src="/capra-dark.webp"
+                    />
+                  ) : speaker.company.trim() === "Liflig" ? (
+                    <img
+                      width={65}
+                      alt={speaker.company}
+                      src="/liflig-dark.webp"
+                    />
+                  ) : speaker.company.trim() === "Fryde" ? (
+                    <img
+                      width={65}
+                      alt={speaker.company}
+                      src="/fryde-dark.webp"
+                    />
+                  ) : (
+                    speaker.company
+                  )}
+                </span>
+              )}
+            </span>
           </div>
         </div>
       ))}
@@ -54,25 +95,52 @@ interface TalkListItemProps {
 
 export const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
   const { startTime, endTime } = getFormattedTalkTimesAlt(talk);
+  const isHydrated = useHydrated();
+  const { favorites, toggleFavorite } = useFavorites();
+  const isFavorite = isHydrated && favorites.includes(talk.id);
 
   return (
     <Link to={`/talk/${slugify(talk.title)}`}>
-      <div className="relative h-[100%] min-h-min rounded-xl bg-primary-light p-4 pb-6 shadow-md laptop:px-6 laptop:pt-6 laptop:pb-8">
-        <div className="inline-block rounded border-x border-y border-primary leading-3">
-          <span className="inline-block bg-primary p-1 text-sm font-bold leading-3 text-primary-light">
-            <div className="sr-only">
-              <span>fra </span>
-              <time dateTime={startTime}>{startTime}</time>
-              <span> til </span>
-              <time dateTime={endTime}>{endTime}</time>
+      <div className="relative rounded-md border border-gray-200 bg-white px-3 py-4 hover:border-gray-800 hover:transition-[3s] dark:border-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 laptop:px-6 laptop:pb-8 laptop:pt-6">
+        <div className="flex w-full justify-between">
+          <div>
+            <div className="inline-flex h-6 items-center justify-center whitespace-nowrap rounded-lg border border-gray-300 bg-transparent px-2.5 py-0.5 text-xs font-medium dark:bg-zinc-800">
+              <div className="sr-only">
+                <span>fra </span>
+                <time dateTime={startTime}>{startTime}</time>
+                <span> til </span>
+                <time dateTime={endTime}>{endTime}</time>
+              </div>
+              <div aria-hidden>
+                {startTime.split(":").join(".")} -{" "}
+                {endTime.split(":").join(".")}
+              </div>
             </div>
-            <div aria-hidden>
-              {startTime.split(":").join(".")} - {endTime.split(":").join(".")}
+            <div className="inline-flex h-6 items-center justify-center whitespace-nowrap rounded-lg border border-gray-300 bg-transparent px-2.5 py-0.5 text-xs font-medium dark:bg-zinc-800 tablet:hidden">
+              {talk.track.title}
             </div>
-          </span>
-          <span className="inline p-1 pb-2 text-sm font-bold leading-3 tablet:hidden">
-            {talk.track.title}
-          </span>
+          </div>
+
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleFavorite(talk.id);
+            }}
+            aria-label={
+              isFavorite ? "Fjern som favoritt" : "Legg til som favoritt"
+            }
+          >
+            {isHydrated ? (
+              isFavorite ? (
+                <FeatherIcon icon="eye" className="text-gray h-6 w-6" />
+              ) : (
+                <FeatherIcon icon="eye-off" className="h-6 w-6 text-gray-400" />
+              )
+            ) : (
+              <FeatherIcon icon="eye-off" className="h-6 w-6  text-gray-400" />
+            )}
+          </button>
         </div>
 
         <div className="mt-3" />

@@ -28,7 +28,7 @@ export const Title: React.FC<Props> = ({
         className,
         color,
         size,
-        "mb-4 inline-block font-bold leading-normal",
+        "mb-4 inline-block font-bold leading-normal dark:text-white",
         {
           "bg-primary p-4": withBackground,
         },
