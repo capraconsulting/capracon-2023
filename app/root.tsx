@@ -15,6 +15,7 @@ import {
 } from "@remix-run/react";
 
 import { Header } from "~/components/header";
+import { ThemeProvider } from "./hooks/useTheme";
 import { getDataCachedAndFiltered } from "./notion-conference/client-cached-and-filtered";
 import styles from "./tailwind.css";
 import { timeZone } from "./utils/consts";
@@ -69,29 +70,34 @@ export default function App() {
           href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
           rel="stylesheet"
         />
+        <title>CC25 | 20 år</title>
         <Meta />
         <Links />
       </head>
-      <body className="bg-background text-primary">
-        <Header />
-        <Outlet />
-        <ScrollRestoration
-          getKey={(location) => {
-            const paths = ["/"];
-            return paths.includes(location.pathname) ? location.pathname : null;
-          }}
-        />
-        <Scripts />
-        <LiveReload />
-
-        {/* Cloudflare Web Analytics */}
-        {process.env.NODE_ENV === "production" && (
-          <script
-            defer
-            src="https://static.cloudflareinsights.com/beacon.min.js"
-            data-cf-beacon='{"token": "6943920f1eb54a2998aec281c9ddbb76"}'
+      <body className="bg-background text-primary dark:bg-black dark:text-white">
+        <ThemeProvider>
+          <Header />
+          <Outlet />
+          <ScrollRestoration
+            getKey={(location) => {
+              const paths = ["/"];
+              return paths.includes(location.pathname)
+                ? location.pathname
+                : null;
+            }}
           />
-        )}
+          <Scripts />
+          <LiveReload />
+
+          {/* Cloudflare Web Analytics */}
+          {process.env.NODE_ENV === "production" && (
+            <script
+              defer
+              src="https://static.cloudflareinsights.com/beacon.min.js"
+              data-cf-beacon='{"token": "6943920f1eb54a2998aec281c9ddbb76"}'
+            />
+          )}
+        </ThemeProvider>
       </body>
     </html>
   );

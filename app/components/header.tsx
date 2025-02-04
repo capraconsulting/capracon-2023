@@ -1,134 +1,71 @@
-import type { PropsWithChildren } from "react";
-import { useState } from "react";
-import React from "react";
-import type { LinkProps } from "@remix-run/react";
+import React, { useState } from "react";
 import { Link } from "@remix-run/react";
-import { useLocation } from "@remix-run/react";
-import { NavLink as RemixNavLink } from "@remix-run/react";
 
-import { classNames } from "~/utils/misc";
-import capraGroupHeadImage from "./../images/capra_group.png";
-import capraGroupSmallerHeadImage from "./../images/capra_group_smaller.png";
+import FeatherIcon from "feather-icons-react";
+import { useHydrated } from "remix-utils";
 
-const NavLink: React.FC<PropsWithChildren<Pick<LinkProps, "to">>> = ({
-  to,
-  children,
-}) => {
-  return (
-    <RemixNavLink
-      to={to}
-      prefetch="intent"
-      className={({ isActive }) =>
-        classNames("rounded-sm p-3 font-bold uppercase text-white", {
-          "border-b-2 border-white": isActive,
-        })
-      }
-    >
-      {children}
-    </RemixNavLink>
-  );
-};
-
-type LinkOptions = { title: string; to: string };
-
-type DropDownProps = {
-  title: string;
-  options: LinkOptions[];
-  className?: string;
-};
-
-const DropDown: React.FC<DropDownProps> = ({
-  title,
-  options,
-  className,
-}: DropDownProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation();
-
-  return (
-    <div
-      className={classNames("relative flex flex-col", className)}
-      onMouseEnter={() => setIsOpen(true)}
-      onMouseLeave={() => setIsOpen(false)}
-    >
-      <button
-        className={`rounded-sm p-3 font-bold uppercase ${
-          options.some((option) => location.pathname.includes(option.to))
-            ? "bg-neutral-900 text-primary-light"
-            : ""
-        }`}
-      >
-        {title}
-      </button>
-      {isOpen ? (
-        <ul className="relative w-full">
-          {options.map((option) => {
-            return (
-              <li
-                key={option.title}
-                className="rounded-sm p-3 font-bold" // hover:bg-neutral-900 hover:text-white"
-              >
-                {option.to.startsWith("http") ? (
-                  <a
-                    className="block"
-                    target="_blank"
-                    href={option.to}
-                    rel="noreferrer"
-                  >
-                    {option.title}
-                  </a>
-                ) : (
-                  <Link className="block" to={option.to}>
-                    {option.title}
-                  </Link>
-                )}
-              </li>
-            );
-          })}
-        </ul>
-      ) : null}
-    </div>
-  );
-};
-
-const links = {
-  program: "/",
-  praktisk: "/praktisk",
-  kontakt: "/kontakt",
-} as const;
-
-const options = [
-  { title: "2023", to: "https://capracon-2023.capracon-2023.pages.dev" },
-  { title: "2022", to: "https://capracon-2022.netlify.app/2022" },
-];
+import { useTheme } from "~/hooks/useTheme";
 
 export const Header: React.FC = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
+  const isHydrated = useHydrated();
+
   return (
     <header>
-      <div className="flex h-24 w-full justify-center tablet:justify-end laptop:h-60">
-        <img
-          src={capraGroupHeadImage}
-          alt="Logoene i Capra Gruppen"
-          className="absolute z-0 hidden h-56 w-full laptop:block"
-        />
-        <img
-          src={capraGroupSmallerHeadImage}
-          alt="Logoene i Capra Gruppen"
-          className="absolute z-0 h-24 w-full laptop:hidden"
-        />
-        <nav className="z-10 box-border flex h-24 gap-2 p-6">
-          {Object.entries(links).map(([text, to]) => (
-            <NavLink key={text} to={to}>
-              {text}
-            </NavLink>
-          ))}
-          <DropDown
-            className="hidden text-white sm:block"
-            title="Tidligere år"
-            options={options}
-          />
-        </nav>
-      </div>
+      <nav className="flex w-full items-center justify-between bg-white p-4 dark:bg-black">
+        <Link className="flex" to="/">
+          CC25
+        </Link>
+        <div className="flex justify-end">
+          {isHydrated && (
+            <button
+              onClick={toggleTheme}
+              className="rounded-full p-2 hover:bg-gray-200 dark:hover:bg-gray-700"
+            >
+              {theme === "dark" ? (
+                <FeatherIcon icon="moon" className="h-5 w-5" />
+              ) : (
+                <FeatherIcon icon="sun" className="h-5 w-5" />
+              )}
+            </button>
+          )}
+          <div className="relative ml-4">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="p-2 text-gray-600 dark:text-gray-300"
+            >
+              <FeatherIcon icon="menu" className="h-5 w-5" />
+            </button>
+
+            {isOpen && (
+              <div className="absolute right-0 z-10 mt-2 w-48 rounded-lg bg-white py-2 shadow-xl dark:bg-gray-800">
+                <Link
+                  to="/"
+                  onClick={() => setIsOpen(false)}
+                  className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+                >
+                  Program
+                </Link>
+                <Link
+                  to="/praktisk"
+                  onClick={() => setIsOpen(false)}
+                  className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+                >
+                  Praktisk
+                </Link>
+                <Link
+                  to="/kontakt"
+                  onClick={() => setIsOpen(false)}
+                  className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+                >
+                  Kontakt
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
+      </nav>
     </header>
   );
 };
