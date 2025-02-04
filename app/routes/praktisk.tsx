@@ -21,7 +21,7 @@ export default function Praktisk() {
 
   return (
     <ContentBox>
-      <Title as="h1" size="text-6xl" className="mb-10">
+      <Title as="h1" size="text-5xl" className="mb-10">
         {data.conference.praktiskTitle}
       </Title>
 
@@ -33,7 +33,7 @@ export default function Praktisk() {
         <RichTextList richTextList={data.conference.praktiskDescription} />
       </p>
 
-      <Title as="h2" size="text-6xl" className="mb-10">
+      <Title as="h2" size="text-5xl" className="mb-10">
         {data.conference.locationTitle}
       </Title>
 

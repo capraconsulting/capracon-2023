@@ -55,6 +55,13 @@ export const Header: React.FC = () => {
                   Praktisk
                 </Link>
                 <Link
+                  to="/speakers"
+                  onClick={() => setIsOpen(false)}
+                  className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+                >
+                  Speakers
+                </Link>
+                <Link
                   to="/kontakt"
                   onClick={() => setIsOpen(false)}
                   className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
