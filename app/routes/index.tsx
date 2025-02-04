@@ -7,7 +7,7 @@ import type {
 import { TalkListItem } from "~/components/talk-list-item";
 import { Title } from "~/components/title";
 import { config } from "~/config";
-import type { Talk, Track } from "~/notion-conference/domain";
+import type { Track } from "~/notion-conference/domain";
 import {
   formattedHoursMinutes,
   formattedHoursMinutesAlt,
@@ -16,7 +16,7 @@ import {
 import type { RootLoader } from "~/root";
 import { useRootData } from "~/root";
 import styles from "~/styles/program.css";
-import { TRACK_HEADINGS, TrackGridColumn, Tracks } from "~/utils/consts";
+import { TRACK_HEADINGS, TrackGridColumn } from "~/utils/consts";
 import { classNames, typedBoolean } from "~/utils/misc";
 
 export const headers: HeadersFunction = () => config.cacheControlHeaders;

@@ -16,7 +16,7 @@ import {
   getUrl,
 } from "~/notion/helpers";
 import type { DatabaseResponse } from "~/notion/notion";
-import { TRACKS, YEARS } from "~/utils/consts";
+import { TRACKS } from "~/utils/consts";
 import type { Relaxed } from "~/utils/misc";
 import { typedBoolean } from "~/utils/misc";
 import { formattedHoursMinutes, sortedTalksByStartTime } from "./helpers";
