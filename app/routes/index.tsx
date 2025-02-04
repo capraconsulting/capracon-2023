@@ -49,10 +49,11 @@ export default function Component() {
         playsInline
         autoPlay
         loop
-        className="mx-auto min-h-[400px] object-cover [mask-image:url(/mask.svg)] [mask-position:center] [mask-repeat:no-repeat] [mask-size:50%] tablet:[mask-size:30%]"
+        preload="true"
+        className="mx-auto min-h-[400px] w-full bg-black object-cover [mask-image:url(/mask.svg)] [mask-position:center] [mask-repeat:no-repeat] [mask-size:60%] tablet:[mask-size:30%]"
         muted
       >
-        <source src="/background.mp4" type="video/mp4" />
+        <source src="/background.mov" type="video/mp4" />
       </video>
 
       <section className="mx-auto min-h-[90vh] p-4 sm:max-w-[1200px] sm:px-12">
@@ -63,7 +64,7 @@ export default function Component() {
           <p>{data.conference.locationName}</p>
         </div>
 
-        <Title as="h2" size="text-6xl">
+        <Title as="h2" size="text-5xl">
           Program
         </Title>
 
