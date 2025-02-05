@@ -28,7 +28,7 @@ export default function Component() {
 
   return (
     <main className="mx-auto min-h-[90vh] p-4 sm:max-w-[1200px] sm:px-12">
-      <Title as="h1" size="text-4xl" className="text-5xl">
+      <Title as="h1" size="text-4xl" className="text-4xl tablet:text-5xl">
         {conference.foredragsholdereTitle}
       </Title>
       <div className="flex flex-col gap-6 tablet:gap-12">
