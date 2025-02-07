@@ -10,7 +10,7 @@ export const Header: React.FC = () => {
   return (
     <header className="flex h-[100px] w-full items-center justify-between px-4 pt-2 desktop:px-20">
       <Link className="flex items-center" to="/">
-        <picture>
+        <picture className="h-12">
           <source media="(min-width: 640px)" srcSet="/logo.webp" />
           <img
             className="absolute h-12 select-none opacity-100 sm:h-14 dark:opacity-5"
@@ -18,7 +18,7 @@ export const Header: React.FC = () => {
             src="/logo-sm.webp"
           />
         </picture>
-        <picture>
+        <picture className="h-12">
           <source media="(min-width: 640px)" srcSet="/logo-dark.webp" />
           <img
             className="absolute h-12 select-none opacity-5 sm:h-14 dark:opacity-100"
