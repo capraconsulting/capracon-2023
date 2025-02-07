@@ -6,7 +6,13 @@ export function useFavorites() {
     return JSON.parse(localStorage.getItem("favorites") || "[]");
   });
 
-  const toggleFavorite = (talkId: string) => {
+  const toggleFavorite = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    talkId: string,
+  ) => {
+    event.preventDefault();
+    event.stopPropagation();
+
     setFavorites((prev) => {
       const newFavorites = prev.includes(talkId)
         ? prev.filter((id) => id !== talkId)

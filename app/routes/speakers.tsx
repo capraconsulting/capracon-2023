@@ -1,5 +1,7 @@
 import type { V2_MetaFunction } from "@remix-run/cloudflare";
 
+import { CompanyLogo } from "~/components/company-logos";
+import { ContentBox } from "~/components/content-box";
 import { Title } from "~/components/title";
 import { slugify } from "~/notion/helpers";
 import type { RootLoader } from "~/root";
@@ -27,14 +29,17 @@ export default function Component() {
   });
 
   return (
-    <main className="mx-auto min-h-[90vh] p-4 sm:max-w-[1200px] sm:px-12">
-      <Title as="h1" size="text-4xl" className="text-4xl tablet:text-5xl">
+    <ContentBox>
+      <Title
+        as="h1"
+        className="text-3xl tablet:mb-16 tablet:mt-24 tablet:text-5xl"
+      >
         {conference.foredragsholdereTitle}
       </Title>
-      <div className="flex flex-col gap-6 tablet:gap-12">
+      <div className="flex flex-col gap-6 tablet:gap-8">
         {sortedSpeakers.map((speaker) => (
           <article
-            className="relative rounded-md border border-gray-200 bg-white px-3 py-4  dark:border-zinc-800 dark:bg-zinc-800 laptop:px-6 laptop:pb-8 laptop:pt-6"
+            className="relative rounded-md border border-gray-200 bg-white px-3 py-4 laptop:px-6 laptop:pb-8 laptop:pt-6 dark:border-zinc-800 dark:bg-zinc-800"
             key={speaker.id}
             id={slugify(speaker.name)}
           >
@@ -67,7 +72,7 @@ export default function Component() {
                       id: speaker.id,
                       mode: "portrait",
                     })}
-                    className="sm:h-70 aspect-[3/2] w-full rounded object-cover grayscale tablet:aspect-[2/3] tablet:h-60 tablet:w-auto"
+                    className="sm:h-70 aspect-[3/2] w-full rounded object-cover tablet:aspect-[2/3] tablet:h-60 tablet:w-auto"
                   />
                 </picture>
               )}
@@ -87,68 +92,17 @@ export default function Component() {
                       {speaker.role}
                     </p>
                   )}
-                  <span className="flex dark:hidden">
-                    {speaker.company && (
-                      <span className="text-base tablet:text-sm laptop:text-base">
-                        {speaker.company.trim() === "Capra" ? (
-                          <img
-                            className="h-[21px]"
-                            alt={speaker.company}
-                            src="/capra.webp"
-                          />
-                        ) : speaker.company.trim() === "Liflig" ? (
-                          <img
-                            className="h-[21px]"
-                            alt={speaker.company}
-                            src="/liflig.webp"
-                          />
-                        ) : speaker.company.trim() === "Fryde" ? (
-                          <img
-                            className="h-[21px]"
-                            alt={speaker.company}
-                            src="/fryde.webp"
-                          />
-                        ) : (
-                          speaker.company
-                        )}
-                      </span>
-                    )}
-                  </span>
-                  <span className="hidden dark:flex">
-                    {speaker.company && (
-                      <span className="text-base tablet:text-sm laptop:text-base">
-                        {speaker.company.trim() === "Capra" ? (
-                          <img
-                            className="h-[21px]"
-                            alt={speaker.company}
-                            src="/capra-dark.webp"
-                          />
-                        ) : speaker.company.trim() === "Liflig" ? (
-                          <img
-                            className="h-[21px]"
-                            alt={speaker.company}
-                            src="/liflig-dark.webp"
-                          />
-                        ) : speaker.company.trim() === "Fryde" ? (
-                          <img
-                            className="h-[21px]"
-                            alt={speaker.company}
-                            src="/fryde-dark.webp"
-                          />
-                        ) : (
-                          speaker.company
-                        )}
-                      </span>
-                    )}
-                  </span>
+                  {speaker.company && (
+                    <CompanyLogo company={speaker.company} height={22} />
+                  )}
                 </div>
 
-                {speaker.bio && <p className="mt-2 max-w-xl">{speaker.bio}</p>}
+                {speaker.bio && <p className="mt-4 max-w-xl">{speaker.bio}</p>}
               </div>
             </div>
           </article>
         ))}
       </div>
-    </main>
+    </ContentBox>
   );
 }

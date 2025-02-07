@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "@remix-run/react";
 
-import FeatherIcon from "feather-icons-react";
+import { Check, Plus } from "phosphor-react";
 import { useHydrated } from "remix-utils";
 
 import { useFavorites } from "~/hooks/useFavorites";
@@ -10,13 +10,14 @@ import type { Speaker, Talk } from "~/notion-conference/domain";
 import { getFormattedTalkTimesAlt } from "~/notion-conference/helpers";
 import { buildImageUrl } from "~/routes/api.image-optimized";
 import { classNames } from "~/utils/misc";
+import { CompanyLogo } from "./company-logos";
 import { RichTextList } from "./notion-rich-text";
 
 const Speakers = ({ speakers }: { speakers: Speaker[] }) => {
   return (
     <>
       {speakers.map((speaker) => (
-        <div className="flex flex-col gap-2  laptop:flex-row" key={speaker.id}>
+        <div className="flex flex-col gap-3 laptop:flex-row" key={speaker.id}>
           {speaker.image && (
             <img
               alt={`Bilde av ${speaker.name}`}
@@ -25,14 +26,14 @@ const Speakers = ({ speakers }: { speakers: Speaker[] }) => {
                 id: speaker.id,
                 mode: "face",
               })}
-              className="h-20 w-20 rounded-full border border-black object-cover grayscale"
+              className="h-[3.75rem] w-[3.75rem] rounded-full object-cover"
             />
           )}
           {!speaker.image && (
             <div className="h-20 w-20 rounded-full bg-neutral-300" />
           )}
           <div className="flex flex-col justify-center">
-            <span className="text-lg font-semibold leading-snug tablet:text-base laptop:text-xl">
+            <span className="mb-0.5 text-lg font-semibold leading-snug tablet:text-base">
               {speaker.name}
             </span>
             {speaker.role && (
@@ -40,60 +41,7 @@ const Speakers = ({ speakers }: { speakers: Speaker[] }) => {
                 {speaker.role}
               </span>
             )}
-            <span className="flex dark:hidden">
-              {speaker.company && (
-                <span className="text-base tablet:text-sm laptop:text-base">
-                  {speaker.company.trim() === "Capra" ? (
-                    <img
-                      className="h-[21px]"
-                      alt={speaker.company}
-                      src="/capra.webp"
-                    />
-                  ) : speaker.company.trim() === "Liflig" ? (
-                    <img
-                      className="h-[21px]"
-                      alt={speaker.company}
-                      src="/liflig.webp"
-                    />
-                  ) : speaker.company.trim() === "Fryde" ? (
-                    <img
-                      className="h-[21px]"
-                      alt={speaker.company}
-                      src="/fryde.webp"
-                    />
-                  ) : (
-                    speaker.company
-                  )}
-                </span>
-              )}
-            </span>
-            <span className="hidden dark:flex">
-              {speaker.company && (
-                <span className="text-base tablet:text-sm laptop:text-base">
-                  {speaker.company.trim() === "Capra" ? (
-                    <img
-                      className="h-[21px]"
-                      alt={speaker.company}
-                      src="/capra-dark.webp"
-                    />
-                  ) : speaker.company.trim() === "Liflig" ? (
-                    <img
-                      className="h-[21px]"
-                      alt={speaker.company}
-                      src="/liflig-dark.webp"
-                    />
-                  ) : speaker.company.trim() === "Fryde" ? (
-                    <img
-                      className="h-[21px]"
-                      alt={speaker.company}
-                      src="/fryde-dark.webp"
-                    />
-                  ) : (
-                    speaker.company
-                  )}
-                </span>
-              )}
-            </span>
+            {speaker.company && <CompanyLogo company={speaker.company} />}
           </div>
         </div>
       ))}
@@ -113,7 +61,7 @@ export const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
 
   return (
     <Link to={`/talk/${slugify(talk.title)}`}>
-      <div className="relative rounded-md border border-gray-200 bg-white px-3 py-4 hover:border-gray-800 hover:transition-[3s] dark:border-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 laptop:px-6 laptop:pb-8 laptop:pt-6">
+      <div className="relative rounded-md border border-gray-200 bg-white px-3 py-4 hover:border-gray-800 hover:transition-[3s] laptop:px-6 laptop:pb-8 laptop:pt-6 dark:border-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700">
         <div className="flex w-full justify-between">
           <div>
             <div className="mr-2 inline-flex h-6 items-center justify-center whitespace-nowrap rounded-lg border border-gray-300 bg-transparent px-2.5 py-0.5 text-xs font-medium dark:bg-zinc-800">
@@ -128,39 +76,30 @@ export const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
                 {endTime.split(":").join(".")}
               </div>
             </div>
-            <div className="inline-flex h-6 items-center justify-center whitespace-nowrap rounded-lg border border-gray-300 bg-transparent px-2.5 py-0.5 text-xs font-medium dark:bg-zinc-800 tablet:hidden">
+            <div className="inline-flex h-6 items-center justify-center whitespace-nowrap rounded-lg border border-gray-300 bg-transparent px-2.5 py-0.5 text-xs font-medium tablet:hidden dark:bg-zinc-800">
               {talk.track.title}
             </div>
           </div>
 
           <button
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              toggleFavorite(talk.id);
+            onClick={(event) => {
+              toggleFavorite(event, talk.id);
             }}
             aria-label={
               isFavorite ? "Fjern som favoritt" : "Legg til som favoritt"
             }
+            className={`inline-flex h-6 items-center justify-center whitespace-nowrap rounded-lg border border-gray-300 px-2.5 py-0.5 text-xs font-medium ${
+              isFavorite
+                ? "bg-[#FFEB4C] dark:border-transparent dark:text-black"
+                : "bg-transparent"
+            }`}
           >
-            {isHydrated ? (
-              isFavorite ? (
-                <div className="flex flex-row items-center text-sm">
-                  <FeatherIcon icon="eye" className="mr-2 h-4 w-4" />
-                  Følger
-                </div>
-              ) : (
-                <div className="flex flex-row items-center text-sm text-gray-400">
-                  <FeatherIcon icon="eye-off" className="mr-2 h-4 w-4 " />
-                  Følg
-                </div>
-              )
+            {isFavorite ? (
+              <Check className="mr-1" size={12} />
             ) : (
-              <FeatherIcon
-                icon="eye-off"
-                className="mr-2 h-4 w-4 text-gray-400"
-              />
+              <Plus className="mr-1" size={12} />
             )}
+            <span>Følg</span>
           </button>
         </div>
 
@@ -187,9 +126,7 @@ export const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
           />
         </p>
 
-        <div className="mt-4" />
-
-        <div className="flex flex-wrap gap-x-6 gap-y-3">
+        <div className="mt-4 flex flex-wrap gap-x-6 gap-y-3">
           <Speakers speakers={talk.speakers} />
         </div>
       </div>

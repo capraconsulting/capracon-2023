@@ -23,7 +23,10 @@ export default function Kontakt() {
 
   return (
     <ContentBox>
-      <Title as="h1" size="text-5xl" className="mb-10">
+      <Title
+        as="h1"
+        className="text-3xl  tablet:mb-16 tablet:mt-24 tablet:text-5xl"
+      >
         {data.conference.kontaktTitle}
       </Title>
       <p className="mb-12 text-3xl">{data.conference.kontaktDescription}</p>
@@ -38,11 +41,11 @@ export default function Kontakt() {
                   id: contactPerson.id,
                   mode: "face",
                 })}
-                className="h-24 w-24 rounded-full border border-black object-cover grayscale"
+                className="h-24 w-24 rounded-full object-cover"
               />
             )}
             {!contactPerson.image && (
-              <div className="h-20 w-20 rounded-full bg-neutral-300 grayscale" />
+              <div className="h-20 w-20 rounded-full bg-neutral-300" />
             )}
             <div>
               <div className="mb-4 text-xl font-bold">{contactPerson.name}</div>

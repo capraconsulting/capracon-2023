@@ -7,7 +7,6 @@ type Props = PropsWithChildren<{
   className?: string;
   withBackground?: boolean;
   color?: `text-${string}`;
-  size?: `text-${number}xl`;
 }>;
 
 export const Title: React.FC<Props> = ({
@@ -16,18 +15,12 @@ export const Title: React.FC<Props> = ({
   withBackground = false,
   className,
   color = withBackground ? "text-primary-light" : "text-primary",
-  size = Component === "h1"
-    ? "text-7xl laptop:text-9xl"
-    : Component === "h2"
-    ? "text-3xl"
-    : "text-2xl",
 }) => {
   return (
     <Component
       className={classNames(
         className,
         color,
-        size,
         "mb-4 inline-block font-bold leading-normal dark:text-white",
         {
           "bg-primary p-4": withBackground,

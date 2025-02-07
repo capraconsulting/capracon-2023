@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 import { useHydrated } from "remix-utils";
 
-enum Theme {
+export enum Theme {
   DARK = "dark",
   LIGHT = "light",
 }
@@ -18,12 +18,12 @@ const ThemeContext = createContext<ThemeContextType>({
 });
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const isHydrated = useHydrated();
+
   const [theme, setTheme] = useState(() => {
     if (typeof window === "undefined") return Theme.LIGHT;
     return (localStorage.getItem("theme") as Theme) || Theme.LIGHT;
   });
-
-  const isHydrated = useHydrated();
 
   useEffect(() => {
     if (!isHydrated) return;
