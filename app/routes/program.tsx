@@ -46,7 +46,7 @@ export default function Program() {
     <ContentBox>
       <Title
         as="h1"
-        className="text-3xl  tablet:mb-16 tablet:mt-24 tablet:text-5xl"
+        className="mt-8 text-3xl tablet:mb-16 tablet:mt-24 tablet:text-5xl"
       >
         Program
       </Title>

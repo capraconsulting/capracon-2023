@@ -25,14 +25,14 @@ export default function Kontakt() {
     <ContentBox>
       <Title
         as="h1"
-        className="text-3xl  tablet:mb-16 tablet:mt-24 tablet:text-5xl"
+        className="mt-8 text-3xl tablet:mb-16 tablet:mt-24 tablet:text-5xl"
       >
         {data.conference.kontaktTitle}
       </Title>
       <p className="mb-12 text-3xl">{data.conference.kontaktDescription}</p>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {data.contacts.map((contactPerson) => (
-          <div key={contactPerson.id} className="flex flex-row gap-2">
+          <div key={contactPerson.id} className="flex flex-row gap-3">
             {contactPerson.image && (
               <img
                 alt={`Bilde av ${contactPerson.name}`}
