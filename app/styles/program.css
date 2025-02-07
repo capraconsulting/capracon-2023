@@ -2,12 +2,6 @@
   --row: auto;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    background-color: black !important;
-  }
-}
-
 /*************************
  * GRID SCHEDULE LAYOUT
  *************************/
@@ -188,7 +182,6 @@
     */
 
     grid-template-columns:
-      [times] 4em
       [track1] 1fr
       [track1 track2] 1fr
       [track2 track3] 1fr
