@@ -92,9 +92,7 @@ export default function Component() {
                       {speaker.role}
                     </p>
                   )}
-                  {speaker.company && (
-                    <CompanyLogo company={speaker.company} height={22} />
-                  )}
+                  {speaker.company && <CompanyLogo company={speaker.company} />}
                 </div>
 
                 {speaker.bio && <p className="mt-4 max-w-xl">{speaker.bio}</p>}

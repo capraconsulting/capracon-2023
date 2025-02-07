@@ -6,10 +6,9 @@ const companyLogos = {
 
 interface CompanyLogoProps {
   company: string;
-  height?: number;
 }
 
-export const CompanyLogo = ({ company, height = 18 }: CompanyLogoProps) => {
+export const CompanyLogo = ({ company }: CompanyLogoProps) => {
   const trimmedCompany = company.trim();
   const logos = companyLogos[trimmedCompany as keyof typeof companyLogos];
 
@@ -18,12 +17,12 @@ export const CompanyLogo = ({ company, height = 18 }: CompanyLogoProps) => {
   return (
     <span>
       <img
-        className={`h-[${height}px] dark:hidden`}
+        className="h-[20px] dark:hidden"
         alt={trimmedCompany}
         src={logos.light}
       />
       <img
-        className={`hidden h-[${height}px] dark:flex`}
+        className="hidden h-[20px] dark:flex"
         alt={trimmedCompany}
         src={logos.dark}
       />
