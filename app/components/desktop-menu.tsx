@@ -66,9 +66,9 @@ export const DesktopMenu = () => {
           className="rounded-full p-2 hover:bg-gray-200 dark:hover:bg-gray-700"
         >
           {theme === Theme.DARK ? (
-            <Moon className="h-5 w-5" />
-          ) : (
             <Sun className="h-5 w-5" />
+          ) : (
+            <Moon className="h-5 w-5" />
           )}
         </button>
       )}
