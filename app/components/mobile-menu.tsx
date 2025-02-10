@@ -77,9 +77,9 @@ export const MobileMenu = ({ isOpen, setIsOpen }: MobileMenuProps) => {
             >
               <span className="mr-2">Modus</span>
               {theme === Theme.DARK ? (
-                <Moon className="h-5 w-5" />
-              ) : (
                 <Sun className="h-5 w-5" />
+              ) : (
+                <Moon className="h-5 w-5" />
               )}
             </button>
           )}
