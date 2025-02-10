@@ -3,6 +3,7 @@ import type { HeadersFunction, V2_MetaFunction } from "@remix-run/cloudflare";
 import { ArrowUpRight, Clock, ForkKnife, MapPin, Tag } from "phosphor-react";
 
 import { ContentBox } from "~/components/content-box";
+import { IllustrationBanner } from "~/components/illustration-banner";
 import { RichTextList } from "~/components/notion-rich-text";
 import { config } from "~/config";
 import type { RootLoader } from "~/root";
@@ -24,16 +25,8 @@ export default function Praktisk() {
 
   return (
     <ContentBox>
-      <div className="overflow-clip [mask-image:url(/mask-sm.svg)] [mask-position:left_center] [mask-repeat:no-repeat] [mask-size:70%] motion-reduce:hidden tablet:[mask-image:url(/mask.svg)] desktop:mt-24 desktop:[mask-size:75%] dark:bg-black">
-        <picture>
-          <source media="(min-width: 640px)" srcSet="/logo.webp" />
-          <img
-            alt="Bakgrunnsfarger til logo"
-            src="/logo-sm.webp"
-            className="pointer-events-none -ml-[75px] max-h-[200px] min-h-[200px] w-[5000px] max-w-none object-cover blur-[50px]"
-          />
-        </picture>
-      </div>
+      <IllustrationBanner />
+
       <p className="mb-12 max-w-[700px] whitespace-pre-line text-pretty text-[18px] leading-[32px] tablet:text-[24px]">
         <RichTextList richTextList={data.conference.praktiskDescription} />
       </p>

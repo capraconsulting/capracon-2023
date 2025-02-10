@@ -39,7 +39,7 @@ export default function Component() {
       <div className="flex flex-col gap-6 tablet:gap-8">
         {sortedSpeakers.map((speaker) => (
           <article
-            className="relative rounded-md border border-gray-200 bg-white px-3 py-4 laptop:px-6 laptop:pb-8 laptop:pt-6 dark:border-zinc-800 dark:bg-zinc-800"
+            className="rounded-md border border-gray-200 bg-white px-3 py-4 laptop:px-6 laptop:pb-8 laptop:pt-6 dark:border-zinc-800 dark:bg-zinc-800"
             key={speaker.id}
             id={slugify(speaker.name)}
           >
