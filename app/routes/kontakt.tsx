@@ -51,9 +51,7 @@ export default function Kontakt() {
             <div className="p-4">
               <div className="mb-4 text-xl font-bold">{contactPerson.name}</div>
               <dl className="[&_dt]:font-bold">
-                <dt>Stilling</dt>
                 <dd>{contactPerson.role}</dd>
-                <dt>E-post</dt>
                 <dd>
                   <a href={`mailto:${contactPerson.email}`}>
                     {contactPerson.email}
