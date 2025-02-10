@@ -119,11 +119,7 @@ export const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
         <div className="mt-2 tablet:mt-3" />
 
         <p>
-          <RichTextList
-            richTextList={
-              talk.abstractShort.length > 0 ? talk.abstractShort : talk.abstract
-            }
-          />
+          <RichTextList richTextList={talk.abstractShort} />
         </p>
 
         <div className="mt-4 flex flex-wrap gap-x-6 gap-y-3">
