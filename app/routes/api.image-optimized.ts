@@ -19,9 +19,9 @@ const buildCloudinaryUrl = (src: string, options: ImageOptions) => {
     )}`;
   }
 
-  // Portrait, using 2:3 ratio (200w,300h)
+  // Portrait, using 12:13 ratio (300w, 325h)
   if (options.mode === "portrait") {
-    return `https://res.cloudinary.com/dyq7ofn3z/image/fetch/f_auto,c_fill,w_600,h_900,g_face/${encodeURIComponent(
+    return `https://res.cloudinary.com/dyq7ofn3z/image/fetch/f_auto,c_fill,w_600,h_650,g_face/${encodeURIComponent(
       src,
     )}`;
   }

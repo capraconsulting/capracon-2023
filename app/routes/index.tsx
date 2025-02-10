@@ -1,29 +1,15 @@
-import type {
-  HeadersFunction,
-  LinksFunction,
-  V2_MetaFunction,
-} from "@remix-run/cloudflare";
+import type { HeadersFunction, V2_MetaFunction } from "@remix-run/cloudflare";
 
-import { TalkListItem } from "~/components/talk-list-item";
-import { Title } from "~/components/title";
+import { ArrowUpRight, Clock, ForkKnife, MapPin, Tag } from "phosphor-react";
+
+import { ContentBox } from "~/components/content-box";
+import { IllustrationBanner } from "~/components/illustration-banner";
+import { RichTextList } from "~/components/notion-rich-text";
 import { config } from "~/config";
-import type { Talk, Track } from "~/notion-conference/domain";
-import {
-  formattedHoursMinutes,
-  formattedHoursMinutesAlt,
-  getFormattedTalkTimes,
-} from "~/notion-conference/helpers";
 import type { RootLoader } from "~/root";
 import { useRootData } from "~/root";
-import styles from "~/styles/program.css";
-import { TRACK_HEADINGS, TrackGridColumn, Tracks } from "~/utils/consts";
-import { classNames, typedBoolean } from "~/utils/misc";
 
 export const headers: HeadersFunction = () => config.cacheControlHeaders;
-
-export let links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: styles }];
-};
 
 export const meta: V2_MetaFunction<never, { root: RootLoader }> = ({
   parentsData,
@@ -34,101 +20,120 @@ export const meta: V2_MetaFunction<never, { root: RootLoader }> = ({
   { name: "description", content: parentsData["root"].conference.description },
 ];
 
-export default function Component() {
+export default function Praktisk() {
   const data = useRootData();
 
-  const talks = data.talks.concat(data.unpublishedTalks ?? []);
-
-  const trackHeadings = TRACK_HEADINGS.map((trackTitle) =>
-    data.tracks.find((track) => track.title === trackTitle),
-  ).filter(typedBoolean);
-
   return (
-    <main className="container mx-auto pb-32">
-      <Title as="h1" color="text-black">
-        {data.conference.title}
-      </Title>
+    <ContentBox>
+      <IllustrationBanner />
 
-      <div className="px-4 text-2xl font-bold text-black">
-        <time dateTime={data.conference.date}>
-          {data.formattedConferenceDate}
-        </time>
-        <p>{data.conference.locationName}</p>
+      <p className="mb-12 max-w-[700px] whitespace-pre-line text-pretty text-[18px] leading-[32px] tablet:text-[24px]">
+        <RichTextList richTextList={data.conference.praktiskDescription} />
+      </p>
+
+      <h2 className="mb-8 text-[32px] font-semibold leading-[40px]">
+        Praktisk info
+      </h2>
+
+      <div className="mb-12 flex max-w-fit flex-col gap-3 rounded-md border border-[#999] p-4">
+        <div className="flex items-center gap-2">
+          <Tag size={16} />
+          <span>Konferanse</span>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <Clock size={16} />
+          <time dateTime={data.conference.date}>
+            {data.formattedConferenceDate}
+          </time>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <MapPin size={16} />
+          <span>{data.conference.locationName}</span>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <MapPin size={16} />
+          <dd>{data.conference.locationAddress}</dd>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <ForkKnife size={16} />
+
+          <span>Det blir mat gjennom dagen</span>
+        </div>
       </div>
 
-      <section className="pt-12">
-        <Title as="h2" size="text-6xl">
-          Program
-        </Title>
+      <h2 className="mb-8 text-[32px] font-semibold leading-[40px]">
+        Mer om selskapene
+      </h2>
 
-        <div className="schedule">
-          {/* Track headings */}
-          {trackHeadings.map((track) => (
-            <div
-              key={track.id}
-              className="sticky top-0 z-20 hidden laptop:block"
-              style={{
-                gridColumn: TrackGridColumn[track.title],
-                gridRow: "tracks",
-              }}
-            >
-              <TrackHeading track={track} />
+      <div className="mb-32 grid grid-cols-1 gap-9 sm:grid-cols-2 laptop:grid-cols-3">
+        <a
+          href="https://www.capraconsulting.no"
+          className="group relative rounded-md border border-[#999] p-4 transition-colors hover:bg-[#DEFCF5] dark:hover:bg-[#056650]"
+        >
+          <div className="flex items-start justify-between">
+            <div className="relative h-12 w-12">
+              <img
+                src="/capra-outline.svg"
+                alt="Capra logo outline"
+                className="absolute inset-0 transition-opacity group-hover:opacity-0 dark:invert"
+              />
+              <img
+                src="/capra.avif"
+                alt="Capra logo"
+                className="absolute inset-0 opacity-0 transition-opacity group-hover:opacity-100"
+              />
             </div>
-          ))}
-
-          {/* Timeslot markers */}
-          {data.timeslots.map((timeslot) => (
-            <h2
-              key={timeslot.id}
-              className={classNames(
-                "hidden laptop:flex",
-                "flex h-16 w-16 items-center justify-center rounded-full bg-primary-light text-sm font-semibold",
-              )}
-              style={{
-                gridColumn: "times",
-                gridRow: `time-${formattedHoursMinutes(timeslot.startTime)}`,
-              }}
-            >
-              <span className="overflow-hidden truncate">
-                {formattedHoursMinutesAlt(timeslot.startTime)}
-              </span>
-            </h2>
-          ))}
-
-          {/* Talks */}
-          {talks.map((talk) => {
-            const { startTime, endTime } = getFormattedTalkTimes(talk);
-            return (
-              <div
-                key={talk.title}
-                style={{
-                  gridColumn: TrackGridColumn[talk.track.title],
-                  gridRow: `time-${startTime} / time-${endTime}`,
-                }}
-              >
-                <TalkListItem talk={talk} />
-              </div>
-            );
-          })}
-        </div>
-      </section>
-    </main>
+            <ArrowUpRight size={24} className="text-black dark:text-white" />
+          </div>
+          <h3 className="mt-4 text-lg font-medium">IT Konsulenter</h3>
+        </a>
+        <a
+          href="https://www.liflig.no"
+          className="group relative rounded-md border border-[#999] p-4 transition-colors hover:bg-[#FFE8FD] dark:hover:bg-[#851e7c]"
+        >
+          <div className="flex items-start justify-between">
+            <div className="relative h-12 w-12">
+              <img
+                src="/liflig-outline.svg"
+                alt="Liflig logo outline"
+                className="absolute inset-0 transition-opacity group-hover:opacity-0 dark:invert"
+              />
+              <img
+                src="/liflig.avif"
+                alt="Liflig logo"
+                className="absolute inset-0 opacity-0 transition-opacity group-hover:opacity-100"
+              />
+            </div>
+            <ArrowUpRight size={24} className="text-black dark:text-white" />
+          </div>
+          <h3 className="mt-4 text-lg font-medium">Produktteam as a Service</h3>
+        </a>
+        <a
+          href="https://www.fryde.no"
+          className="group relative rounded-md border border-[#999] p-4 transition-colors hover:bg-[#FFF9E5] dark:hover:bg-[#cea931]"
+        >
+          <div className="flex items-start justify-between">
+            <div className="relative h-12 w-12">
+              <img
+                src="/fryde-outline.svg"
+                alt="Fryde logo outline"
+                className="absolute inset-0 transition-opacity group-hover:opacity-0 dark:invert"
+              />
+              <img
+                src="/fryde.avif"
+                alt="Fryde logo"
+                className="absolute inset-0 opacity-0 transition-opacity group-hover:opacity-100"
+              />
+            </div>
+            <ArrowUpRight size={24} className="text-black dark:text-white" />
+          </div>
+          <h3 className="mt-4 text-lg font-medium">Design som fryder</h3>
+        </a>
+      </div>
+    </ContentBox>
   );
 }
-
-interface TrackHeadingProps {
-  track: Track;
-}
-const TrackHeading = ({ track }: TrackHeadingProps) => {
-  return (
-    <div className="flex w-full items-center justify-center rounded-xl bg-black px-[5px] pb-12 pt-10">
-      <span
-        className={classNames(
-          "border-b-4 border-white px-[6px] py-1 text-[1.2rem] uppercase text-white",
-        )}
-      >
-        {track.title}
-      </span>
-    </div>
-  );
-};

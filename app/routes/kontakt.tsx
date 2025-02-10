@@ -23,33 +23,35 @@ export default function Kontakt() {
 
   return (
     <ContentBox>
-      <Title as="h1" size="text-6xl" className="mb-10">
+      <Title as="h1" className="mt-8 text-3xl tablet:mt-24 tablet:text-5xl">
         {data.conference.kontaktTitle}
       </Title>
-      <p className="mb-12 text-3xl">{data.conference.kontaktDescription}</p>
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <p className="mb-12 text-xl">{data.conference.kontaktDescription}</p>
+
+      <div className="mb-32 grid grid-cols-1 gap-9 sm:grid-cols-2 laptop:grid-cols-3">
         {data.contacts.map((contactPerson) => (
-          <div key={contactPerson.id} className="flex flex-row gap-2">
+          <div
+            key={contactPerson.id}
+            className="overflow-hidden rounded-lg border border-[#999]"
+          >
             {contactPerson.image && (
               <img
                 alt={`Bilde av ${contactPerson.name}`}
                 src={buildImageUrl({
                   type: "contact",
                   id: contactPerson.id,
-                  mode: "face",
+                  mode: "portrait",
                 })}
-                className="h-20 w-20 rounded-full object-cover"
+                className="object-cover"
               />
             )}
             {!contactPerson.image && (
-              <div className="h-20 w-20 rounded-full bg-neutral-300" />
+              <div className="h-[350px] bg-slate-400 " />
             )}
-            <div>
+            <div className="p-4">
               <div className="mb-4 text-xl font-bold">{contactPerson.name}</div>
               <dl className="[&_dt]:font-bold">
-                <dt>Stilling</dt>
                 <dd>{contactPerson.role}</dd>
-                <dt>E-post</dt>
                 <dd>
                   <a href={`mailto:${contactPerson.email}`}>
                     {contactPerson.email}

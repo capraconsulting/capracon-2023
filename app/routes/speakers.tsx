@@ -1,5 +1,7 @@
 import type { V2_MetaFunction } from "@remix-run/cloudflare";
 
+import { CompanyLogo } from "~/components/company-logos";
+import { ContentBox } from "~/components/content-box";
 import { Title } from "~/components/title";
 import { slugify } from "~/notion/helpers";
 import type { RootLoader } from "~/root";
@@ -27,14 +29,17 @@ export default function Component() {
   });
 
   return (
-    <main className="container mx-auto pb-6 tablet:pb-12">
-      <Title as="h1" size="text-4xl" className="tablet:text-5xl sm:text-6xl">
+    <ContentBox>
+      <Title
+        as="h1"
+        className="mt-8 text-3xl tablet:mb-16 tablet:mt-24 tablet:text-5xl"
+      >
         {conference.foredragsholdereTitle}
       </Title>
-      <div className="flex flex-col gap-6 tablet:gap-12">
+      <div className="flex flex-col gap-6 tablet:gap-8">
         {sortedSpeakers.map((speaker) => (
           <article
-            className="scroll-m-6 bg-primary-light p-4 pb-6 shadow-md tablet:scroll-m-12 laptop:max-w-5xl laptop:px-6 laptop:pt-6 laptop:pb-8"
+            className="rounded-md border border-gray-200 bg-white px-3 py-4 laptop:px-6 laptop:pb-8 laptop:pt-6 dark:border-zinc-800 dark:bg-zinc-800"
             key={speaker.id}
             id={slugify(speaker.name)}
           >
@@ -87,19 +92,15 @@ export default function Component() {
                       {speaker.role}
                     </p>
                   )}
-                  {speaker.company && (
-                    <p className="text-base tablet:text-sm laptop:text-base">
-                      {speaker.company}
-                    </p>
-                  )}
+                  {speaker.company && <CompanyLogo company={speaker.company} />}
                 </div>
 
-                {speaker.bio && <p className="mt-2">{speaker.bio}</p>}
+                {speaker.bio && <p className="mt-4 max-w-xl">{speaker.bio}</p>}
               </div>
             </div>
           </article>
         ))}
       </div>
-    </main>
+    </ContentBox>
   );
 }

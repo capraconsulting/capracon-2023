@@ -1,4 +1,5 @@
 node_modules
+.DS_Store
 
 /.cache
 /functions/\[\[path\]\].js
@@ -9,3 +10,4 @@ node_modules
 .dev.vars
 .idea
 /app/tailwind.css
+.wrangler
