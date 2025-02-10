@@ -8,13 +8,10 @@ export const IllustrationBanner = () => {
       />
 
       <picture className="motion-reduce:hidden">
-        <source
-          media="(min-width: 640px)"
-          srcSet="https://res.cloudinary.com/dbbgdlgj3/image/upload/v1739188389/logo_ecdyiz.webp"
-        />
+        <source media="(min-width: 640px)" srcSet="/logo.webp" />
         <img
           alt="Bakgrunnsfarger til logo"
-          src="https://res.cloudinary.com/dbbgdlgj3/image/upload/w_300/v1739188389/logo_ecdyiz.webp"
+          src="/logo-sm.webp"
           className="pointer-events-none -ml-[60px] max-h-[200px] min-h-[200px] w-[2100px] max-w-none object-cover blur-2xl contrast-125 tablet:-ml-[175px] tablet:w-[6000px] "
         />
       </picture>
