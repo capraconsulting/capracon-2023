@@ -1,6 +1,6 @@
 import { NavLink } from "@remix-run/react";
 
-import { List, Moon, Sun } from "phosphor-react";
+import { List, Moon, Sun, X } from "phosphor-react";
 import { useHydrated } from "remix-utils";
 
 import { Theme, useTheme } from "~/hooks/useTheme";
@@ -20,9 +20,8 @@ export const MobileMenu = ({ isOpen, setIsOpen }: MobileMenuProps) => {
         onClick={() => setIsOpen(!isOpen)}
         className="p-2 text-gray-600 dark:text-gray-300"
       >
-        <List className="h-5 w-5" />
+        {isOpen ? <X className="h-5 w-5" /> : <List className="h-5 w-5" />}
       </button>
-
       {isOpen && (
         <div className="absolute right-0 z-10 mt-2 w-48 rounded-lg bg-white py-2 shadow-xl dark:bg-gray-800">
           <NavLink
@@ -57,6 +56,17 @@ export const MobileMenu = ({ isOpen, setIsOpen }: MobileMenuProps) => {
             }
           >
             Speakers
+          </NavLink>
+          <NavLink
+            to="/minnebok"
+            onClick={() => setIsOpen(false)}
+            className={({ isActive }) =>
+              `block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 ${
+                isActive ? "border-l-4 border-current" : ""
+              }`
+            }
+          >
+            Minnebok
           </NavLink>
           <NavLink
             to="/kontakt"

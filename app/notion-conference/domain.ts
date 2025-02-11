@@ -76,6 +76,13 @@ const contactPersonSchema = z.object({
 });
 export type ContactPerson = z.infer<typeof contactPersonSchema>;
 
+const memoSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  image: z.string().url().optional(),
+});
+export type Memos = z.infer<typeof memoSchema>;
+
 const timeslotSchema = selectSchema
   .extend({
     title: z
@@ -187,6 +194,30 @@ export const safeParseContacts = (fromPages: PageObjectResponse[]) => {
     });
 
   return [success, failed] as const;
+};
+
+const mapMemos = (fromPage: PageObjectResponse) => {
+  return {
+    id: fromPage.id,
+    name: getTitle(fromPage),
+    image: getImage("Bilde", fromPage),
+  } satisfies Relaxed<Memos>;
+};
+export const safeParseMemos = (fromPages: PageObjectResponse[]) => {
+  const success: Memos[] = [];
+
+  fromPages
+    .map(mapMemos)
+    .map((unparsed) => ({
+      parsed: memoSchema.safeParse(unparsed),
+    }))
+    .forEach(({ parsed }) => {
+      if (parsed.success) {
+        success.push(parsed.data);
+      }
+    });
+
+  return [success] as const;
 };
 
 const mapSpeaker = (fromPage: PageObjectResponse) => {
