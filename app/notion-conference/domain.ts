@@ -217,7 +217,7 @@ export const safeParseMemos = (fromPages: PageObjectResponse[]) => {
       }
     });
 
-  return [success] as const;
+  return [...success] as const;
 };
 
 const mapSpeaker = (fromPage: PageObjectResponse) => {

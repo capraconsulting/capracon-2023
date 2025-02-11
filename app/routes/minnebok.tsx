@@ -28,7 +28,7 @@ export default function Minnebok() {
         Minnebok
       </Title>
       <div className="lg:columns-4 columns-1 gap-5 sm:columns-2 sm:gap-8 md:columns-3 [&>img:not(:first-child)]:mt-8">
-        {memos.flat().map((memo, index) => (
+        {memos?.map((memo, index) => (
           <img
             key={index}
             alt={memo.name}
