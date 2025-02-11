@@ -46,7 +46,7 @@ export default function Program() {
     <ContentBox>
       <Title
         as="h1"
-        className="mt-8 text-3xl tablet:mb-16 tablet:mt-24 tablet:text-5xl"
+        className="mt-8 text-3xl tablet:mb-8 tablet:mt-24 tablet:text-5xl"
       >
         Program
       </Title>
@@ -89,7 +89,7 @@ interface TrackHeadingProps {
 }
 const TrackHeading = ({ track }: TrackHeadingProps) => {
   return (
-    <div className="pointer-events-none flex w-full items-center justify-between rounded-lg border border-[#999] bg-[#F2F2F2] px-4 py-2  dark:border-[#27272A] dark:bg-[black] ">
+    <div className="pointer-events-none flex w-full items-center justify-between rounded-lg border border-[#E5E7EB] bg-[#F2F2F2] px-4 py-2  dark:border-[#27272A] dark:bg-[black] ">
       <span className={classNames("font-[600] text-[#333] dark:text-white")}>
         {track.title}
       </span>

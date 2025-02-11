@@ -7,33 +7,40 @@ import type { ImageRequest } from "./api.image-original";
 import { imageRequestSchema } from "./api.image-original";
 
 const imageOptionsSchema = z.object({
-  mode: z.enum(["face", "portrait", "landscape"]),
+  mode: z.enum(["face", "portrait", "landscape", "random"]),
 });
 export type ImageOptions = z.infer<typeof imageOptionsSchema>;
 
 const buildCloudinaryUrl = (src: string, options: ImageOptions) => {
-  // Square, using 1:1 ratio
-  if (options.mode === "face") {
+  let mode = options.mode;
+
+  if (mode === "random") {
+    if (Math.random() < 0.5) {
+      mode = "landscape";
+    } else {
+      mode = "portrait";
+    }
+  }
+
+  if (mode === "face") {
     return `https://res.cloudinary.com/dyq7ofn3z/image/fetch/f_auto,c_thumb,w_300,h_300,g_face/${encodeURIComponent(
       src,
     )}`;
   }
 
-  // Portrait, using 12:13 ratio (300w, 325h)
-  if (options.mode === "portrait") {
+  if (mode === "portrait") {
     return `https://res.cloudinary.com/dyq7ofn3z/image/fetch/f_auto,c_fill,w_600,h_650,g_face/${encodeURIComponent(
       src,
     )}`;
   }
 
-  // Portrait, using 3:2 ratio (300w,200h)
-  if (options.mode === "landscape") {
+  if (mode === "landscape") {
     return `https://res.cloudinary.com/dyq7ofn3z/image/fetch/f_auto,c_fill,w_1200,h_800,g_face/${encodeURIComponent(
       src,
     )}`;
   }
 
-  assertUnreachable(options.mode);
+  assertUnreachable(mode);
 };
 const buildExternalProviderOptimizedImageUrl = (
   src: string,

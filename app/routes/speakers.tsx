@@ -32,7 +32,7 @@ export default function Component() {
     <ContentBox>
       <Title
         as="h1"
-        className="mt-8 text-3xl tablet:mb-16 tablet:mt-24 tablet:text-5xl"
+        className="mt-8 text-3xl tablet:mb-8 tablet:mt-24 tablet:text-5xl"
       >
         {conference.foredragsholdereTitle}
       </Title>

@@ -48,6 +48,18 @@ export const DesktopMenu = () => {
         Speakers
       </NavLink>
       <NavLink
+        to="/minnebok"
+        className={({ isActive }) =>
+          `relative hover:text-gray-600 dark:hover:text-gray-300 ${
+            isActive
+              ? "after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:bg-current"
+              : ""
+          }`
+        }
+      >
+        Minnebok
+      </NavLink>
+      <NavLink
         to="/kontakt"
         className={({ isActive }) =>
           `relative hover:text-gray-600 dark:hover:text-gray-300 ${

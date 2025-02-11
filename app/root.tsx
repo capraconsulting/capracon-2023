@@ -74,7 +74,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="bg-background text-primary dark:bg-black dark:text-white">
+      <body className="bg-background text-primary dark:bg-[#09090B] dark:text-white">
         <ThemeProvider>
           <Header />
           <Outlet />

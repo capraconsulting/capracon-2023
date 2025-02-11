@@ -1,6 +1,14 @@
 import type { HeadersFunction, V2_MetaFunction } from "@remix-run/cloudflare";
+import { Link } from "@remix-run/react";
 
-import { ArrowUpRight, Clock, ForkKnife, MapPin, Tag } from "phosphor-react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Clock,
+  ForkKnife,
+  MapPin,
+  Tag,
+} from "phosphor-react";
 
 import { ContentBox } from "~/components/content-box";
 import { IllustrationBanner } from "~/components/illustration-banner";
@@ -31,37 +39,53 @@ export default function Praktisk() {
         <RichTextList richTextList={data.conference.praktiskDescription} />
       </p>
 
+      <Link
+        className="mb-12 inline-flex items-center gap-2 rounded-[32px] bg-black px-[18px] py-[11px] text-base font-medium leading-[16px] text-white"
+        to="/program"
+      >
+        <span>Gå til program</span>
+        <ArrowRight size={16} />
+      </Link>
+
       <h2 className="mb-8 text-[32px] font-semibold leading-[40px]">
         Praktisk info
       </h2>
 
-      <div className="mb-12 flex max-w-fit flex-col gap-3 rounded-md border border-[#999] p-4">
-        <div className="flex items-center gap-2">
-          <Tag size={16} />
-          <span>Konferanse</span>
+      <div className="mb-12 flex grid-cols-1 flex-wrap gap-9">
+        <div className="flex max-w-fit flex-col gap-3 rounded-md border border-[#E5E7EB] p-4 dark:bg-[#27272A]">
+          <div className="flex items-center gap-2">
+            <Tag size={16} />
+            <span>Konferanse</span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Clock size={16} />
+            <time dateTime={data.conference.date}>
+              {data.formattedConferenceDate}
+            </time>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <MapPin size={16} />
+            <span>{data.conference.locationName}</span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <MapPin size={16} />
+            <dd>{data.conference.locationAddress}</dd>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <ForkKnife size={16} />
+            <span>Det blir mat gjennom dagen</span>
+          </div>
         </div>
-
-        <div className="flex items-center gap-2">
-          <Clock size={16} />
-          <time dateTime={data.conference.date}>
-            {data.formattedConferenceDate}
-          </time>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <MapPin size={16} />
-          <span>{data.conference.locationName}</span>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <MapPin size={16} />
-          <dd>{data.conference.locationAddress}</dd>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <ForkKnife size={16} />
-
-          <span>Det blir mat gjennom dagen</span>
+        <div className="flex-grow">
+          <img
+            src="/presentasjon.avif"
+            alt="En presentasjon på CapraCon"
+            className="max-h-[200px] w-full rounded-md object-cover"
+          />
         </div>
       </div>
 
@@ -72,7 +96,7 @@ export default function Praktisk() {
       <div className="mb-32 grid grid-cols-1 gap-9 sm:grid-cols-2 laptop:grid-cols-3">
         <a
           href="https://www.capraconsulting.no"
-          className="group relative rounded-md border border-[#999] p-4 transition-colors hover:bg-[#DEFCF5] dark:hover:bg-[#056650]"
+          className="group relative rounded-md border border-[#E5E7EB] p-4 transition-colors hover:bg-[#DEFCF5] dark:bg-[#27272A] dark:hover:bg-[#056650]"
         >
           <div className="flex items-start justify-between">
             <div className="relative h-12 w-12">
@@ -93,7 +117,7 @@ export default function Praktisk() {
         </a>
         <a
           href="https://www.liflig.no"
-          className="group relative rounded-md border border-[#999] p-4 transition-colors hover:bg-[#FFE8FD] dark:hover:bg-[#851e7c]"
+          className="group relative rounded-md border border-[#E5E7EB] p-4 transition-colors hover:bg-[#FFE8FD] dark:bg-[#27272A] dark:hover:bg-[#851e7c]"
         >
           <div className="flex items-start justify-between">
             <div className="relative h-12 w-12">
@@ -114,7 +138,7 @@ export default function Praktisk() {
         </a>
         <a
           href="https://www.fryde.no"
-          className="group relative rounded-md border border-[#999] p-4 transition-colors hover:bg-[#FFF9E5] dark:hover:bg-[#cea931]"
+          className="group relative rounded-md border border-[#E5E7EB] p-4 transition-colors hover:bg-[#FFF9E5] dark:bg-[#27272A] dark:hover:bg-[#cea931]"
         >
           <div className="flex items-start justify-between">
             <div className="relative h-12 w-12">

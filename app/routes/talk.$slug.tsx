@@ -50,7 +50,7 @@ export default function Component() {
     <ContentBox>
       <Link
         to="/program"
-        className="mb-4 mt-8 flex items-center font-bold hover:underline tablet:mb-16 tablet:mt-24"
+        className="mb-4 mt-8 flex items-center font-bold hover:underline tablet:mb-8 tablet:mt-24"
       >
         <ArrowLeft className="mr-2 h-5 w-5" />
         Tilbake til program

@@ -36,6 +36,7 @@ const kvCachified = async <T>({
 }: Options<T>): Promise<T> => {
   const getAndSet = async () => {
     const value = await getFreshValue();
+
     const metadata: Metadata = {
       createdTime: Date.now(),
       swr,
@@ -116,6 +117,7 @@ export const getDataCachedAndFiltered = async (
     talks: data.talks,
     tracks: data.tracks,
     timeslots: data.timeslots,
+    memos: data.memos,
 
     // Don't provide these data unless a secret preview key is given
     ...(showPreview

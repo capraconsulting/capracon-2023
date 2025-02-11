@@ -63,8 +63,8 @@ export const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
     <Link to={`/talk/${slugify(talk.title)}`}>
       <div className="relative rounded-md border border-gray-200 bg-white px-3 py-4 hover:border-gray-800 hover:transition-[3s] laptop:px-6 laptop:pb-8 laptop:pt-6 dark:border-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700">
         <div className="flex w-full justify-between">
-          <div>
-            <div className="mr-2 inline-flex h-6 items-center justify-center whitespace-nowrap rounded-lg border border-gray-300 bg-transparent px-2.5 py-0.5 text-xs font-medium dark:bg-zinc-800">
+          <div className="mr-2 flex flex-wrap gap-2">
+            <div className="inline-flex h-6 items-center justify-center whitespace-nowrap rounded-lg border border-gray-300 bg-transparent px-2.5 py-0.5 text-xs font-medium dark:bg-zinc-800">
               <div className="sr-only">
                 <span>fra </span>
                 <time dateTime={startTime}>{startTime}</time>

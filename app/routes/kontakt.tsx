@@ -26,13 +26,15 @@ export default function Kontakt() {
       <Title as="h1" className="mt-8 text-3xl tablet:mt-24 tablet:text-5xl">
         {data.conference.kontaktTitle}
       </Title>
-      <p className="mb-12 text-xl">{data.conference.kontaktDescription}</p>
+      <p className="mb-4 text-xl tablet:mb-12">
+        {data.conference.kontaktDescription}
+      </p>
 
       <div className="mb-32 grid grid-cols-1 gap-9 sm:grid-cols-2 laptop:grid-cols-3">
         {data.contacts.map((contactPerson) => (
           <div
             key={contactPerson.id}
-            className="overflow-hidden rounded-lg border border-[#999]"
+            className="overflow-hidden rounded-lg border border-[#E5E7EB]"
           >
             {contactPerson.image && (
               <img
