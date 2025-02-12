@@ -79,7 +79,7 @@ export type ContactPerson = z.infer<typeof contactPersonSchema>;
 const memoSchema = z.object({
   id: z.string(),
   name: z.string(),
-  image: z.string().url().optional(),
+  image: z.string().url(),
 });
 export type Memos = z.infer<typeof memoSchema>;
 
