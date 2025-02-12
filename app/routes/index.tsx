@@ -40,7 +40,7 @@ export default function Praktisk() {
       </p>
 
       <Link
-        className="mb-12 inline-flex items-center gap-2 rounded-[32px] bg-black px-[18px] py-[11px] text-base font-medium leading-[16px] text-white"
+        className="mb-12 inline-flex items-center gap-2 rounded-[32px] bg-[#1F2937] px-[18px] py-[11px] text-base font-medium leading-[16px] text-white hover:bg-[#101827] dark:bg-[#1F2937] dark:hover:bg-[#374151]"
         to="/program"
       >
         <span>Gå til program</span>

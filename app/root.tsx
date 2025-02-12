@@ -70,7 +70,7 @@ export default function App() {
           href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
           rel="stylesheet"
         />
-        <title>CapraCon | 20 år</title>
+        <title>CapraCon</title>
         <Meta />
         <Links />
       </head>
