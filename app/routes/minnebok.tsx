@@ -35,7 +35,7 @@ export default function Minnebok() {
             src={buildImageUrl({
               type: "speaker",
               id: memo.id,
-              mode: "random",
+              mode: index % 5 === 0 ? "landscape" : "portrait",
             })}
             className="h-auto max-w-full rounded-lg"
           />
