@@ -82,7 +82,7 @@ export default function Praktisk() {
         </div>
         <div className="flex-grow">
           <img
-            src="/presentasjon.avif"
+            src="/presentasjon.jpg"
             alt="En presentasjon på CapraCon"
             className="max-h-[200px] w-full rounded-md object-cover"
           />

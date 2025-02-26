@@ -285,7 +285,6 @@ export const safeParseTalks = (
 
   fromPages
     .map((page) => mapTalk(page, speakers))
-    .filter((talk) => talk.year === "2024")
     .map((unparsed) => ({
       unparsed,
       parsed: talkSchema.safeParse(unparsed),
