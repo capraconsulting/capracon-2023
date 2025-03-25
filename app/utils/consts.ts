@@ -2,9 +2,9 @@ export const timeZone = "Europe/Oslo";
 
 export enum Tracks {
   "Felles" = "Felles",
-  "SjetteEtasje" = "6. etasje",
-  "SyvendeEtasje" = "7. etasje",
-  "ÅttendeEtasje" = "8. etasje",
+  "SjetteEtasje" = "Dypdykk",
+  "SyvendeEtasje" = "Lange Linjer",
+  "ÅttendeEtasje" = "Workshop",
 }
 
 export const TRACKS = [
