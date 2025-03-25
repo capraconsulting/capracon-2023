@@ -1,7 +1,7 @@
 export const config = {
   conferenceId: "d3ea95168d01405caa4198c86af1224a",
   contactsDatabaseId: "4ad522bb07b54d4f9201ac0b481de224",
-  speakersDatabaseId: "cc4333b912e244c499538b93fe94cebf",
+  speakersDatabaseId: "115cce311db481568dcdd7cdf3316246",
   masterProgramDatabaseId: "115cce311db4810ca0c9d6681a129081",
   memosDatabaseId: "197cce311db48130aac5cf1da74b882d",
 
