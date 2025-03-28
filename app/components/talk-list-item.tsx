@@ -76,6 +76,12 @@ export const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
                 {endTime.split(":").join(".")}
               </div>
             </div>
+
+            {talk.room?.title && (
+              <div className="inline-flex h-6 items-center justify-center whitespace-nowrap rounded-lg border border-gray-300 bg-transparent px-2.5 py-0.5 text-xs font-medium dark:bg-zinc-800">
+                <div>{talk.room.title}</div>
+              </div>
+            )}
             <div className="inline-flex h-6 items-center justify-center whitespace-nowrap rounded-lg border border-gray-300 bg-transparent px-2.5 py-0.5 text-xs font-medium tablet:hidden dark:bg-zinc-800">
               {talk.track.title}
             </div>
