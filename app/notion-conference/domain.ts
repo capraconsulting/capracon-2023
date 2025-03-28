@@ -111,6 +111,8 @@ const durationSchema = selectSchema
   });
 
 const trackSchema = selectSchema.extend({ title: z.enum(TRACKS) });
+const roomSchema = selectSchema.extend({ title: z.string() });
+
 export type Track = z.infer<typeof trackSchema>;
 
 const talkSchema = z.object({
@@ -119,6 +121,7 @@ const talkSchema = z.object({
   abstract: richTextSchema,
   abstractShort: richTextSchema,
   track: trackSchema,
+  room: roomSchema.optional(),
   speakers: z.array(speakerSchema),
   timeslot: timeslotSchema,
   duration: durationSchema,
@@ -265,6 +268,7 @@ const mapTalk = (fromPage: PageObjectResponse, speakers: Speaker[]) => {
       .filter(typedBoolean),
     timeslot: getSelectAndColor("Tidspunkt", fromPage) as any,
     track: getSelectAndColor("Track", fromPage) as any,
+    room: getSelectAndColor("Rom", fromPage) as any,
     abstract: getRichText("Abstract", fromPage),
     abstractShort: getRichText("Abstract_short", fromPage),
     duration: getSelectAndColor("Lengde", fromPage) as any,
