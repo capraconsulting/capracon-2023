@@ -15,7 +15,7 @@
     "lint:fix": "npm run lint -- --fix"
   },
   "dependencies": {
-    "@notionhq/client": "2.2.14",
+    "@notionhq/client": "2.3.0",
     "@remix-run/cloudflare": "1.11.1",
     "@remix-run/cloudflare-pages": "1.11.1",
     "@remix-run/react": "1.11.1",
