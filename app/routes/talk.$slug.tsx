@@ -14,7 +14,7 @@ import { useRootData } from "~/root";
 import { buildImageUrl } from "./api.image-optimized";
 
 const getTalkFromSlugOrThrow = (slug: string | undefined, talks: Talk[]) => {
-  const talk = talks.find((talk) => slugify(talk.title) === slug);
+  const talk = talks?.find((talk) => slugify(talk.title) === slug);
   if (!talk) throw new Error(`could not find talk ${slug}`);
   return talk;
 };
@@ -25,7 +25,7 @@ export const meta: V2_MetaFunction<never, { root: RootLoader }> = ({
 }) => {
   const talk = getTalkFromSlugOrThrow(
     params.slug,
-    parentsData["root"].talks.concat(
+    parentsData["root"]?.talks?.concat(
       parentsData["root"].unpublishedTalks ?? [],
     ),
   );
@@ -43,7 +43,7 @@ export default function Component() {
   const params = useParams();
   const talk = getTalkFromSlugOrThrow(
     params.slug,
-    data.talks.concat(data.unpublishedTalks ?? []),
+    data?.talks.concat(data.unpublishedTalks ?? []),
   );
 
   return (
@@ -61,7 +61,7 @@ export default function Component() {
       </Title>
 
       <div className="flex flex-col gap-6 tablet:flex-row tablet:gap-10">
-        {talk.speakers.map((speaker) => (
+        {talk?.speakers.map((speaker) => (
           <Link
             key={speaker.id}
             to={`/speakers#${slugify(speaker.name)}`}

@@ -69,7 +69,7 @@ const getBlocksWithChildren =
     const childBlocks = await Promise.all(
       blocks
         .filter((block) => block.has_children)
-        .map(async (block) => {
+        ?.map(async (block) => {
           return {
             id: block.id,
             children: await getBlocksWithChildren(notion)(block.id),
@@ -77,11 +77,11 @@ const getBlocksWithChildren =
         }),
     );
 
-    const blocksWithChildren = blocks.map((block) => {
+    const blocksWithChildren = blocks?.map((block) => {
       const innerBlock = block as Record<string, any>;
       // Add child blocks if the block should contain children but none exists
       if (innerBlock.has_children && !innerBlock[innerBlock.type].children) {
-        innerBlock[innerBlock.type]["children"] = childBlocks.find(
+        innerBlock[innerBlock.type]["children"] = childBlocks?.find(
           (x) => x.id === innerBlock.id,
         )?.children;
       }

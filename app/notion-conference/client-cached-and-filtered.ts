@@ -80,7 +80,7 @@ const getDataCached = async (context: AppLoadContext) => {
   ) => void;
 
   const notionToken = getEnvVariableOrThrow("NOTION_TOKEN", context) as string;
-
+  return;
   return kvCachified({
     kv,
     waitUntil,
@@ -103,21 +103,21 @@ export const getDataCachedAndFiltered = async (
 
   const data = await getDataCached(context);
 
-  const speakersThatHaveTalks = data.speakers.filter((speaker) =>
-    [...data.talks, ...(showPreview ? data.unpublishedTalks : [])].some(
+  const speakersThatHaveTalks = data?.speakers.filter((speaker) =>
+    [...data?.talks, ...(showPreview ? data.unpublishedTalks : [])].some(
       (talk) =>
-        talk.speakers.some((speakerInTalk) => speaker.id === speakerInTalk.id),
+        talk?.speakers.some((speakerInTalk) => speaker.id === speakerInTalk.id),
     ),
   );
 
   return {
-    conference: data.conference,
-    contacts: data.contacts,
+    conference: data?.conference,
+    contacts: data?.contacts,
     speakers: speakersThatHaveTalks,
-    talks: data.talks,
-    tracks: data.tracks,
-    timeslots: data.timeslots,
-    memos: data.memos,
+    talks: data?.talks,
+    tracks: data?.tracks,
+    timeslots: data?.timeslots,
+    memos: data?.memos,
 
     // Don't provide these data unless a secret preview key is given
     ...(showPreview

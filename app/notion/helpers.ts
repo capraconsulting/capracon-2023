@@ -23,13 +23,13 @@ export function slugify(text: string) {
 }
 
 export const getTitle = (fromPage: PageResponse | DatabasePage) => {
-  const title = Object.values(fromPage.properties).find(
+  const title = Object.values(fromPage.properties)?.find(
     (property) => property.type === "title",
   );
   if (title?.type !== "title")
     throw new Error("Could not get title from passed notion page");
 
-  return getTextFromRichText(title.title).trim();
+  return getTextFromRichText(title?.title).trim();
 };
 
 export const getBoolean = (name: string, fromPage: DatabasePage) => {
@@ -88,7 +88,7 @@ export const getEmail = (name: string, fromPage: DatabasePage) => {
 export const getRelation = (name: string, fromPage: DatabasePage) => {
   const property = fromPage.properties[name];
   if (property?.type === "relation") {
-    return property.relation.map((x) => x.id);
+    return property.relation?.map((x) => x.id);
   }
   return undefined;
 };
@@ -96,7 +96,7 @@ export const getRelation = (name: string, fromPage: DatabasePage) => {
 export const getDate = (name: string, fromPage: DatabasePage) => {
   const property = fromPage.properties[name];
   if (property?.type === "date") {
-    return property.date?.start ?? undefined;
+    return property?.date?.start ?? undefined;
   }
   return undefined;
 };
@@ -105,14 +105,14 @@ export const getImage = (name: string, fromPage: DatabasePage) => {
   const property = fromPage.properties[name];
   if (property?.type === "files") {
     return property.files
-      .map((it) =>
+      ?.map((it) =>
         it.type === "external"
           ? it.external.url
           : it.type === "file"
           ? it.file.url
           : undefined,
       )
-      .find((it) => !!it?.length);
+      ?.find((it) => !!it?.length);
   }
   return undefined;
 };
@@ -120,7 +120,7 @@ export const getImage = (name: string, fromPage: DatabasePage) => {
 export const getDateRange = (name: string, fromPage: DatabasePage) => {
   const property = fromPage.properties[name];
   if (property?.type === "date") {
-    return property.date;
+    return property?.date;
   }
   return undefined;
 };
@@ -158,7 +158,7 @@ export const getMultiSelectAndColor = (
 ) => {
   const property = fromPage.properties[name];
   if (property?.type === "multi_select") {
-    return property.multi_select.map((x) => ({
+    return property.multi_select?.map((x) => ({
       id: x.id,
       title: x.name,
       color: x.color,
@@ -168,10 +168,10 @@ export const getMultiSelectAndColor = (
 };
 
 export const getMultiSelect = (name: string, fromPage: DatabasePage) =>
-  getMultiSelectAndColor(name, fromPage)?.map((x) => x.title);
+  getMultiSelectAndColor(name, fromPage)?.map((x) => x?.title);
 
 export const getTextFromRichText = (richText: RichTextItem[]) =>
-  richText.map((richTextBlock) => richTextBlock.plain_text).join("");
+  richText?.map((richTextBlock) => richTextBlock.plain_text).join("");
 
 export const getDatabasePropertySelectOptions = (
   name: string,
@@ -179,7 +179,7 @@ export const getDatabasePropertySelectOptions = (
 ) => {
   const property = fromDatabase.properties[name];
   if (property?.type === "select") {
-    return property.select.options.map((x) => ({
+    return property.select.options?.map((x) => ({
       id: x.id,
       color: x.color,
       title: x.name,

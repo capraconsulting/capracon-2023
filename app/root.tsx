@@ -46,10 +46,21 @@ export const links: LinksFunction = () => [
 export const loader = async ({ request, context }: LoaderArgs) => {
   const data = await getDataCachedAndFiltered(request, context);
 
-  const formattedConferenceDate = new Intl.DateTimeFormat("no-nb", {
-    dateStyle: "medium",
-    timeZone,
-  }).format(new Date(data.conference.date));
+  // Correct Intl usage (previously used `Intl?.dateTimeFormat` causing runtime errors in CF Workers)
+  let formattedConferenceDate: string | undefined;
+  try {
+    if (data?.conference?.date) {
+      const df = new Intl.DateTimeFormat("nb-NO", {
+        dateStyle: "medium",
+        timeZone,
+      });
+      formattedConferenceDate = df.format(new Date(data.conference.date));
+    }
+  } catch {
+    formattedConferenceDate = data?.conference?.date
+      ? new Date(data.conference.date).toISOString().substring(0, 10)
+      : undefined;
+  }
 
   return json({ ...data, formattedConferenceDate });
 };

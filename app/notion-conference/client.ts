@@ -20,12 +20,12 @@ export const getData = async (notionToken: string) => {
     notionContacts,
     notionMemos,
   ] = await Promise.all([
-    getClient(notionToken).getPage(config.conferenceId),
+    getClient(notionToken).getPage(config?.conferenceId),
     getClient(notionToken).getDatabase(config.masterProgramDatabaseId),
     getClient(notionToken).getDatabasePages(config.masterProgramDatabaseId),
-    getClient(notionToken).getDatabasePages(config.speakersDatabaseId),
-    getClient(notionToken).getDatabasePages(config.contactsDatabaseId),
-    getClient(notionToken).getDatabasePages(config.memosDatabaseId),
+    getClient(notionToken).getDatabasePages(config?.speakersDatabaseId),
+    getClient(notionToken).getDatabasePages(config?.contactsDatabaseId),
+    getClient(notionToken).getDatabasePages(config?.memosDatabaseId),
   ]);
 
   const [contacts, invalidContacts] = safeParseContacts(notionContacts);

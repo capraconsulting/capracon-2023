@@ -104,7 +104,7 @@ export const RichTextList = ({
 }: RichTextListProps) => {
   return (
     <>
-      {richTextList.map((richText, index) => (
+      {richTextList?.map((richText, index) => (
         <RichText key={index} richText={richText} classes={classes} />
       ))}
     </>

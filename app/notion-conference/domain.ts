@@ -93,9 +93,9 @@ const timeslotSchema = selectSchema
       ),
   })
   .transform((val) => {
-    const [start, end] = val.title.split("-");
+    const [start, end] = val?.title.split("-");
     const parse = (s: string) => {
-      const [hours, minutes] = s.split(":").map(Number);
+      const [hours, minutes] = s.split(":")?.map(Number);
       return { hours, minutes };
     };
     return { ...val, startTime: parse(start), endTime: parse(end) };
@@ -107,7 +107,7 @@ const durationSchema = selectSchema
     title: z.string().regex(/^\d+$/, "must be a valid number"),
   })
   .transform((val) => {
-    return { ...val, minutes: Number(val.title) };
+    return { ...val, minutes: Number(val?.title) };
   });
 
 const trackSchema = selectSchema.extend({ title: z.enum(TRACKS) });
@@ -128,7 +128,7 @@ const talkSchema = z.object({
   isPublished: z.boolean(),
   startTime: z
     .string()
-    .datetime({ offset: true })
+    ?.datetime({ offset: true })
     .transform((val) => new Date(val).toISOString()),
   year: z.string(),
 });
@@ -180,8 +180,8 @@ export const safeParseContacts = (fromPages: PageObjectResponse[]) => {
   const failed: FailedParsed<ContactPerson>[] = [];
 
   fromPages
-    .map(mapContactPerson)
-    .map((unparsed) => ({
+    ?.map(mapContactPerson)
+    ?.map((unparsed) => ({
       unparsed,
       parsed: contactPersonSchema.safeParse(unparsed),
     }))
@@ -210,8 +210,8 @@ export const safeParseMemos = (fromPages: PageObjectResponse[]) => {
   const success: Memos[] = [];
 
   fromPages
-    .map(mapMemos)
-    .map((unparsed) => ({
+    ?.map(mapMemos)
+    ?.map((unparsed) => ({
       parsed: memoSchema.safeParse(unparsed),
     }))
     .forEach(({ parsed }) => {
@@ -240,8 +240,8 @@ export const safeParseSpeakers = (fromPages: PageObjectResponse[]) => {
   const failed: FailedParsed<Speaker>[] = [];
 
   fromPages
-    .map(mapSpeaker)
-    .map((unparsed) => ({
+    ?.map(mapSpeaker)
+    ?.map((unparsed) => ({
       unparsed,
       parsed: speakerSchema.safeParse(unparsed),
     }))
@@ -264,7 +264,7 @@ const mapTalk = (fromPage: PageObjectResponse, speakers: Speaker[]) => {
     id: fromPage.id,
     title: getTitle(fromPage),
     speakers: getRelation("Foredragsholder", fromPage)
-      ?.map((id) => speakers.find((x) => x.id === id))
+      ?.map((id) => speakers?.find((x) => x.id === id))
       .filter(typedBoolean),
     timeslot: getSelectAndColor("Tidspunkt", fromPage) as any,
     track: getSelectAndColor("Track", fromPage) as any,
@@ -288,8 +288,8 @@ export const safeParseTalks = (
   const failed: FailedParsed<Talk>[] = [];
 
   fromPages
-    .map((page) => mapTalk(page, speakers))
-    .map((unparsed) => ({
+    ?.map((page) => mapTalk(page, speakers))
+    ?.map((unparsed) => ({
       unparsed,
       parsed: talkSchema.safeParse(unparsed),
     }))
@@ -329,7 +329,7 @@ export const parseTimeslots = (fromDatabase: DatabaseResponse) =>
     // regardless of the order the notion api gives the timeslots
     // 0900 -> 1015 -> 1200
     .transform((timeslots) =>
-      timeslots.sort(
+      timeslots?.sort(
         (a, b) =>
           Number(formattedHoursMinutes(a.startTime)) -
           Number(formattedHoursMinutes(b.startTime)),
