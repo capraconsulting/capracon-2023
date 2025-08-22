@@ -10,11 +10,11 @@ export const meta: V2_MetaFunction<never, { root: RootLoader }> = ({
   parentsData,
 }) => [
   {
-    title: parentsData["root"].conference.kontaktTitle,
+    title: parentsData["root"]?.conference?.kontaktTitle,
   },
   {
     name: "description",
-    content: parentsData["root"].conference.kontaktDescription,
+    content: parentsData["root"]?.conference?.kontaktDescription,
   },
 ];
 
@@ -24,14 +24,14 @@ export default function Kontakt() {
   return (
     <ContentBox>
       <Title as="h1" className="mt-8 text-3xl tablet:mt-24 tablet:text-5xl">
-        {data.conference.kontaktTitle}
+        {data?.conference?.kontaktTitle}
       </Title>
       <p className="mb-4 text-xl tablet:mb-12">
-        {data.conference.kontaktDescription}
+        {data?.conference?.kontaktDescription}
       </p>
 
       <div className="mb-32 grid grid-cols-1 gap-9 sm:grid-cols-2 laptop:grid-cols-3">
-        {data.contacts.map((contactPerson) => (
+        {data?.contacts?.map((contactPerson) => (
           <div
             key={contactPerson.id}
             className="overflow-hidden rounded-lg border border-[#E5E7EB]"

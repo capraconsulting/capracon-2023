@@ -16,7 +16,7 @@ import { RichTextList } from "./notion-rich-text";
 const Speakers = ({ speakers }: { speakers: Speaker[] }) => {
   return (
     <>
-      {speakers.map((speaker) => (
+      {speakers?.map((speaker) => (
         <div className="flex flex-col gap-3 laptop:flex-row" key={speaker.id}>
           {speaker.image && (
             <img
@@ -60,7 +60,7 @@ export const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
   const isFavorite = isHydrated && favorites.includes(talk.id);
 
   return (
-    <Link to={`/talk/${slugify(talk.title)}`}>
+    <Link to={`/talk/${slugify(talk?.title)}`}>
       <div className="relative rounded-md border border-gray-200 bg-white px-3 py-4 hover:border-gray-800 hover:transition-[3s] laptop:px-6 laptop:pb-8 laptop:pt-6 dark:border-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700">
         <div className="flex w-full justify-between">
           <div className="mr-2 flex flex-wrap gap-2">
@@ -79,11 +79,11 @@ export const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
 
             {talk.room?.title && (
               <div className="inline-flex h-6 items-center justify-center whitespace-nowrap rounded-lg border border-gray-300 bg-transparent px-2.5 py-0.5 text-xs font-medium dark:bg-zinc-800">
-                <div>{talk.room.title}</div>
+                <div>{talk.room?.title}</div>
               </div>
             )}
             <div className="inline-flex h-6 items-center justify-center whitespace-nowrap rounded-lg border border-gray-300 bg-transparent px-2.5 py-0.5 text-xs font-medium tablet:hidden dark:bg-zinc-800">
-              {talk.track.title}
+              {talk.track?.title}
             </div>
           </div>
 
@@ -114,12 +114,12 @@ export const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
         <h3
           className={classNames(
             "tablet:font-primary break-words text-2xl font-bold tracking-tight",
-            talk.title && talk.title.length > 40
+            talk?.title && talk?.title.length > 40
               ? "laptop:text-3xl"
               : "laptop:text-4xl",
           )}
         >
-          {talk.title}
+          {talk?.title}
         </h3>
 
         <div className="mt-2 tablet:mt-3" />
@@ -129,7 +129,7 @@ export const TalkListItem: React.FC<TalkListItemProps> = ({ talk }) => {
         </p>
 
         <div className="mt-4 flex flex-wrap gap-x-6 gap-y-3">
-          <Speakers speakers={talk.speakers} />
+          <Speakers speakers={talk?.speakers} />
         </div>
       </div>
     </Link>

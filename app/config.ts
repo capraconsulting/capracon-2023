@@ -6,7 +6,7 @@ export const config = {
   memosDatabaseId: "197cce311db48130aac5cf1da74b882d",
 
   KV_NAMESPACE: "KV",
-  KV_DATA_CACHE_KEY: "new-data-2025",
+  KV_DATA_CACHE_KEY: "updated-data-2025",
 
   KV_TTL_IN_MS: 1000 * 5,
   KW_SWR_IN_MS: 1000 * 60 * 60 * 24,

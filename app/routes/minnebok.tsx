@@ -12,9 +12,12 @@ export const meta: V2_MetaFunction<never, { root: RootLoader }> = ({
   parentsData,
 }) => [
   {
-    title: parentsData["root"].conference.title,
+    title: parentsData["root"]?.conference?.title,
   },
-  { name: "description", content: parentsData["root"].conference.description },
+  {
+    name: "description",
+    content: parentsData["root"]?.conference?.description,
+  },
 ];
 
 export default function Minnebok() {

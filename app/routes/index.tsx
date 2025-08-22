@@ -23,9 +23,12 @@ export const meta: V2_MetaFunction<never, { root: RootLoader }> = ({
   parentsData,
 }) => [
   {
-    title: parentsData["root"].conference.title,
+    title: parentsData["root"]?.conference?.title,
   },
-  { name: "description", content: parentsData["root"].conference.description },
+  {
+    name: "description",
+    content: parentsData["root"]?.conference?.description,
+  },
 ];
 
 export default function Praktisk() {
@@ -36,7 +39,7 @@ export default function Praktisk() {
       <IllustrationBanner />
 
       <p className="mb-12 max-w-[700px] whitespace-pre-line text-pretty text-[18px] leading-[32px] tablet:text-[24px]">
-        <RichTextList richTextList={data.conference.praktiskDescription} />
+        <RichTextList richTextList={data?.conference?.praktiskDescription} />
       </p>
 
       <Link
@@ -60,19 +63,19 @@ export default function Praktisk() {
 
           <div className="flex items-center gap-2">
             <Clock size={16} />
-            <time dateTime={data.conference.date}>
+            <time dateTime={data?.conference?.date}>
               {data.formattedConferenceDate}
             </time>
           </div>
 
           <div className="flex items-center gap-2">
             <MapPin size={16} />
-            <span>{data.conference.locationName}</span>
+            <span>{data?.conference?.locationName}</span>
           </div>
 
           <div className="flex items-center gap-2">
             <MapPin size={16} />
-            <dd>{data.conference.locationAddress}</dd>
+            <dd>{data?.conference?.locationAddress}</dd>
           </div>
 
           <div className="flex items-center gap-2">

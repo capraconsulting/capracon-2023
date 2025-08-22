@@ -28,18 +28,21 @@ export const meta: V2_MetaFunction<never, { root: RootLoader }> = ({
   parentsData,
 }) => [
   {
-    title: parentsData["root"].conference.title,
+    title: parentsData["root"]?.conference?.title,
   },
-  { name: "description", content: parentsData["root"].conference.description },
+  {
+    name: "description",
+    content: parentsData["root"]?.conference?.description,
+  },
 ];
 
 export default function Program() {
   const data = useRootData();
 
-  const talks = data.talks.concat(data.unpublishedTalks ?? []);
+  const talks = data?.talks?.concat(data.unpublishedTalks ?? []);
 
-  const trackHeadings = TRACK_HEADINGS.map((trackTitle) =>
-    data.tracks.find((track) => track.title === trackTitle),
+  const trackHeadings = TRACK_HEADINGS?.map((trackTitle) =>
+    data?.tracks?.find((track) => track?.title === trackTitle),
   ).filter(typedBoolean);
 
   return (
@@ -52,12 +55,12 @@ export default function Program() {
       </Title>
 
       <div className="schedule">
-        {trackHeadings.map((track) => (
+        {trackHeadings?.map((track) => (
           <div
             key={track.id}
             className="sticky top-0 z-20 hidden laptop:flex"
             style={{
-              gridColumn: TrackGridColumn[track.title],
+              gridColumn: TrackGridColumn[track?.title],
               gridRow: "tracks",
             }}
           >
@@ -65,13 +68,13 @@ export default function Program() {
           </div>
         ))}
 
-        {talks.map((talk) => {
+        {talks?.map((talk) => {
           const { startTime, endTime } = getFormattedTalkTimes(talk);
           return (
             <div
-              key={talk.title}
+              key={talk?.title}
               style={{
-                gridColumn: TrackGridColumn[talk.track.title],
+                gridColumn: TrackGridColumn[talk.track?.title],
                 gridRow: `time-${startTime} / time-${endTime}`,
               }}
             >
@@ -91,7 +94,7 @@ const TrackHeading = ({ track }: TrackHeadingProps) => {
   return (
     <div className="pointer-events-none flex w-full items-center justify-between rounded-lg border border-[#E5E7EB] bg-[#F2F2F2] px-4 py-2  dark:border-[#27272A] dark:bg-[black] ">
       <span className={classNames("font-[600] text-[#333] dark:text-white")}>
-        {track.title}
+        {track?.title}
       </span>
       <ArrowDown className="text-[#666] dark:text-white" size={18} />
     </div>

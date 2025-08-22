@@ -13,16 +13,16 @@ export const meta: V2_MetaFunction<never, { root: RootLoader }> = ({
   parentsData,
 }) => [
   {
-    title: parentsData["root"].conference.foredragsholdereTitle,
+    title: parentsData["root"]?.conference?.foredragsholdereTitle,
   },
   {
     name: "description",
-    content: parentsData["root"].conference.foredragsholdereDescription,
+    content: parentsData["root"]?.conference?.foredragsholdereDescription,
   },
 ];
 export default function Component() {
   const { conference, speakers } = useRootData();
-  const sortedSpeakers = speakers.sort((a, b) => {
+  const sortedSpeakers = speakers?.sort((a, b) => {
     if (a.name < b.name) return -1;
     if (a.name > b.name) return 1;
     return 0;
@@ -34,10 +34,10 @@ export default function Component() {
         as="h1"
         className="mt-8 text-3xl tablet:mb-8 tablet:mt-24 tablet:text-5xl"
       >
-        {conference.foredragsholdereTitle}
+        {conference?.foredragsholdereTitle}
       </Title>
       <div className="flex flex-col gap-6 tablet:gap-8">
-        {sortedSpeakers.map((speaker) => (
+        {sortedSpeakers?.map((speaker) => (
           <article
             className="rounded-md border border-gray-200 bg-white px-3 py-4 laptop:px-6 laptop:pb-8 laptop:pt-6 dark:border-zinc-800 dark:bg-zinc-800"
             key={speaker.id}
