@@ -30,7 +30,7 @@
     "vm2": "^3.9.19"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "3.19.0",
+    "@cloudflare/workers-types": "4.20250823.0",
     "@remix-run/dev": "1.11.1",
     "@remix-run/eslint-config": "1.11.1",
     "@types/react": "18.2.77",
