@@ -28,4 +28,4 @@ export const TRACK_HEADINGS = [
   Tracks.ÅttendeEtasje,
 ] as const;
 
-export const YEARS = ["2023", "2024"] as const;
+export const YEARS = ["2023", "2024", "2025", "2026"] as const;

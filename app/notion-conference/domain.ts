@@ -276,7 +276,7 @@ const mapTalk = (fromPage: PageObjectResponse, speakers: Speaker[]) => {
       getSelect("Status", fromPage) ===
       "8. Tildelt slot i program (tid og rom)",
     startTime: getDate("Starttid", fromPage),
-    year: (getSelectAndColor("Årgang", fromPage)?.title ?? "2023") as string,
+    year: (getSelectAndColor("Årgang", fromPage)?.title ?? "2026") as string,
   } satisfies Relaxed<Talk>;
 };
 
