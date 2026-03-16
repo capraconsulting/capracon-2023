@@ -3,7 +3,7 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build": "react-router build",
+    "build": "react-router build && node build-worker.js",
     "dev": "react-router dev",
     "start": "wrangler pages dev ./build/client",
     "typecheck": "react-router typegen && tsc -b",
@@ -23,7 +23,6 @@
     "zod": "^3.24.0"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "^1.28.0",
     "@cloudflare/workers-types": "^4.20250109.0",
     "@eslint/js": "^9.39.4",
     "@react-router/dev": "^7.1.0",
