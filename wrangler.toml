@@ -1,5 +1,7 @@
 name = "capracon"
 compatibility_date = "2025-01-01"
+main = "./worker.ts"
+assets = { directory = "./build/client" }
 
 # Local dev uses .dev.vars for NOTION_TOKEN and PREVIEW_SECRET
 
