@@ -36,23 +36,23 @@ const richTextSchema = z.array(
 // Domain
 const conferenceSchema = z.object({
   title: z.string(),
-  date: z.string(),
-  description: z.string(),
+  date: z.string().optional(),
+  description: z.string().optional(),
 
-  locationTitle: z.string(),
-  locationName: z.string(),
-  locationAddress: z.string(),
-  locationHomepage: z.string().url(),
+  locationTitle: z.string().optional(),
+  locationName: z.string().optional(),
+  locationAddress: z.string().optional(),
+  locationHomepage: z.string().url().optional(),
 
-  praktiskTitle: z.string(),
-  praktiskSubheading: z.string(),
-  praktiskDescription: richTextSchema,
+  praktiskTitle: z.string().optional(),
+  praktiskSubheading: z.string().optional(),
+  praktiskDescription: richTextSchema.optional(),
 
-  kontaktTitle: z.string(),
-  kontaktDescription: z.string(),
+  kontaktTitle: z.string().optional(),
+  kontaktDescription: z.string().optional(),
 
-  foredragsholdereTitle: z.string(),
-  foredragsholdereDescription: z.string(),
+  foredragsholdereTitle: z.string().optional(),
+  foredragsholdereDescription: z.string().optional(),
 });
 export type Conference = z.infer<typeof conferenceSchema>;
 
@@ -276,7 +276,7 @@ const mapTalk = (fromPage: PageObjectResponse, speakers: Speaker[]) => {
       getSelect("Status", fromPage) ===
       "8. Tildelt slot i program (tid og rom)",
     startTime: getDate("Starttid", fromPage),
-    year: (getSelectAndColor("Årgang", fromPage)?.title ?? "2023") as string,
+    year: (getSelectAndColor("Årgang", fromPage)?.title ?? "2026") as string,
   } satisfies Relaxed<Talk>;
 };
 

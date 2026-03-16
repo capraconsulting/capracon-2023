@@ -1,12 +1,13 @@
 export const config = {
-  conferenceId: "d3ea95168d01405caa4198c86af1224a",
-  contactsDatabaseId: "4ad522bb07b54d4f9201ac0b481de224",
-  speakersDatabaseId: "115cce311db481568dcdd7cdf3316246",
-  masterProgramDatabaseId: "115cce311db4810ca0c9d6681a129081",
-  memosDatabaseId: "197cce311db48130aac5cf1da74b882d",
+  conferenceId: "229cce311db4800988d9fbc119df0d8f",
+  conferenceDatabaseId: "b3e3e53d2a744d47a841d29071a023e8",
+  contactsDatabaseId: "323cce311db481c387c4e63e6eba94df",
+  speakersDatabaseId: "323cce311db481ed89efc48410e14d07",
+  masterProgramDatabaseId: "324cce311db4807689fcee945450ba74",
+  memosDatabaseId: "323cce311db481c0954fe2aac4d4a4fb",
 
   KV_NAMESPACE: "KV",
-  KV_DATA_CACHE_KEY: "updated-data-2025",
+  KV_DATA_CACHE_KEY: "updated-data-2026",
 
   KV_TTL_IN_MS: 1000 * 5,
   KW_SWR_IN_MS: 1000 * 60 * 60 * 24,

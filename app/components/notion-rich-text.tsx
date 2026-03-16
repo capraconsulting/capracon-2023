@@ -1,3 +1,5 @@
+import React from "react";
+
 import type { RichTextItem } from "../notion/helpers";
 
 type RichTextAnnotation = Exclude<keyof RichTextItem["annotations"], "color">;
@@ -18,6 +20,7 @@ export const richTextClasses: RichTextClasses = {
   annotation_strikethrough: "",
   annotation_underline: "",
   color_default: "",
+  color_default_background: "",
   color_gray: "",
   color_brown: "",
   color_orange: "",
@@ -50,7 +53,7 @@ export const RichText = ({
   if (richText.type === "equation") return null;
   const color = classes[`color_${richText.annotations.color}`];
 
-  let element: JSX.Element;
+  let element: React.JSX.Element;
   element = <span className={color}>{richText.plain_text}</span>;
 
   if (richText.annotations.bold) {

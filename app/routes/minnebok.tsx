@@ -1,4 +1,4 @@
-import type { HeadersFunction, V2_MetaFunction } from "@remix-run/cloudflare";
+import type { HeadersFunction, MetaFunction } from "react-router";
 
 import { ContentBox } from "~/components/content-box";
 import { Title } from "~/components/title";
@@ -8,17 +8,22 @@ import { buildImageUrl } from "./api.image-optimized";
 
 export const headers: HeadersFunction = () => config.cacheControlHeaders;
 
-export const meta: V2_MetaFunction<never, { root: RootLoader }> = ({
-  parentsData,
-}) => [
-  {
-    title: parentsData["root"]?.conference?.title,
-  },
-  {
-    name: "description",
-    content: parentsData["root"]?.conference?.description,
-  },
-];
+export const meta: MetaFunction<never, { root: RootLoader }> = ({
+  matches,
+}) => {
+  const rootData = matches.find((m) => m.id === "root")?.data as Awaited<
+    ReturnType<RootLoader>
+  >;
+  return [
+    {
+      title: rootData?.conference?.title,
+    },
+    {
+      name: "description",
+      content: rootData?.conference?.description,
+    },
+  ];
+};
 
 export default function Minnebok() {
   const { memos } = useRootData();

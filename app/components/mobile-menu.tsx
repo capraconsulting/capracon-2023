@@ -1,8 +1,8 @@
-import { NavLink } from "@remix-run/react";
+import { NavLink } from "react-router";
 
-import { List, Moon, Sun, X } from "phosphor-react";
-import { useHydrated } from "remix-utils";
+import { List, Moon, Sun, X } from "@phosphor-icons/react";
 
+import { useHydrated } from "~/hooks/useHydrated";
 import { Theme, useTheme } from "~/hooks/useTheme";
 
 type MobileMenuProps = {

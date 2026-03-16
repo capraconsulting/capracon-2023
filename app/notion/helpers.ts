@@ -40,10 +40,10 @@ export const getBoolean = (name: string, fromPage: DatabasePage) => {
   return undefined;
 };
 
-export const getUrl = (name: string, fromPage: DatabasePage) => {
+export const getUrl = (name: string, fromPage: DatabasePage): string | undefined => {
   const property = fromPage.properties[name];
   if (property?.type === "url") {
-    return property.url ?? undefined;
+    return (property.url as string | null) ?? undefined;
   }
   return undefined;
 };
@@ -51,13 +51,14 @@ export const getUrl = (name: string, fromPage: DatabasePage) => {
 export const getFileUrl = (name: string, fromPage: DatabasePage) => {
   const property = fromPage.properties[name];
   if (property?.type === "files") {
-    if (property.files.length === 0) return undefined;
+    const files = property.files as any[];
+    if (!files?.length) return undefined;
 
-    const file = property.files[0];
+    const file = files[0];
     if (file?.type === "external") {
-      return file.external.url;
-    } else if (file.type === "file") {
-      return file.file.url;
+      return file.external.url as string;
+    } else if (file?.type === "file") {
+      return file.file.url as string;
     }
   }
   return undefined;
@@ -66,12 +67,12 @@ export const getFileUrl = (name: string, fromPage: DatabasePage) => {
 export const getRichText = (name: string, fromPage: DatabasePage) => {
   const property = fromPage.properties[name];
   if (property?.type === "rich_text") {
-    return property.rich_text;
+    return property.rich_text as RichTextItem[];
   }
   return undefined;
 };
 
-export const getText = (name: string, fromPage: DatabasePage) => {
+export const getText = (name: string, fromPage: DatabasePage): string | undefined => {
   const richText = getRichText(name, fromPage);
   if (richText) return getTextFromRichText(richText);
   return undefined;
@@ -80,7 +81,7 @@ export const getText = (name: string, fromPage: DatabasePage) => {
 export const getEmail = (name: string, fromPage: DatabasePage) => {
   const property = fromPage.properties[name];
   if (property?.type === "email") {
-    return property.email ?? undefined;
+    return (property.email as string | null) ?? undefined;
   }
   return undefined;
 };
@@ -88,15 +89,16 @@ export const getEmail = (name: string, fromPage: DatabasePage) => {
 export const getRelation = (name: string, fromPage: DatabasePage) => {
   const property = fromPage.properties[name];
   if (property?.type === "relation") {
-    return property.relation?.map((x) => x.id);
+    const relation = property.relation as { id: string }[];
+    return relation?.map((x) => x.id);
   }
   return undefined;
 };
 
-export const getDate = (name: string, fromPage: DatabasePage) => {
+export const getDate = (name: string, fromPage: DatabasePage): string | undefined => {
   const property = fromPage.properties[name];
   if (property?.type === "date") {
-    return property?.date?.start ?? undefined;
+    return (property?.date as any)?.start ?? undefined;
   }
   return undefined;
 };
@@ -104,15 +106,16 @@ export const getDate = (name: string, fromPage: DatabasePage) => {
 export const getImage = (name: string, fromPage: DatabasePage) => {
   const property = fromPage.properties[name];
   if (property?.type === "files") {
-    return property.files
-      ?.map((it) =>
+    const files = property.files as any[];
+    return files
+      ?.map((it: any) =>
         it.type === "external"
           ? it.external.url
           : it.type === "file"
           ? it.file.url
           : undefined,
       )
-      ?.find((it) => !!it?.length);
+      ?.find((it: string | undefined) => !!it?.length);
   }
   return undefined;
 };
@@ -135,16 +138,18 @@ export const getCheckbox = (name: string, fromPage: DatabasePage) => {
 
 export const getSelectAndColor = (name: string, fromPage: DatabasePage) => {
   const property = fromPage.properties[name];
-  if (
-    property?.type === "select" &&
-    property.select?.name &&
-    property.select.color
-  ) {
-    return {
-      id: property.select.id,
-      title: property.select.name,
-      color: property.select.color,
-    };
+  if (property?.type === "select") {
+    const select = property.select as
+      | { id: string; name: string; color: string }
+      | null
+      | undefined;
+    if (select?.name && select.color) {
+      return {
+        id: select.id,
+        title: select.name,
+        color: select.color,
+      };
+    }
   }
   return undefined;
 };
@@ -158,7 +163,12 @@ export const getMultiSelectAndColor = (
 ) => {
   const property = fromPage.properties[name];
   if (property?.type === "multi_select") {
-    return property.multi_select?.map((x) => ({
+    const multiSelect = property.multi_select as {
+      id: string;
+      name: string;
+      color: string;
+    }[];
+    return multiSelect?.map((x) => ({
       id: x.id,
       title: x.name,
       color: x.color,
@@ -168,7 +178,7 @@ export const getMultiSelectAndColor = (
 };
 
 export const getMultiSelect = (name: string, fromPage: DatabasePage) =>
-  getMultiSelectAndColor(name, fromPage)?.map((x) => x?.title);
+  getMultiSelectAndColor(name, fromPage)?.map((x: any) => x?.title);
 
 export const getTextFromRichText = (richText: RichTextItem[]) =>
   richText?.map((richTextBlock) => richTextBlock.plain_text).join("");

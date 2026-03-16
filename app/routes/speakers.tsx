@@ -1,4 +1,4 @@
-import type { V2_MetaFunction } from "@remix-run/cloudflare";
+import type { MetaFunction } from "react-router";
 
 import { CompanyLogo } from "~/components/company-logos";
 import { ContentBox } from "~/components/content-box";
@@ -9,17 +9,23 @@ import { useRootData } from "~/root";
 import { classNames } from "~/utils/misc";
 import { buildImageUrl } from "./api.image-optimized";
 
-export const meta: V2_MetaFunction<never, { root: RootLoader }> = ({
-  parentsData,
-}) => [
-  {
-    title: parentsData["root"]?.conference?.foredragsholdereTitle,
-  },
-  {
-    name: "description",
-    content: parentsData["root"]?.conference?.foredragsholdereDescription,
-  },
-];
+export const meta: MetaFunction<never, { root: RootLoader }> = ({
+  matches,
+}) => {
+  const rootData = matches.find((m) => m.id === "root")?.data as Awaited<
+    ReturnType<RootLoader>
+  >;
+  return [
+    {
+      title: rootData?.conference?.foredragsholdereTitle,
+    },
+    {
+      name: "description",
+      content: rootData?.conference?.foredragsholdereDescription,
+    },
+  ];
+};
+
 export default function Component() {
   const { conference, speakers } = useRootData();
   const sortedSpeakers = speakers?.sort((a, b) => {
@@ -45,7 +51,6 @@ export default function Component() {
           >
             <div className="flex flex-col gap-4 tablet:flex-row">
               {speaker.image && (
-                // Make the picture change orientation depending on screen size
                 <picture className="contents">
                   <source
                     srcSet={buildImageUrl({

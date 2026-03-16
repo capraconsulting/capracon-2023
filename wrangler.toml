@@ -1,0 +1,8 @@
+name = "capracon"
+compatibility_date = "2025-01-01"
+
+# Local dev uses .dev.vars for NOTION_TOKEN and PREVIEW_SECRET
+
+[[kv_namespaces]]
+binding = "KV"
+id = "2945385681d2418a960b322b2f9dcfd1"

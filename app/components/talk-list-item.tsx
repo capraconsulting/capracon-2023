@@ -1,10 +1,10 @@
 import React from "react";
-import { Link } from "@remix-run/react";
+import { Link } from "react-router";
 
-import { Check, Plus } from "phosphor-react";
-import { useHydrated } from "remix-utils";
+import { Check, Plus } from "@phosphor-icons/react";
 
 import { useFavorites } from "~/hooks/useFavorites";
+import { useHydrated } from "~/hooks/useHydrated";
 import { slugify } from "~/notion/helpers";
 import type { Speaker, Talk } from "~/notion-conference/domain";
 import { getFormattedTalkTimesAlt } from "~/notion-conference/helpers";
