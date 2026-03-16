@@ -1,19 +1,11 @@
 node_modules
 .DS_Store
 
-/.cache
-/functions/\[\[path\]\].js
-/functions/\[\[path\]\].js.map
-/functions/
-/public/build
 /build
 .react-router
 .env
 .dev.vars
 .mcp.json
 .idea
-/app/tailwind.css
 .wrangler
-
-# claude
-.mcp.json
+tsconfig.tsbuildinfo
