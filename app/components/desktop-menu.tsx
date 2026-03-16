@@ -1,8 +1,8 @@
-import { NavLink } from "@remix-run/react";
+import { NavLink } from "react-router";
 
-import { Moon, Sun } from "phosphor-react";
-import { useHydrated } from "remix-utils";
+import { Moon, Sun } from "@phosphor-icons/react";
 
+import { useHydrated } from "~/hooks/useHydrated";
 import { Theme, useTheme } from "~/hooks/useTheme";
 
 export const DesktopMenu = () => {

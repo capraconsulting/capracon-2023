@@ -16,7 +16,7 @@ export function useFavorites() {
 
     const currentFavorites = getStoredFavorites();
     const updatedFavorites = currentFavorites.includes(talkId)
-      ? currentFavorites.filter((id) => id !== talkId)
+      ? currentFavorites.filter((id: string) => id !== talkId)
       : [...currentFavorites, talkId];
 
     localStorage.setItem("favorites", JSON.stringify(updatedFavorites));

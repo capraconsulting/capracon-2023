@@ -1,10 +1,10 @@
 import type {
   HeadersFunction,
   LinksFunction,
-  V2_MetaFunction,
-} from "@remix-run/cloudflare";
+  MetaFunction,
+} from "react-router";
 
-import { ArrowDown } from "phosphor-react";
+import { ArrowDown } from "@phosphor-icons/react";
 
 import { ContentBox } from "~/components/content-box";
 import { TalkListItem } from "~/components/talk-list-item";
@@ -14,7 +14,7 @@ import type { Track } from "~/notion-conference/domain";
 import { getFormattedTalkTimes } from "~/notion-conference/helpers";
 import type { RootLoader } from "~/root";
 import { useRootData } from "~/root";
-import styles from "~/styles/program.css";
+import styles from "~/styles/program.css?url";
 import { TRACK_HEADINGS, TrackGridColumn } from "~/utils/consts";
 import { classNames, typedBoolean } from "~/utils/misc";
 
@@ -24,17 +24,22 @@ export let links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: styles }];
 };
 
-export const meta: V2_MetaFunction<never, { root: RootLoader }> = ({
-  parentsData,
-}) => [
-  {
-    title: parentsData["root"]?.conference?.title,
-  },
-  {
-    name: "description",
-    content: parentsData["root"]?.conference?.description,
-  },
-];
+export const meta: MetaFunction<never, { root: RootLoader }> = ({
+  matches,
+}) => {
+  const rootData = matches.find((m) => m.id === "root")?.data as Awaited<
+    ReturnType<RootLoader>
+  >;
+  return [
+    {
+      title: rootData?.conference?.title,
+    },
+    {
+      name: "description",
+      content: rootData?.conference?.description,
+    },
+  ];
+};
 
 export default function Program() {
   const data = useRootData();

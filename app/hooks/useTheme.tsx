@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-import { useHydrated } from "remix-utils";
+import { useHydrated } from "~/hooks/useHydrated";
 
 export enum Theme {
   DARK = "dark",

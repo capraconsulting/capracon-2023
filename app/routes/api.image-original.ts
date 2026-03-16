@@ -1,4 +1,4 @@
-import type { AppLoadContext, LoaderArgs } from "@remix-run/cloudflare";
+import type { AppLoadContext, LoaderFunctionArgs } from "react-router";
 
 import { z } from "zod";
 
@@ -58,7 +58,7 @@ const getNotionConferenceImageUrl = async (
  * the image optimization services will cache based on the url, therfor
  * it makes sense to provide them a nice static url
  */
-export const loader = async ({ context, request }: LoaderArgs) => {
+export const loader = async ({ context, request }: LoaderFunctionArgs) => {
   const imageRequest = imageRequestSchema.parse(
     Object.fromEntries(new URL(request.url).searchParams),
   );

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { Link } from "@remix-run/react";
+import { useState } from "react";
+import { Link } from "react-router";
 
 import { DesktopMenu } from "./desktop-menu";
 import { MobileMenu } from "./mobile-menu";
 
-export const Header: React.FC = () => {
+export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (

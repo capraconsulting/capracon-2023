@@ -1,4 +1,4 @@
-# CapraCon 2023
+# CapraCon 2026
 
 > [https://capracon.no](https://capracon.no)
 
@@ -6,7 +6,7 @@
 - Server side rendering med [Remix](https://remix.run/)
 - Styling med [Tailwind](https://tailwindcss.com/)
 - Hosted hos [Cloudflare Pages](https://pages.cloudflare.com/)
-- Innhold og bilder hos [Notion](https://www.notion.so/capra/CapraCon-2023-d84d4b2667ff40c49103e3455b7c98c8)
+- Innhold og bilder hos [Notion](https://www.notion.so/capra/CapraCon-2023-d84d4b2667ff40c49103e3455b7c98c8) <!-- TODO: Update to CC26 Notion workspace link -->
 
 ## Utvikling
 

@@ -1,5 +1,5 @@
-import type { HeadersFunction, V2_MetaFunction } from "@remix-run/cloudflare";
-import { Link } from "@remix-run/react";
+import type { HeadersFunction, MetaFunction } from "react-router";
+import { Link } from "react-router";
 
 import {
   ArrowRight,
@@ -8,7 +8,7 @@ import {
   ForkKnife,
   MapPin,
   Tag,
-} from "phosphor-react";
+} from "@phosphor-icons/react";
 
 import { ContentBox } from "~/components/content-box";
 import { IllustrationBanner } from "~/components/illustration-banner";
@@ -19,17 +19,22 @@ import { useRootData } from "~/root";
 
 export const headers: HeadersFunction = () => config.cacheControlHeaders;
 
-export const meta: V2_MetaFunction<never, { root: RootLoader }> = ({
-  parentsData,
-}) => [
-  {
-    title: parentsData["root"]?.conference?.title,
-  },
-  {
-    name: "description",
-    content: parentsData["root"]?.conference?.description,
-  },
-];
+export const meta: MetaFunction<never, { root: RootLoader }> = ({
+  matches,
+}) => {
+  const rootData = matches.find((m) => m.id === "root")?.data as Awaited<
+    ReturnType<RootLoader>
+  >;
+  return [
+    {
+      title: rootData?.conference?.title,
+    },
+    {
+      name: "description",
+      content: rootData?.conference?.description,
+    },
+  ];
+};
 
 export default function Praktisk() {
   const data = useRootData();
@@ -39,7 +44,7 @@ export default function Praktisk() {
       <IllustrationBanner />
 
       <p className="mb-12 max-w-[700px] whitespace-pre-line text-pretty text-[18px] leading-[32px] tablet:text-[24px]">
-        <RichTextList richTextList={data?.conference?.praktiskDescription} />
+        <RichTextList richTextList={data?.conference?.praktiskDescription ?? []} />
       </p>
 
       <Link

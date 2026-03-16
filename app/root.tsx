@@ -1,23 +1,17 @@
-import type {
-  LinksFunction,
-  LoaderArgs,
-  SerializeFrom,
-} from "@remix-run/cloudflare";
-import { json } from "@remix-run/cloudflare";
+import type { LinksFunction, LoaderFunctionArgs } from "react-router";
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
   useRouteLoaderData,
-} from "@remix-run/react";
+} from "react-router";
 
 import { Header } from "~/components/header";
 import { ThemeProvider } from "./hooks/useTheme";
 import { getDataCachedAndFiltered } from "./notion-conference/client-cached-and-filtered";
-import styles from "./tailwind.css";
+import "./app.css";
 import { timeZone } from "./utils/consts";
 
 export const links: LinksFunction = () => [
@@ -40,13 +34,11 @@ export const links: LinksFunction = () => [
     rel: "apple-touch-icon",
     href: "/apple-touch-icon-group.png",
   },
-  { rel: "stylesheet", href: styles },
 ];
 
-export const loader = async ({ request, context }: LoaderArgs) => {
+export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const data = await getDataCachedAndFiltered(request, context);
 
-  // Correct Intl usage (previously used `Intl?.dateTimeFormat` causing runtime errors in CF Workers)
   let formattedConferenceDate: string | undefined;
   try {
     if (data?.conference?.date) {
@@ -62,12 +54,12 @@ export const loader = async ({ request, context }: LoaderArgs) => {
       : undefined;
   }
 
-  return json({ ...data, formattedConferenceDate });
+  return { ...data, formattedConferenceDate };
 };
 
 export type RootLoader = typeof loader;
 export const useRootData = () =>
-  useRouteLoaderData("root") as SerializeFrom<typeof loader>;
+  useRouteLoaderData("root") as Awaited<ReturnType<typeof loader>>;
 
 export default function App() {
   return (
@@ -98,10 +90,9 @@ export default function App() {
             }}
           />
           <Scripts />
-          <LiveReload />
 
           {/* Cloudflare Web Analytics */}
-          {process.env.NODE_ENV === "production" && (
+          {import.meta.env.PROD && (
             <script
               defer
               src="https://static.cloudflareinsights.com/beacon.min.js"

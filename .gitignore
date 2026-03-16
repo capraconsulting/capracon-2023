@@ -6,8 +6,11 @@ node_modules
 /functions/\[\[path\]\].js.map
 /functions/
 /public/build
+/build
+.react-router
 .env
 .dev.vars
+.mcp.json
 .idea
 /app/tailwind.css
 .wrangler

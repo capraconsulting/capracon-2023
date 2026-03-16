@@ -1,8 +1,8 @@
-import type { AppLoadContext } from "@remix-run/cloudflare";
+import type { AppLoadContext } from "react-router";
 
 import { config } from "~/config";
 import { getData } from "~/notion-conference/client";
-import { getEnv, getEnvVariableOrThrow } from "~/utils/env";
+import { getEnv, getEnvVariableOrThrow, getWaitUntil } from "~/utils/env";
 
 type Metadata = {
   createdTime: number;
@@ -75,12 +75,9 @@ const kvCachified = async <T>({
 
 const getDataCached = async (context: AppLoadContext) => {
   const kv = getEnvVariableOrThrow("KV", context) as KVNamespace;
-  const waitUntil = getEnvVariableOrThrow("waitUntil", context) as (
-    promise: Promise<any>,
-  ) => void;
+  const waitUntil = getWaitUntil(context);
 
   const notionToken = getEnvVariableOrThrow("NOTION_TOKEN", context) as string;
-  return;
   return kvCachified({
     kv,
     waitUntil,
@@ -122,10 +119,10 @@ export const getDataCachedAndFiltered = async (
     // Don't provide these data unless a secret preview key is given
     ...(showPreview
       ? {
-          invalidContacts: data.invalidContacts,
-          invalidSpeakers: data.invalidSpeakers,
-          unpublishedTalks: data.unpublishedTalks,
-          invalidTalks: data.invalidTalks,
+          invalidContacts: data?.invalidContacts,
+          invalidSpeakers: data?.invalidSpeakers,
+          unpublishedTalks: data?.unpublishedTalks,
+          invalidTalks: data?.invalidTalks,
         }
       : {}),
   };

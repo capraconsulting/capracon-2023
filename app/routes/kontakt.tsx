@@ -1,4 +1,4 @@
-import type { V2_MetaFunction } from "@remix-run/cloudflare";
+import type { MetaFunction } from "react-router";
 
 import { ContentBox } from "~/components/content-box";
 import { Title } from "~/components/title";
@@ -6,17 +6,22 @@ import type { RootLoader } from "~/root";
 import { useRootData } from "~/root";
 import { buildImageUrl } from "./api.image-optimized";
 
-export const meta: V2_MetaFunction<never, { root: RootLoader }> = ({
-  parentsData,
-}) => [
-  {
-    title: parentsData["root"]?.conference?.kontaktTitle,
-  },
-  {
-    name: "description",
-    content: parentsData["root"]?.conference?.kontaktDescription,
-  },
-];
+export const meta: MetaFunction<never, { root: RootLoader }> = ({
+  matches,
+}) => {
+  const rootData = matches.find((m) => m.id === "root")?.data as Awaited<
+    ReturnType<RootLoader>
+  >;
+  return [
+    {
+      title: rootData?.conference?.kontaktTitle,
+    },
+    {
+      name: "description",
+      content: rootData?.conference?.kontaktDescription,
+    },
+  ];
+};
 
 export default function Kontakt() {
   const data = useRootData();

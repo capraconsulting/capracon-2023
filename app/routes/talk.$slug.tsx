@@ -1,7 +1,7 @@
-import type { V2_MetaFunction } from "@remix-run/cloudflare";
-import { Link, useParams } from "@remix-run/react";
+import type { MetaFunction } from "react-router";
+import { Link, useParams } from "react-router";
 
-import { ArrowLeft } from "phosphor-react";
+import { ArrowLeft } from "@phosphor-icons/react";
 
 import { CompanyLogo } from "~/components/company-logos";
 import { ContentBox } from "~/components/content-box";
@@ -19,15 +19,16 @@ const getTalkFromSlugOrThrow = (slug: string | undefined, talks: Talk[]) => {
   return talk;
 };
 
-export const meta: V2_MetaFunction<never, { root: RootLoader }> = ({
-  parentsData,
+export const meta: MetaFunction<never, { root: RootLoader }> = ({
+  matches,
   params,
 }) => {
+  const rootData = matches.find((m) => m.id === "root")?.data as Awaited<
+    ReturnType<RootLoader>
+  >;
   const talk = getTalkFromSlugOrThrow(
     params.slug,
-    parentsData["root"]?.talks?.concat(
-      parentsData["root"].unpublishedTalks ?? [],
-    ),
+    (rootData?.talks ?? []).concat(rootData?.unpublishedTalks ?? []),
   );
 
   return [
@@ -43,7 +44,7 @@ export default function Component() {
   const params = useParams();
   const talk = getTalkFromSlugOrThrow(
     params.slug,
-    data?.talks.concat(data.unpublishedTalks ?? []),
+    (data?.talks ?? []).concat(data?.unpublishedTalks ?? []),
   );
 
   return (

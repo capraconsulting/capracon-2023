@@ -15,14 +15,26 @@ export const getClient = (token: string) => {
   };
 };
 
-type Sorts = Parameters<NotionClient["databases"]["query"]>[0]["sorts"];
-type Filter = Parameters<NotionClient["databases"]["query"]>[0]["filter"];
+type Sorts = Parameters<NotionClient["dataSources"]["query"]>[0]["sorts"];
+type Filter = Parameters<NotionClient["dataSources"]["query"]>[0]["filter"];
+
+const getDataSourceId = async (notion: NotionClient, databaseId: string) => {
+  const database = await notion.databases.retrieve({
+    database_id: databaseId,
+  });
+  if (!("data_sources" in database) || !database.data_sources?.length) {
+    throw new Error(`Database ${databaseId} has no data sources`);
+  }
+  return database.data_sources[0].id;
+};
 
 const getDatabasePages =
   (notion: NotionClient) =>
   async (databaseId: string, sorts?: Sorts, filter?: Filter) => {
-    const response = await notion.databases.query({
-      database_id: databaseId,
+    const dataSourceId = await getDataSourceId(notion, databaseId);
+
+    const response = await notion.dataSources.query({
+      data_source_id: dataSourceId,
       sorts,
       filter,
     });
@@ -36,8 +48,9 @@ const getPage = (notion: NotionClient) => async (pageId: string) => {
 };
 
 const getDatabase = (notion: NotionClient) => async (databaseId: string) => {
-  const response = await notion.databases.retrieve({
-    database_id: databaseId,
+  const dataSourceId = await getDataSourceId(notion, databaseId);
+  const response = await notion.dataSources.retrieve({
+    data_source_id: dataSourceId,
   });
   return assertDatabaseResponse(response);
 };
@@ -108,7 +121,7 @@ type BlockWithChildren = Block & {
 
 // Database
 type MaybeDatabasePageResponse = Awaited<
-  ReturnType<NotionClient["databases"]["query"]>
+  ReturnType<NotionClient["dataSources"]["query"]>
 >["results"][number];
 export type DatabasePage = ReturnType<typeof onlyDatabasePages>[number];
 const onlyDatabasePages = (databasePages: MaybeDatabasePageResponse[]) => {
@@ -129,9 +142,9 @@ const assertPageResponse = (page: MaybePageResponse) => {
   throw new Error("passed page is not a PageResponse");
 };
 
-// Database
+// Database / Data Source
 type MaybeDatabaseResponse = Awaited<
-  ReturnType<NotionClient["databases"]["retrieve"]>
+  ReturnType<NotionClient["dataSources"]["retrieve"]>
 >;
 export type DatabaseResponse = ReturnType<typeof assertDatabaseResponse>;
 const assertDatabaseResponse = (page: MaybeDatabaseResponse) => {

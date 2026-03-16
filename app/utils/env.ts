@@ -1,32 +1,28 @@
-import type { AppLoadContext } from "@remix-run/server-runtime";
+import type { AppLoadContext } from "react-router";
 
 interface Env {
   PREVIEW_SECRET?: string;
   NOTION_TOKEN?: string;
   KV?: KVNamespace;
-  waitUntil?: (promise: Promise<any>) => void;
 }
 
-export const getEnv = (context: AppLoadContext) => {
-  let env = {} as Partial<Record<string, unknown>>;
-  if (typeof process !== "undefined") {
-    env = { ...env, ...process.env };
-  }
-  if (context) {
-    env = { ...env, ...context };
-  }
-  return env as Env;
+export const getEnv = (context: AppLoadContext): Env => {
+  return context.cloudflare.env as unknown as Env;
 };
 
-export const getEnvVariableOrThrow = (
-  key: keyof Env,
+export const getWaitUntil = (context: AppLoadContext) => {
+  return context.cloudflare.ctx.waitUntil.bind(context.cloudflare.ctx);
+};
+
+export const getEnvVariableOrThrow = <K extends keyof Env>(
+  key: K,
   context: AppLoadContext,
-) => {
+): NonNullable<Env[K]> => {
   const value = getEnv(context)[key];
   if (!value) {
     throw new Response(`${key} needs to be set`, {
       status: 500,
     });
   }
-  return value;
+  return value as NonNullable<Env[K]>;
 };

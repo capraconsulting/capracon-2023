@@ -1,3 +1,5 @@
+import type { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
+
 import { config } from "~/config";
 import { getClient } from "~/notion/notion";
 import {
@@ -12,27 +14,35 @@ import {
 
 export const getData = async (notionToken: string) => {
   // Fetch
+  const client = getClient(notionToken);
   const [
-    notionConference,
+    notionConferencePages,
     notionMasterProgramDatabase,
     notionMasterProgramPages,
     notionSpeakers,
     notionContacts,
     notionMemos,
   ] = await Promise.all([
-    getClient(notionToken).getPage(config?.conferenceId),
-    getClient(notionToken).getDatabase(config.masterProgramDatabaseId),
-    getClient(notionToken).getDatabasePages(config.masterProgramDatabaseId),
-    getClient(notionToken).getDatabasePages(config?.speakersDatabaseId),
-    getClient(notionToken).getDatabasePages(config?.contactsDatabaseId),
-    getClient(notionToken).getDatabasePages(config?.memosDatabaseId),
+    client.getDatabasePages(config.conferenceDatabaseId),
+    client.getDatabase(config.masterProgramDatabaseId),
+    client.getDatabasePages(config.masterProgramDatabaseId),
+    client.getDatabasePages(config.speakersDatabaseId),
+    client.getDatabasePages(config.contactsDatabaseId),
+    client.getDatabasePages(config.memosDatabaseId),
   ]);
 
-  const [contacts, invalidContacts] = safeParseContacts(notionContacts);
+  const notionConference = notionConferencePages.find(
+    (page) => page.id === config.conferenceId || page.id.replace(/-/g, "") === config.conferenceId,
+  );
+  if (!notionConference) {
+    throw new Error(`Conference page ${config.conferenceId} not found in database ${config.conferenceDatabaseId}`);
+  }
 
-  const [speakers, invalidSpeakers] = safeParseSpeakers(notionSpeakers);
+  const [contacts, invalidContacts] = safeParseContacts(notionContacts as unknown as PageObjectResponse[]);
+
+  const [speakers, invalidSpeakers] = safeParseSpeakers(notionSpeakers as unknown as PageObjectResponse[]);
   const [allTalks, invalidTalks] = safeParseTalks(
-    notionMasterProgramPages,
+    notionMasterProgramPages as unknown as PageObjectResponse[],
     speakers,
   );
   const publishedTalks = allTalks.filter((x) => x.isPublished);
@@ -49,7 +59,7 @@ export const getData = async (notionToken: string) => {
     invalidTalks,
     tracks: parseTracks(notionMasterProgramDatabase),
     timeslots: parseTimeslots(notionMasterProgramDatabase),
-    memos: safeParseMemos(notionMemos),
+    memos: safeParseMemos(notionMemos as unknown as PageObjectResponse[]),
   };
 
   return data;
