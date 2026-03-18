@@ -93,7 +93,7 @@ export default function Component() {
 
                 <div className="mt-1 flex flex-col gap-1">
                   {speaker.role && (
-                    <p className="text-base tablet:text-sm laptop:text-base">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
                       {speaker.role}
                     </p>
                   )}

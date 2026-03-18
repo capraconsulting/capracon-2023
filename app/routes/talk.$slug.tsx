@@ -87,7 +87,7 @@ export default function Component() {
                 {speaker.name}
               </p>
               {speaker.role && (
-                <span className="text-base">{speaker.role}</span>
+                <span className="text-sm text-gray-500 dark:text-gray-400">{speaker.role}</span>
               )}
               {speaker.company && <CompanyLogo company={speaker.company} />}
             </div>

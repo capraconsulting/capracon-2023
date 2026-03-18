@@ -37,7 +37,7 @@ const Speakers = ({ speakers }: { speakers: Speaker[] }) => {
               {speaker.name}
             </span>
             {speaker.role && (
-              <span className="text-base tablet:text-sm laptop:text-base">
+              <span className="text-sm text-gray-500 dark:text-gray-400">
                 {speaker.role}
               </span>
             )}
