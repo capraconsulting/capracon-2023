@@ -64,6 +64,7 @@ const speakerSchema = z.object({
   image: z.string().url().optional(),
   company: z.string().optional(),
   role: z.string().optional(),
+  lastEditedTime: z.string(),
 });
 export type Speaker = z.infer<typeof speakerSchema>;
 
@@ -73,6 +74,7 @@ const contactPersonSchema = z.object({
   email: z.string().email(),
   image: z.string().url().optional(),
   role: z.string(),
+  lastEditedTime: z.string(),
 });
 export type ContactPerson = z.infer<typeof contactPersonSchema>;
 
@@ -80,6 +82,7 @@ const memoSchema = z.object({
   id: z.string(),
   name: z.string(),
   image: z.string().url(),
+  lastEditedTime: z.string(),
 });
 export type Memos = z.infer<typeof memoSchema>;
 
@@ -173,6 +176,7 @@ const mapContactPerson = (fromPage: PageObjectResponse) => {
     email: getEmail("Epost", fromPage),
     image: getImage("Bilde", fromPage),
     role: getText("Stilling", fromPage),
+    lastEditedTime: fromPage.last_edited_time,
   } satisfies Relaxed<ContactPerson>;
 };
 export const safeParseContacts = (fromPages: PageObjectResponse[]) => {
@@ -204,6 +208,7 @@ const mapMemos = (fromPage: PageObjectResponse) => {
     id: fromPage.id,
     name: getTitle(fromPage),
     image: getImage("Bilde", fromPage),
+    lastEditedTime: fromPage.last_edited_time,
   } satisfies Relaxed<Memos>;
 };
 export const safeParseMemos = (fromPages: PageObjectResponse[]) => {
@@ -232,6 +237,7 @@ const mapSpeaker = (fromPage: PageObjectResponse) => {
     image: getImage("Bilde", fromPage),
     company: getText("Selskap", fromPage),
     role: getText("Stilling", fromPage),
+    lastEditedTime: fromPage.last_edited_time,
   } satisfies Relaxed<Speaker>;
 };
 

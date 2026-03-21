@@ -25,6 +25,7 @@ const Speakers = ({ speakers }: { speakers: Speaker[] }) => {
                 type: "speaker",
                 id: speaker.id,
                 mode: "face",
+                v: speaker.lastEditedTime,
               })}
               className="h-[3.75rem] w-[3.75rem] rounded-full object-cover"
             />

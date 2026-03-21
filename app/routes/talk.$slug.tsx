@@ -75,6 +75,7 @@ export default function Component() {
                   type: "speaker",
                   id: speaker.id,
                   mode: "face",
+                  v: speaker.lastEditedTime,
                 })}
                 className="h-28 w-28 rounded-full object-cover"
               />

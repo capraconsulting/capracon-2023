@@ -44,6 +44,7 @@ export default function Minnebok() {
               type: "speaker",
               id: memo.id,
               mode: index % 5 === 0 ? "landscape" : "portrait",
+              v: memo.lastEditedTime,
             })}
             className="h-auto max-w-full rounded-lg"
           />

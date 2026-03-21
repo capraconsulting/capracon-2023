@@ -57,6 +57,7 @@ export default function Component() {
                       type: "speaker",
                       id: speaker.id,
                       mode: "landscape",
+                      v: speaker.lastEditedTime,
                     })}
                     media="(max-width: 480px)"
                     className="hidden"
@@ -66,6 +67,7 @@ export default function Component() {
                       type: "speaker",
                       id: speaker.id,
                       mode: "portrait",
+                      v: speaker.lastEditedTime,
                     })}
                     media="(min-width: 481px)"
                     className="hidden"
@@ -76,6 +78,7 @@ export default function Component() {
                       type: "speaker",
                       id: speaker.id,
                       mode: "portrait",
+                      v: speaker.lastEditedTime,
                     })}
                     className="sm:h-70 aspect-[3/2] w-full rounded object-cover tablet:aspect-[2/3] tablet:h-60 tablet:w-auto"
                   />

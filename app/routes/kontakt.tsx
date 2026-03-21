@@ -48,6 +48,7 @@ export default function Kontakt() {
                   type: "contact",
                   id: contactPerson.id,
                   mode: "portrait",
+                  v: contactPerson.lastEditedTime,
                 })}
                 className="object-cover"
               />

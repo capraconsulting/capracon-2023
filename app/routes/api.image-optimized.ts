@@ -37,17 +37,18 @@ const buildExternalProviderOptimizedImageUrl = (
   options: ImageOptions,
 ) => buildCloudinaryUrl(src, options);
 
-const buildOriginalImageUrl = ({ type, id }: ImageRequest) =>
-  `https://capracon.no/api/image-original?type=${type}&id=${id}`;
+const buildOriginalImageUrl = ({ type, id }: ImageRequest, v?: string) =>
+  `https://capracon.no/api/image-original?type=${type}&id=${id}${v ? `&v=${v}` : ""}`;
 
 export const buildImageUrl = ({
   type,
   id,
+  v,
   ...options
-}: ImageRequest & ImageOptions) => {
+}: ImageRequest & ImageOptions & { v?: string }) => {
   // Link the user directly to the image cdn
   return buildExternalProviderOptimizedImageUrl(
-    buildOriginalImageUrl({ type, id }),
+    buildOriginalImageUrl({ type, id }, v),
     options,
   );
 
