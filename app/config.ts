@@ -10,11 +10,9 @@ export const config = {
   KV_DATA_CACHE_KEY: "updated-data-2026",
 
   KV_TTL_IN_MS: 1000 * 5,
-  KW_SWR_IN_MS: 1000 * 60 * 60 * 24,
+  KW_SWR_IN_MS: 1000 * 60 * 5,
 
   cacheControlHeaders: {
-    "Cache-Control": `public, s-maxage=${1}, stale-while-revalidate=${
-      60 * 60 * 24 * 7
-    }`,
+    "Cache-Control": `public, max-age=${0}, must-revalidate, s-maxage=${1}, stale-while-revalidate=${60 * 5}`,
   },
 } as const;
