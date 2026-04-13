@@ -36,7 +36,9 @@ export const meta: MetaFunction<never, { root: RootLoader }> = ({
     },
     {
       name: "description",
-      content: rootData?.conference?.description,
+      content:
+        rootData?.conference?.programDescription ??
+        rootData?.conference?.description,
     },
   ];
 };
@@ -58,6 +60,12 @@ export default function Program() {
       >
         Program
       </Title>
+
+      {data?.conference?.programDescription && (
+        <p className="mb-8 max-w-[700px] text-pretty text-[18px] leading-[32px] tablet:text-[24px]">
+          {data.conference.programDescription}
+        </p>
+      )}
 
       <div className="schedule">
         {trackHeadings?.map((track) => (

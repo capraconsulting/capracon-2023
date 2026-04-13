@@ -53,6 +53,8 @@ const conferenceSchema = z.object({
 
   foredragsholdereTitle: z.string().optional(),
   foredragsholdereDescription: z.string().optional(),
+
+  programDescription: z.string().optional(),
 });
 export type Conference = z.infer<typeof conferenceSchema>;
 
@@ -161,6 +163,8 @@ export const parseConference = (fromPage: PageObjectResponse) => {
       "foredragsholdereDescription",
       fromPage,
     ),
+
+    programDescription: getText("programDescription", fromPage),
   } satisfies Relaxed<Conference>);
 };
 

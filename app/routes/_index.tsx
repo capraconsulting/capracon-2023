@@ -43,7 +43,7 @@ export default function Praktisk() {
     <ContentBox>
       <IllustrationBanner />
 
-      <p className="mb-12 max-w-[700px] whitespace-pre-line text-pretty text-[18px] leading-[32px] tablet:text-[24px]">
+      <p className="mb-12 max-w-[700px] whitespace-pre-line text-pretty text-[16px] leading-[28px] tablet:text-[18px] tablet:leading-[30px]">
         <RichTextList richTextList={data?.conference?.praktiskDescription ?? []} />
       </p>
 
