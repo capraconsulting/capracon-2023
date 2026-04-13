@@ -78,6 +78,7 @@ export default function Program() {
           return (
             <div
               key={talk?.title}
+              className="h-full"
               style={{
                 gridColumn: TrackGridColumn[talk.track?.title],
                 gridRow: `time-${startTime} / time-${endTime}`,
